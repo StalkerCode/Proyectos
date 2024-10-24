@@ -11,10 +11,10 @@ public class CalculadoraMain {
 
 	public static void main(String[] args) {
 		int op;
-		Calculadora cal= new Calculadora();
+		Calculadora cal = new Calculadora();
 		do {
 			cal.menu();
-			switch (op=cal.pedirNumeroEntero()) {
+			switch (op = cal.pedirNumeroEntero()) {
 			case 1:
 				cal.operarSuma();
 				Salida.println("");
@@ -44,10 +44,9 @@ public class CalculadoraMain {
 				Salida.println("");
 				break;
 			}
-		}while(op!=5);
-
-	}
-
+		} while (op != 5);
+		
+		Salida.println("\n**** Fin del Programa ****");
 
 	}
 
