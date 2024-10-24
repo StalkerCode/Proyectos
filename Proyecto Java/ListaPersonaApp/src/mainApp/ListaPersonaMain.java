@@ -32,7 +32,7 @@ public class ListaPersonaMain {
 			}
 
 		} while (op != 3);
-		salida.println("\n **** Fin del Programa ****");
+		salida.println("\n ***** Fin del Programa *****");
 		entradas.close();
 		salida.close();
 		System.gc();
