@@ -11,6 +11,31 @@ public class ListaPersonaMain {
 	static PrintStream salida = new PrintStream(System.out);
 
 	public static void main(String[] args) {
+		ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+		int op;
+		do {
+			menu();
+			op = leerEntero();
+			switch (op) {
+			case 1:
+				agregarPersona(listaPersonas);
+				break;
+			case 2:
+				listarPersonas(listaPersonas);
+				break;
+			case 3:
+				salida.println("\nHasta luego");
+				break;
+			default:
+				salida.println("\nOpcion no valida.\n");
+
+			}
+
+		} while (op != 3);
+		
+		entradas.close();
+		salida.close();
+		System.gc();
 
 	}
 
