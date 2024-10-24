@@ -1,0 +1,22 @@
+# Archivos de Eclipse
+.classpath
+.project
+.settings/
+
+# Archivos generados
+bin/
+target/
+
+# Archivos de sistema
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación
+*.class
+
+
+# Maven build directory
+target/
+
