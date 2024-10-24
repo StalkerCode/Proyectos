@@ -35,4 +35,34 @@ public class ListaPersonaMain {
 		return numero;
 	}
 
+	// metodo Crear persona
+	static Persona crearPersona() {
+		salida.print("\nIngrese nombre: ");
+		String nombre = entradas.next();
+
+		salida.print("Ingrese telefono: ");
+		String telefono = entradas.next();
+
+		salida.print("Ingrese email: ");
+		String email = entradas.next();
+
+		return new Persona(nombre, telefono, email);
+	}
+
+	// metodo para Agregar persona
+	static void agregarPersona(ArrayList<Persona> lista) {
+		lista.add(crearPersona());
+		salida.println("");
+	}
+
+	// metodo para Listar personas
+	static void listarPersonas(ArrayList<Persona> lista) {
+		salida.println("\n*** Listado Persona ***");
+		for (Persona persona : lista) {
+			salida.println(persona);
+		}
+		salida.println("Total de personas: " + lista.size());
+		salida.println("--------------------------------\n");
+	}
+
 }
