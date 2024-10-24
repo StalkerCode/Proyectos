@@ -16,4 +16,38 @@ public class Calculadora {
 		Salida.println("5. Salir");
 	}
 
+	public Double NumeroReal() {
+
+		Double numero;
+		while (true) {
+			Salida.print("Por favor, ingrese un número Real: ");
+			if (Entrada.hasNextInt()) {
+				numero = Entrada.nextDouble();
+				break;
+			} else {
+				Salida.println("Entrada inválida. Asegúrese de ingresar un número entero.");
+				Entrada.next(); // Limpiar el valor incorrecto ingresado
+			}
+		}
+
+		return numero;
+
+	}
+
+	public int pedirNumeroEntero() {
+		int numero;
+		while (true) {
+			Salida.print("Por favor, ingrese una opción: ");
+			if (Entrada.hasNextInt()) {
+				numero = Entrada.nextInt();
+				break;
+			} else {
+				Salida.println("Entrada inválida. Asegúrese de ingresar un número entero.");
+				Entrada.next(); // Limpiar el valor incorrecto ingresado
+			}
+		}
+
+		return numero;
+	}
+
 }
