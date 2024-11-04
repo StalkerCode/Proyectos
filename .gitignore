@@ -20,3 +20,6 @@ Thumbs.db
 # Maven build directory
 target/
 
+#archivos .exe
+*.exe
+
