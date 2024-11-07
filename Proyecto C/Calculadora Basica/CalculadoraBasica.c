@@ -1,5 +1,4 @@
 #include "stdio.h"
-#include "ctype.h"
 
 float sum(float a, float b);
 float rest(float a, float b);
@@ -9,6 +8,9 @@ float div(float a, float b);
 float ingresarValor();
 void limpiarBuffer();
 void menu();
+void pausa();
+void limpiar_pantalla();
+void limpiar();
 
 int main()
 {
@@ -25,31 +27,38 @@ int main()
         case '1':
             num1 = ingresarValor();
             num2 = ingresarValor();
-            printf("La suma de %f + %f es: %f\n", num1, num2, sum(num1, num2));
+            printf("\nLa suma de %.2f + %.2f es: %.2f\n\n", num1, num2, sum(num1, num2));
+            limpiar();
             break;
         case '2':
             num1 = ingresarValor();
             num2 = ingresarValor();
-            printf("La resta de %f + %f es: %f\n", num1, num2, rest(num1, num2));
+            printf("\nLa resta de %.2f + %.2f es: %.2f\n\n", num1, num2, rest(num1, num2));
+            limpiar();
             break;
         case '3':
             num1 = ingresarValor();
             num2 = ingresarValor();
-            printf("La multiplicacion de %f + %f es: %f\n", num1, num2, mult(num1, num2));
+            printf("\nLa multiplicacion de %.2f + %.2f es: %.2f\n\n", num1, num2, mult(num1, num2));
+            limpiar();
             break;
         case '4':
             num1 = ingresarValor();
             num2 = ingresarValor();
-            printf("La dicicion de %f + %f es: %f\n", num1, num2, div(num1, num2));
+            printf("\nLa dicicion de %.2f + %.2f es: %.2f\n\n", num1, num2, div(num1, num2));
+            limpiar();
             break;
         case '5':
-            printf("/nHasta luego\n");
+            printf("\nHasta luego\n\n");
             break;
 
         default:
-            printf("\nopcion incorrecta\n");
+            printf("\nopcion incorrecta\n\n");
+            pausa();
+            limpiar_pantalla();
             break;
         }
+
     } while (op != '5');
 
     return 0;
@@ -103,4 +112,20 @@ float ingresarValor()
     printf("ingresa un numero real: ");
     scanf("%f", &num);
     return num;
+}
+void pausa()
+{
+    printf("Presiona una tecla para continuar...");
+    getchar();
+}
+void limpiar_pantalla()
+{
+    printf("\033[2J"); // Limpia la pantalla
+    printf("\033[H");  // Mueve el cursor al inicio
+}
+void limpiar()
+{
+    limpiarBuffer();
+    pausa();
+    limpiar_pantalla();
 }
