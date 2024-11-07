@@ -6,14 +6,51 @@ float rest(float a, float b);
 float mult(float a, float b);
 float div(float a, float b);
 
-int ingresar_entero();
-
+float ingresarValor();
 void limpiarBuffer();
 void menu();
 
 int main()
 {
-    ingresar_entero();
+    char op;
+    float num1, num2;
+    do
+    {
+        menu();
+        printf("ingrese una opcion(numero entero): ");
+        scanf("%c", &op);
+        limpiarBuffer();
+        switch (op)
+        {
+        case '1':
+            num1 = ingresarValor();
+            num2 = ingresarValor();
+            printf("La suma de %f + %f es: %f\n", num1, num2, sum(num1, num2));
+            break;
+        case '2':
+            num1 = ingresarValor();
+            num2 = ingresarValor();
+            printf("La resta de %f + %f es: %f\n", num1, num2, rest(num1, num2));
+            break;
+        case '3':
+            num1 = ingresarValor();
+            num2 = ingresarValor();
+            printf("La multiplicacion de %f + %f es: %f\n", num1, num2, mult(num1, num2));
+            break;
+        case '4':
+            num1 = ingresarValor();
+            num2 = ingresarValor();
+            printf("La dicicion de %f + %f es: %f\n", num1, num2, div(num1, num2));
+            break;
+        case '5':
+            printf("/nHasta luego\n");
+            break;
+
+        default:
+            printf("\nopcion incorrecta\n");
+            break;
+        }
+    } while (op != '5');
 
     return 0;
 }
@@ -43,7 +80,8 @@ float div(float a, float b)
     return a / b;
 }
 
-void menu(){
+void menu()
+{
     printf("1. Suma\n");
     printf("2. Resta\n");
     printf("3. Multiplicacion\n");
@@ -52,22 +90,17 @@ void menu(){
     printf("Elije: ");
 }
 
-int ingresar_entero(){
-    char num;
-    printf("ingrese una opcion(numero entero): ");
-    scanf("%c", &num);
-    limpiarBuffer();
-    while (!isdigit(num))
-    {
-        printf("Error: Ingreso incorrecto, intente de nuevo.\n");
-        printf("ingrese una opcion(numero entero): ");
-        scanf("%c", &num);
-        limpiarBuffer();
-    }
-    return num;
+void limpiarBuffer()
+{
+    char c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 }
 
-void limpiarBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+float ingresarValor()
+{
+    float num;
+    printf("ingresa un numero real: ");
+    scanf("%f", &num);
+    return num;
 }
