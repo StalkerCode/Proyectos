@@ -13,12 +13,12 @@ public class VentaComputadoraAppMain {
 	public static void main(String[] args) {
 
 		out.println("Bienvenido, listo para crear tu orden");
-		out.println(crearComputadora());
+		
 
 	}
 
-	static Teclado crearTclado() {
-		out.println("Creardo teclado:");
+	static Teclado crearTeclado() {
+		out.println("Creardo Teclado:");
 		out.print("Marca: ");
 		String marca = in.next();
 		out.print("Tipo de entrada: ");
@@ -36,7 +36,7 @@ public class VentaComputadoraAppMain {
 	}
 
 	static Monitor crearMonitor() {
-		out.println("Creardo Raton:");
+		out.println("Creardo Monitor:");
 		out.print("Marca: ");
 		String marca = in.next();
 		out.print("Tamanio en pulg^2: ");
@@ -48,7 +48,7 @@ public class VentaComputadoraAppMain {
 		out.println("Creardo Computdor:");
 		out.print("Nombre: ");
 		String nombre = in.next();
-		return new Computadora(nombre, crearMonitor(), crearTclado(), crearRaton());
+		return new Computadora(nombre, crearMonitor(), crearTeclado(), crearRaton());
 	}
 
 }
