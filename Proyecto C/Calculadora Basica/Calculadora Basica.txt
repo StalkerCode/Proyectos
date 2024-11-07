@@ -1,0 +1,6 @@
+Enunciado: Crea una calculadora simple que realice las operaciones básicas de 
+suma, resta, multiplicación y división.
+Descripción: El programa debe pedir al usuario dos números y 
+la operación que desea realizar. Después, debe mostrar el resultado en la pantalla.
+Incluye validación para evitar divisiones entre cero. Usa estructuras de control básicas 
+(if-else o switch) y asegúrate de que el programa siga ejecutándose hasta que el usuario decida salir.
