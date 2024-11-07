@@ -3,9 +3,8 @@ package VentaCpApp;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+import computadora.*;
 import dispositivos.*;
-
-import orden.*;
 
 public class VentaComputadoraAppMain {
 	static Scanner in = new Scanner(System.in);
@@ -14,6 +13,7 @@ public class VentaComputadoraAppMain {
 	public static void main(String[] args) {
 
 		out.println("Bienvenido, listo para crear tu orden");
+		out.println(crearComputadora());
 
 	}
 
@@ -43,4 +43,12 @@ public class VentaComputadoraAppMain {
 		Double tamanio = in.nextDouble();
 		return new Monitor(marca, tamanio);
 	}
+
+	static Computadora crearComputadora() {
+		out.println("Creardo Computdor:");
+		out.print("Nombre: ");
+		String nombre = in.next();
+		return new Computadora(nombre, crearMonitor(), crearTclado(), crearRaton());
+	}
+
 }
