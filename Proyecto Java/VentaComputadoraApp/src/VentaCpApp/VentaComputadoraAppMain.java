@@ -23,10 +23,10 @@ public class VentaComputadoraAppMain {
 				funcionaminetoOrden();
 				break;
 			case 2:
-				out.println("Adios");
+				out.println("\nAdios\n");
 				break;
 			default:
-				out.println("opcion erronea");
+				out.println("\nopcion erronea\n");
 			}
 		} while (op != 2);
 
@@ -80,11 +80,11 @@ public class VentaComputadoraAppMain {
 	}
 
 	static void imprimirOrden() {
-		out.println("Orden #" + orden.getIdOrden());
+		out.println("\nOrden #" + orden.getIdOrden());
 		for (Computadora cp : orden.getComputadoras()) {
 			out.println(cp);
 		}
-		out.println("----------------");
+		out.println("----------------\n");
 	}
 
 	static void funcionaminetoOrden() {
@@ -101,10 +101,10 @@ public class VentaComputadoraAppMain {
 				imprimirOrden();
 				break;
 			case 3:
-				out.println("Hasta luego");
+				out.println("\nHasta luego\n");
 				break;
 			default:
-				out.println("opcion erronea");
+				out.println("\nopcion erronea\n");
 
 			}
 		}while(op!=3);
@@ -112,7 +112,7 @@ public class VentaComputadoraAppMain {
 
 	static int opcionesOrden() {
 		int op;
-		menuOrden();
+		menu();
 		out.print("Elige la opcion: ");
 		op = in.nextInt();
 		return op;
