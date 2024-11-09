@@ -5,15 +5,30 @@ import java.util.Scanner;
 
 import computadora.*;
 import dispositivos.*;
+import orden.Orden;
 
 public class VentaComputadoraAppMain {
 	static Scanner in = new Scanner(System.in);
 	static PrintStream out = new PrintStream(System.out);
+	static Orden orden;
 
 	public static void main(String[] args) {
-
+		int op;
 		out.println("Bienvenido, listo para crear tu orden");
-		
+		do {
+			op = opcionesOrden();
+			switch (op) {
+			case 1:
+				orden = new Orden();
+				funcionaminetoOrden();
+				break;
+			case 2:
+				out.println("Adios");
+				break;
+			default:
+				out.println("opcion erronea");
+			}
+		} while (op != 2);
 
 	}
 
@@ -49,6 +64,58 @@ public class VentaComputadoraAppMain {
 		out.print("Nombre: ");
 		String nombre = in.next();
 		return new Computadora(nombre, crearMonitor(), crearTeclado(), crearRaton());
+	}
+
+	static void menuOrden() {
+		out.println("Menu");
+		out.println("1. agregar compuatora");
+		out.println("2. mostrar orden");
+		out.println("3. Salir");
+	}
+
+	static void menu() {
+		out.println("Menu");
+		out.println("1. Crear orden");
+		out.println("2. salir");
+	}
+
+	static void imprimirOrden() {
+		out.println("Orden #" + orden.getIdOrden());
+		for (Computadora cp : orden.getComputadoras()) {
+			out.println(cp);
+		}
+		out.println("----------------");
+	}
+
+	static void funcionaminetoOrden() {
+		int op;
+		do {
+			menuOrden();
+			out.print("Elige la opcion: ");
+			op = in.nextInt();
+			switch (op) {
+			case 1:
+				orden.agregarComputadora(crearComputadora());
+				break;
+			case 2:
+				imprimirOrden();
+				break;
+			case 3:
+				out.println("Hasta luego");
+				break;
+			default:
+				out.println("opcion erronea");
+
+			}
+		}while(op!=3);
+	}
+
+	static int opcionesOrden() {
+		int op;
+		menuOrden();
+		out.print("Elige la opcion: ");
+		op = in.nextInt();
+		return op;
 	}
 
 }
