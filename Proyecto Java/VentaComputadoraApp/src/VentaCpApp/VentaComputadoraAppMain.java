@@ -16,18 +16,24 @@ public class VentaComputadoraAppMain {
 		int op;
 		out.println("Bienvenido, listo para crear tu orden");
 		do {
-			op = opcionesOrden();
+			menu();
+			op = ingresarEntero();
 			switch (op) {
 			case 1:
 				orden = new Orden();
-				funcionaminetoOrden();
+				funcionesOrden();
+				orden = null;
+				System.gc();
 				break;
 			case 2:
 				out.println("\nAdios\n");
 				break;
 			default:
-				out.println("\nopcion erronea\n");
+				out.println("\nopcion incorrecta\n");
+				break;
 			}
+			out.println("");
+
 		} while (op != 2);
 
 	}
@@ -55,7 +61,7 @@ public class VentaComputadoraAppMain {
 		out.print("Marca: ");
 		String marca = in.next();
 		out.print("Tamanio en pulg^2: ");
-		Double tamanio = in.nextDouble();
+		Double tamanio = ingresarReal();
 		return new Monitor(marca, tamanio);
 	}
 
@@ -87,35 +93,64 @@ public class VentaComputadoraAppMain {
 		out.println("----------------\n");
 	}
 
-	static void funcionaminetoOrden() {
+	static int ingresarEntero() {
+		int op;
+		while (true) {
+			try {
+				out.print("ingrese opcion: ");
+				op = in.nextInt();
+				out.println("");
+				break;
+			} catch (Exception e) {
+				out.println("\ndato erroneo\n");
+				in.nextLine();
+			}
+		}
+		return op;
+	}
+
+	static double ingresarReal() {
+		double op;
+		while (true) {
+			try {
+				out.print("dato: ");
+				op = in.nextDouble();
+				break;
+			} catch (Exception e) {
+				out.println("\ndato erroneo\n");
+				in.nextLine();
+			}
+		}
+		return op;
+	}
+
+	static void funcionesOrden() {
 		int op;
 		do {
 			menuOrden();
-			out.print("Elige la opcion: ");
-			op = in.nextInt();
-			switch (op) {
-			case 1:
-				orden.agregarComputadora(crearComputadora());
-				break;
-			case 2:
-				imprimirOrden();
-				break;
-			case 3:
-				out.println("\nHasta luego\n");
-				break;
-			default:
-				out.println("\nopcion erronea\n");
+			op = ingresarEntero();
+			opcionesOrden(op);
+			out.println("");
 
-			}
-		}while(op!=3);
+		} while (op != 3);
 	}
 
-	static int opcionesOrden() {
-		int op;
-		menu();
-		out.print("Elige la opcion: ");
-		op = in.nextInt();
-		return op;
+	static void opcionesOrden(int op) {
+		switch (op) {
+		case 1:
+			orden.agregarComputadora(crearComputadora());
+			break;
+		case 2:
+			imprimirOrden();
+			break;
+		case 3:
+			out.println("\nHasta luego\n");
+			break;
+		default:
+			out.println("\nopcion incorrecta\n");
+			break;
+
+		}
 	}
 
 }
