@@ -69,32 +69,32 @@ void opciones(int opcion){
     {
     case 1:
         printf("Ingrese la temperatura en Celsius: ");
-        scanf("%f", &celsius);
+        celsius=validarEntradaFloat();
         printf("La temperatura en Fahrenheit es: %.2f\n", celsius_to_fahrenheit(celsius));
         break;
     case 2:
         printf("Ingrese la temperatura en Fahrenheit: ");
-        scanf("%f", &fahrenheit);
+        fahrenheit=validarEntradaFloat();
         printf("La temperatura en Celsius es: %.2f\n", fahrenheit_to_celsius(fahrenheit));
         break;
     case 3:
         printf("Ingrese la temperatura en Celsius: ");
-        scanf("%f", &celsius);
+        celsius=validarEntradaFloat();
         printf("La temperatura en Kelvin es: %.2f\n", celsius_to_kelvin(celsius));
         break;
     case 4:
         printf("Ingrese la temperatura en Kelvin: ");
-        scanf("%f", &kelvin);
+        kelvin=validarEntradaFloat();
         printf("La temperatura en Celsius es: %.2f\n", kelvin_to_celsius(kelvin));
         break;
     case 5:
         printf("Ingrese la temperatura en Fahrenheit: ");
-        scanf("%f", &fahrenheit);
+        fahrenheit=validarEntradaFloat();
         printf("La temperatura en Kelvin es: %.2f\n", fahrenheit_to_kelvin(fahrenheit));
         break;
     case 6:
         printf("Ingrese la temperatura en Kelvin: ");
-        scanf("%f", &kelvin);
+        kelvin=validarEntradaFloat();
         printf("La temperatura en Fahrenheit es: %.2f\n", kelvin_to_fahrenheit(kelvin));
         break;
     default:
@@ -102,7 +102,7 @@ void opciones(int opcion){
         break;
     }
 }
-float validarEntradaFloat(const char *mensaje) {
+float validarEntradaFloat() {
     float numero;
     char entrada[100];
 
