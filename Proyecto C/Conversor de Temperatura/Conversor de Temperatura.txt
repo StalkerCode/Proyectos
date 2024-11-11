@@ -1,0 +1,8 @@
+Enunciado: Escribe un programa que convierta una temperatura dada por el usuario 
+entre Celsius y Fahrenheit.
+
+Descripción: El programa debe permitir al usuario elegir el tipo 
+de conversión (Celsius a Fahrenheit o Fahrenheit a Celsius).
+Luego, el usuario introduce la temperatura y el programa muestra el resultado de la conversión.
+El proceso debe repetirse hasta que el usuario decida salir. 
+Usa estructuras de control y operaciones aritméticas simples.
