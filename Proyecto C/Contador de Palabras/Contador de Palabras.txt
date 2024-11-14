@@ -1,0 +1,7 @@
+Enunciado: Desarrolla un programa que cuente el número de 
+palabras en una oración introducida por el usuario.
+
+Descripción: El programa debe recibir una cadena de texto y contar cuántas palabras contiene.
+Considera que las palabras están separadas por espacios.
+Utiliza arrays y punteros para manejar la cadena de texto,
+y usa un bucle para contar las palabras.
