@@ -1,0 +1,8 @@
+Enunciado: Crea un juego donde el usuario debe adivinar un número 
+aleatorio generado por el programa.
+
+Descripción: El programa genera un número aleatorio entre 1 y 100.
+El usuario tiene que adivinar el número y el programa debe indicar si el número 
+introducido es mayor o menor al número secreto. El juego continúa hasta que el usuario 
+adivine el número correcto, mostrando cuántos intentos le tomó. Usa la función rand() 
+para generar números aleatorios y bucles para el proceso de adivinanza.
