@@ -78,7 +78,7 @@ int contadorPalabra(char *palabras)
 
     while (palabras[i] != '\0')
     {
-        if (palabras[i] != ' ' && palabras[i + 1] != '\0' && palabras[i + 1] == ' ')
+        if (palabras[i + 1] != '\0' && palabras[i] != ' ' &&  palabras[i + 1] == ' ')
         {
             contador++;
         }
