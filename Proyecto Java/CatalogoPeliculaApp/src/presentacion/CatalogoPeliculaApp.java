@@ -48,6 +48,7 @@ public class CatalogoPeliculaApp {
 	}
 	
 	private static Pelicula cearPelicula() {
-		return new Pelicula();
+		salida.print("nombre: ");
+		return new Pelicula(entrada.nextLine());
 	}
 }
