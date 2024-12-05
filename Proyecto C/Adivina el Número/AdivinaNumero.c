@@ -1,10 +1,12 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "time.h"
+#include "ctype.h"
+#include "string.h"
 
-
-//! falta valides de rango
-int main()
+//! falta valides de rango y de cercania 
+//! modificar el while validarEntradaInt para velodas de rango
+/*int main()
 {
     srand(time(NULL));
     int numero = (rand() % 100) + 1;
@@ -47,67 +49,75 @@ int main()
 
     return 0;
 }
+*/
+void limpiarBuffer();
+int esNumero(const char *);
+int esNumeroValido(const char *);
+int validarEntradaInt(char *);
 
 
-/*
-! opcion 1
-int esNumero(const char *cadena) {
+int main()
+{
+    char cadena[4]; // Espacio para 3 caracteres + terminador nulo
+
+    // Generar un número aleatorio entre 1 y 100 y guardarlo en la variable 'numero'
+    srand(time(NULL));
+    int numero = (rand() % 100) + 1;
+    printf("Adivine el numero entre 1 y 100\n");
+
+    int n=validarEntradaInt(cadena);
+    printf("Numeros: %d\n", n);
+
+    return 0;
+}
+
+
+
+
+
+void limpiarBuffer()
+{
+    char c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
+
+int esNumero(const char *cadena)
+{
     // Función para verificar si una cadena es numérica
     int longitud = strlen(cadena);
-    for (int i = 0; i < longitud; i++) {
-        if (!isdigit(cadena[i])) {
+    for (int i = 0; i < longitud; i++)
+    {
+        if (!isdigit(cadena[i]))
+        {
             return 0; // No es un número
         }
     }
     return 1; // Es un número
 }
 
-int main() {
-    char cadena[4]; // Espacio para 3 caracteres + terminador nulo
-    int numero;
-
-    // Solicitar al usuario ingresar una cadena
-    printf("Ingrese un número (1 a 3 dígitos): ");
-    scanf("%3s", cadena);  // Limitar la entrada a 3 caracteres
-
-    // Verificar que la longitud esté entre 1 y 3 caracteres
-    int longitud = strlen(cadena);
-    if (longitud < 1 || longitud > 3) {
-        printf("Error: La cadena debe tener entre 1 y 3 caracteres.\n");
-        return 1;
-    }
-
+int esNumeroValido(const char *cadena)
+{
     // Verificar que la cadena contenga solo números
-    if (!esNumero(cadena)) {
-        printf("Error: La cadena debe contener solo números.\n");
-        return 1;
+    if (!esNumero(cadena))
+    {
+        printf("Error: La cadena debe contener solo numeros enteros.\n");
+        return 0;
     }
+    return 1;
+}
 
+int validarEntradaInt(char *cadena)
+{
+    // Solicitar al usuario ingresar una cadena
+    printf("Ingrese un numero (1 a 3 digitos): ");
+    scanf("%3s", cadena); // Limitar la entrada a 3 caracteres
+    while (!esNumeroValido(cadena))
+    {
+        limpiarBuffer();
+        printf("\nIngrese un numero (1 a 3 digitos): ");
+        scanf("%3s", cadena);
+    }
     // Convertir la cadena a un número entero
-    numero = atoi(cadena);
-
-    // Imprimir el número entero resultante
-    printf("El número entero es: %d\n", numero);
-
-    return 0;
+    return atoi(cadena);
 }
-*/
-/*
-! opcion 2
-int main() {
-    char texto[4]; // Cadena de texto para almacenar máximo 3 caracteres + 1 para el caracter nulo
-    int numero;
-
-    printf("Ingrese una cadena de texto de 1 a 3 caracteres que represente un número entero: ");
-    scanf("%3s", texto); // Leemos la cadena de texto con máximo 3 caracteres
-
-    // Verificamos que la cadena de texto represente un número entero
-    if (sscanf(texto, "%d", &numero) == 1) {
-        printf("La cadena de texto '%s' representa el número entero %d.\n", texto, numero);
-    } else {
-        printf("Error: La cadena de texto '%s' no representa un número entero.\n", texto);
-    }
-
-    return 0;
-}
-*/
