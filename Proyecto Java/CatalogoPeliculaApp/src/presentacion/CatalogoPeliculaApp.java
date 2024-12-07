@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 import dominio.Pelicula;
-import servicios.ServiciosPeliculasLista;
+import servicios.*;
 
 public class CatalogoPeliculaApp {
 
@@ -12,6 +12,7 @@ public class CatalogoPeliculaApp {
 	public static PrintStream salida = new PrintStream(System.out);
 
 	public static void main(String[] args) {
+		
 		boolean salir = false;
 		ServiciosPeliculasLista sp = new ServiciosPeliculasLista();
 		while (!salir) {
@@ -19,8 +20,7 @@ public class CatalogoPeliculaApp {
 			int op = ingresarEntero();
 			switch (op) {
 			case 1:
-				Pelicula p = cearPelicula();
-				sp.Ingresar_Pelicula(p);
+				sp.Ingresar_Pelicula(cearPelicula());
 				break;
 
 			case 2:
@@ -41,6 +41,7 @@ public class CatalogoPeliculaApp {
 				break;
 
 			}
+
 		}
 		salida.println("Fin del servicios");
 
@@ -90,4 +91,5 @@ public class CatalogoPeliculaApp {
 		Pelicula pelicula = cearPelicula();
 		peliculas.Busqueda_Pelicula(pelicula);
 	}
+
 }
