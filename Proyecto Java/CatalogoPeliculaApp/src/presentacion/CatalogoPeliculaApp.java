@@ -13,7 +13,11 @@ public class CatalogoPeliculaApp {
 
 	public static void main(String[] args) {
 		
-		boolean salir = false;
+		ServiciosPeliculaArchivo arc = new ServiciosPeliculaArchivo();
+		arc.Lista_Pelicula();
+		
+		
+		/*boolean salir = false;
 		ServiciosPeliculasLista sp = new ServiciosPeliculasLista();
 		while (!salir) {
 			mostratMenu();
@@ -47,7 +51,7 @@ public class CatalogoPeliculaApp {
 
 		// Cerrar el scanner y el PrintStream
 		entrada.close();
-		salida.close();
+		salida.close();*/
 
 	}
 

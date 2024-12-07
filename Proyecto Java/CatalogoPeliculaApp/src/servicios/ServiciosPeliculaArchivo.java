@@ -1,9 +1,9 @@
 package servicios;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import dominio.Pelicula;
 
@@ -17,19 +17,28 @@ public class ServiciosPeliculaArchivo implements IServiciosPeliculas {
 				archivo.createNewFile();
 				System.out.println("El archivo '" + archivo.getAbsolutePath() + "' ha sido creado.");
 			}
-			// Si el archivo ya existe, abrirlo para lectura y escritura
-			//PrintWriter Control_ar= new PrintWriter(new FileWriter(archivo));
-			//Control_ar.close();
-			
+
 		} catch (IOException e) {
 			System.err.println("Error al crear/abrir el archivo: " + archivo.getAbsolutePath());
-			;
 		}
 	}
 
 	@Override
 	public void Lista_Pelicula() {
-		// TODO Auto-generated method stub
+		// mostrar las peliculas
+		File archivo = new File(NOMBRE_AR);
+		// leer cada linea y mostrar el nombre de la pelicula
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(archivo));
+            String line;
+            line = br.readLine();
+            while (line != null) {
+                System.out.println(line);
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + archivo.getAbsolutePath());
+        }
 
 	}
 
