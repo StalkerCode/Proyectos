@@ -1,0 +1,7 @@
+Enunciado: Escribe un programa que invierta una cadena de texto 
+ingresada por el usuario.
+
+Descripción: El programa debe solicitar al usuario una cadena de
+caracteres y devolverla invertida. Por ejemplo, si el usuario introduce "Hola",
+el programa debe devolver "aloH". Debes usar arrays y manipulación de punteros 
+para realizar la inversión de la cadena.
