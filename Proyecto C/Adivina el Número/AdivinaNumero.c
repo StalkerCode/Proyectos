@@ -4,58 +4,14 @@
 #include "ctype.h"
 #include "string.h"
 
-//! falta valides de rango y de cercania
-//! modificar el while validarEntradaInt para velodas de rango
-/*int main()
-{
-    srand(time(NULL));
-    int numero = (rand() % 100) + 1;
-    int n = -1;
-    printf("Adivine el numero entre 1 y 100\n");
-    while (!(n == numero))
-    {
-        printf("ingrese el numero:");
-        scanf("%d", &n);
-        int diferencia = abs(n - numero);
-        if (diferencia <= 4)
-        {
-            printf("Muy Muy Caliente\n");
-        }
-        else if (diferencia <= 8)
-        {
-            printf("Muy Caliente\n");
-        }
-        else if (diferencia <= 12)
-        {
-            printf("Caliente\n");
-        }
-        else if (diferencia <= 16)
-        {
-            printf("Tibio\n");
-        }
-        else if (diferencia <= 20)
-        {
-            printf("Frio\n");
-        }
-        else if (diferencia <= 24)
-        {
-            printf("Muy Frio\n");
-        }
-        else
-        {
-            printf("Extremo Muy Frio\n");
-        }
-    }
 
-    return 0;
-}
-*/
 void limpiarBuffer();
 int esNumero(const char *);
 int esNumeroValido(const char *);
 int validarEntradaInt(char *);
 int esValido(char *);
 void cercania(int );
+void limpiar_pantalla();
 
 int main()
 {
@@ -67,14 +23,16 @@ int main()
     printf("Adivine el numero entre 1 y 100\n");
 
     int n = esValido(cadena);
-    int diferencia = abs(n - 100);
+    int diferencia = abs(n - numero);
     while (diferencia != 0)
     {
         cercania(diferencia);
+        printf("\n");
         n = esValido(cadena);
-        diferencia = abs(n - 100);
+        diferencia = abs(n - numero);
     }
-    printf("Adivinaste el numero: %d\n", numero);
+    limpiar_pantalla();
+    printf("\n\nAdivinaste el numero: %d\n\n", numero);
 
     return 0;
 }
@@ -160,4 +118,10 @@ void cercania(int diferencia)
         printf("Muy Frio\n");
     else
         printf("Extremo Muy Frio.\n");
+}
+
+void limpiar_pantalla()
+{
+    printf("\033[2J"); // Limpia la pantalla
+    printf("\033[H");  // Mueve el cursor al inicio
 }
