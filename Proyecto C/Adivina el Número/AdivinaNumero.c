@@ -4,7 +4,7 @@
 #include "ctype.h"
 #include "string.h"
 
-//! falta valides de rango y de cercania 
+//! falta valides de rango y de cercania
 //! modificar el while validarEntradaInt para velodas de rango
 /*int main()
 {
@@ -54,7 +54,8 @@ void limpiarBuffer();
 int esNumero(const char *);
 int esNumeroValido(const char *);
 int validarEntradaInt(char *);
-
+int esValido(char *);
+void cercania(int );
 
 int main()
 {
@@ -65,15 +66,18 @@ int main()
     int numero = (rand() % 100) + 1;
     printf("Adivine el numero entre 1 y 100\n");
 
-    int n=validarEntradaInt(cadena);
-    printf("Numeros: %d\n", n);
+    int n = esValido(cadena);
+    int diferencia = abs(n - 100);
+    while (diferencia != 0)
+    {
+        cercania(diferencia);
+        n = esValido(cadena);
+        diferencia = abs(n - 100);
+    }
+    printf("Adivinaste el numero: %d\n", numero);
 
     return 0;
 }
-
-
-
-
 
 void limpiarBuffer()
 {
@@ -120,4 +124,40 @@ int validarEntradaInt(char *cadena)
     }
     // Convertir la cadena a un número entero
     return atoi(cadena);
+}
+
+int esValido(char *cadena)
+{
+    while (1)
+    {
+        int numero = validarEntradaInt(cadena);
+        if (numero >= 1 && numero <= 100)
+        {
+            return numero;
+        }
+        else
+        {
+            printf("Error: El numero debe estar entre 1 y 100.\n");
+            limpiarBuffer();
+        }
+    }
+}
+
+void cercania(int diferencia)
+{
+    // int diferencia = abs(numero - 100);
+    if (diferencia <= 4)
+        printf("Muy Muy Caliente.\n");
+    else if (diferencia <= 8)
+        printf("Caliente\n");
+    else if (diferencia <= 12)
+        printf("Tibio.\n");
+    else if (diferencia <= 16)
+        printf("normal.\n");
+    else if (diferencia <= 20)
+        printf("Frio\n");
+    else if (diferencia <= 24)
+        printf("Muy Frio\n");
+    else
+        printf("Extremo Muy Frio.\n");
 }
