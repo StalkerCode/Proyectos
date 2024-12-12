@@ -15,6 +15,8 @@ public class CatalogoPeliculaApp {
 		
 		ServiciosPeliculaArchivo arc = new ServiciosPeliculaArchivo();
 		arc.Lista_Pelicula();
+		arc.Ingresar_Pelicula(new Pelicula("tu madre es hombre"));
+		arc.Lista_Pelicula();
 		
 		
 		/*boolean salir = false;
