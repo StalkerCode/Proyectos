@@ -3,6 +3,7 @@ package servicios;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import dominio.Pelicula;
@@ -27,18 +28,25 @@ public class ServiciosPeliculaArchivo implements IServiciosPeliculas {
 	public void Lista_Pelicula() {
 		// mostrar las peliculas
 		File archivo = new File(NOMBRE_AR);
+
+		if (!archivo.exists()) {
+			System.out.println("El archivo '" + archivo.getAbsolutePath() + "' no existe.");
+			return;
+		}
 		// leer cada linea y mostrar el nombre de la pelicula
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(archivo));
-            String line;
-            line = br.readLine();
-            while (line != null) {
-                System.out.println(line);
-                line = br.readLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + archivo.getAbsolutePath());
-        }
+			BufferedReader entrada = new BufferedReader(new FileReader(archivo));
+			String line;
+			line = entrada.readLine();
+			// Pelicula peli = new Pelicula(line);
+			while (line != null) {
+				System.out.println(line);
+				line = entrada.readLine();
+			}
+			entrada.close();
+		} catch (IOException e) {
+			System.err.println("Error al leer el archivo: " + archivo.getAbsolutePath());
+		}
 
 	}
 
@@ -50,8 +58,17 @@ public class ServiciosPeliculaArchivo implements IServiciosPeliculas {
 
 	@Override
 	public void Ingresar_Pelicula(Pelicula pelicula) {
-		// TODO Auto-generated method stub
-
+		// agregar pelicula al archivo
+		File archivo = new File(NOMBRE_AR);
+		boolean existe = archivo.exists();
+		try {
+			FileWriter salida = new FileWriter(archivo, existe);
+			salida.write(pelicula.getNombre() + "\n");
+			salida.close();
+			System.out.println("La pelicula '" + pelicula.getNombre() + "' ha sido agregada.");
+		} catch (IOException e) {
+			System.err.println("Error al escribir en el archivo: " + archivo.getAbsolutePath());
+		}
 	}
 
 }
