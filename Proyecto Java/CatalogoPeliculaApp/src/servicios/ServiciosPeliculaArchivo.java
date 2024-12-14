@@ -52,7 +52,39 @@ public class ServiciosPeliculaArchivo implements IServiciosPeliculas {
 
 	@Override
 	public void Busqueda_Pelicula(Pelicula pelicula) {
-		// TODO Auto-generated method stub
+		// metodo para buscar una pelicula
+		File archivo = new File(NOMBRE_AR);
+		try {
+			if (pelicula == null) {
+				System.out.println("Pelicula no encontrada.");
+				return;
+			}
+			BufferedReader entrada = new BufferedReader(new FileReader(archivo));
+			String line;
+			line = entrada.readLine();
+			int indice = 1;
+
+			if (line == null) {
+				System.out.println("Pelicula no encontrada.");
+				entrada.close();
+				return;
+			}
+
+			while (line != null) {
+				if (line.equalsIgnoreCase(pelicula.getNombre())) {
+					System.out.println("\'"+pelicula + "\' esta en el archivo en la linea " + indice);
+					entrada.close();
+					return;
+				}
+				line = entrada.readLine();
+				indice++;
+			}
+			System.out.println("Pelicula no encontrada.");
+			entrada.close();
+
+		} catch (IOException e) {
+
+		}
 
 	}
 

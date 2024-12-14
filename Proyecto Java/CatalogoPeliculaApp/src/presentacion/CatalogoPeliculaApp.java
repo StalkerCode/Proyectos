@@ -12,15 +12,10 @@ public class CatalogoPeliculaApp {
 	public static PrintStream salida = new PrintStream(System.out);
 
 	public static void main(String[] args) {
-		
-		ServiciosPeliculaArchivo arc = new ServiciosPeliculaArchivo();
-		arc.Lista_Pelicula();
-		arc.Ingresar_Pelicula(new Pelicula("tu madre es hombre"));
-		arc.Lista_Pelicula();
-		
-		
-		/*boolean salir = false;
-		ServiciosPeliculasLista sp = new ServiciosPeliculasLista();
+				
+		boolean salir = false;
+		//IServiciosPeliculas sp = new ServiciosPeliculasLista();
+		IServiciosPeliculas sp = new ServiciosPeliculaArchivo();
 		while (!salir) {
 			mostratMenu();
 			int op = ingresarEntero();
@@ -53,7 +48,7 @@ public class CatalogoPeliculaApp {
 
 		// Cerrar el scanner y el PrintStream
 		entrada.close();
-		salida.close();*/
+		salida.close();
 
 	}
 
@@ -89,11 +84,11 @@ public class CatalogoPeliculaApp {
 		return new Pelicula(entrada.nextLine());
 	}
 
-	private static void listarPeliculas(ServiciosPeliculasLista peliculas) {
+	private static void listarPeliculas(IServiciosPeliculas peliculas) {
 		peliculas.Lista_Pelicula();
 	}
 
-	private static void buscarPelicula(ServiciosPeliculasLista peliculas) {
+	private static void buscarPelicula(IServiciosPeliculas peliculas) {
 		Pelicula pelicula = cearPelicula();
 		peliculas.Busqueda_Pelicula(pelicula);
 	}
