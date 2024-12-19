@@ -1,0 +1,14 @@
+Enunciado: Desarrolla un programa para gestionar una lista de contactos,
+incluyendo agregar, buscar, editar y eliminar contactos.
+
+Descripción:
+    Cada contacto debe tener campos como nombre, teléfono y correo electrónico.
+
+    Los contactos deben almacenarse dinámicamente en memoria usando estructuras (struct) y
+    listas enlazadas.
+
+    El programa debe permitir buscar un contacto por nombre,
+    editar su información o eliminarlo.
+
+    Incluye una opción para guardar los contactos en un archivo para cargarlos la 
+    próxima vez que se ejecute el programa.
