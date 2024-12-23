@@ -67,7 +67,9 @@ char *crearCadena()
             continue;
         }
 
+        //toma el tamano de la cadena
         len = strlen(palabras);
+
         // Eliminar el salto de línea
         palabras[--len] = '\0';
 
@@ -78,6 +80,7 @@ char *crearCadena()
             free(palabras);
             continue;
         }
+        
         // verifica que no comieze o haiga solo un espacio
         if (palabras[0] == ' ')
         {
