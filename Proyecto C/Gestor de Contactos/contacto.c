@@ -12,6 +12,18 @@ typedef struct
     char *telefono;
 } contacto;
 
+void limpiar_pantalla()
+{
+    printf("\033[2J"); // Limpia la pantalla
+    printf("\033[H");  // Mueve el cursor al inicio
+}
+
+void limpiarBuffer()
+{
+    char c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
 // eliminar estructura
 
 void eliminar_Datos(contacto *contacto)
@@ -29,11 +41,24 @@ void esExitoso(contacto *contacto, char *str, int paso)
 
         // Liberar los campos ya asignados hasta el momento
         if (paso >= 1)
+        {
+            fprintf(stderr, "Error: no se pudo asignar memoria %i\n",paso);
             free(contacto->nombre);
-        if (paso >= 2)
-            free(contacto->email);
+            return;
+        }
 
-        exit(EXIT_FAILURE);
+        if (paso >= 2)
+        {
+            fprintf(stderr, "Error: no se pudo asignar memoria %i\n",paso);
+            free(contacto->email);
+            esExitoso(contacto, contacto->nombre, 1);
+        }
+        if (paso >= 3)
+        {
+            fprintf(stderr, "Error: no se pudo asignar memoria %i\n",paso);
+            free(contacto->telefono);
+            esExitoso(contacto, contacto->email, 2);
+        }
     }
 }
 
@@ -71,12 +96,44 @@ void eliminar_contacto(contacto *contacto)
 char *crearCadena()
 {
     char *palabras = (char *)malloc(MAX_palabraS * sizeof(char));
-    fgets(palabras, MAX_palabraS, stdin); //? se guarda el caracter de salto de linea
-    palabras[strlen(palabras) - 1] = '\0';
-    return palabras;
+    if (palabras == NULL)
+    {
+        perror("Error al asignar memoria");
+        return NULL;
+    }
+
+    if (fgets(palabras, MAX_palabraS, stdin) == NULL)
+    {
+        free(palabras);
+        return NULL;
+    }
+
+    // Eliminar el salto de línea si existe
+    int len = strlen(palabras);
+    if (len > 0 && palabras[len - 1] == '\n')
+    {
+        palabras[len - 1] = '\0';
+        len--; // Ajustar la longitud real
+    }
+
+    // Reservar memoria para la nueva cadena
+    char *Cadena = (char *)malloc((len + 1) * sizeof(char)); // +1 para '\0'
+    if (Cadena == NULL)
+    {
+        perror("Error al asignar memoria");
+        free(palabras);
+        return NULL;
+    }
+
+    // Copiar la cadena, incluyendo el carácter nulo
+    strncpy(Cadena, palabras, len);
+    Cadena[len] = '\0'; // Asegurar el carácter nulo
+
+    free(palabras);
+    return Cadena;
 }
 
-char *validarTelefono()
+char *telefonoValido()
 {
 
     char *telefono;
@@ -110,9 +167,33 @@ char *validarTelefono()
     return telefono;
 }
 
-int main()
+contacto *contactoConDatos()
 {
-    free(validarTelefono());
+    printf("Ingrese el nombre: ");
+    char *nombre = crearCadena();
+    if (nombre == NULL)
+    {
+        fprintf(stderr, "Error al crear el nombre.\n");
+        return NULL;
+    }
 
-    return 0;
+    printf("Ingrese el email: ");
+    char *email = crearCadena();
+    if (email == NULL)
+    {
+        fprintf(stderr, "Error al crear el email.\n");
+        free(nombre);
+        return NULL;
+    }
+
+    char *telefono = telefonoValido();
+    if (telefono == NULL)
+    {
+        fprintf(stderr, "Error al crear el telefono.\n");
+        free(nombre);
+        free(email);
+        return NULL;
+    }
+
+    return crear_contacto(nombre, email, telefono);
 }
