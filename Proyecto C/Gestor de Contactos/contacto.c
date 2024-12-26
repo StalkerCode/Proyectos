@@ -10,7 +10,7 @@ typedef struct
     char *nombre;
     char *email;
     char *telefono;
-} contacto;
+} Contacto;
 
 // limpia la pantalla
 void limpiar_pantalla()
@@ -28,7 +28,7 @@ void limpiarBuffer()
 }
 
 // eliminar datos de estructura
-void eliminar_Datos(contacto *contacto)
+void eliminar_Datos(Contacto *contacto)
 {
     free(contacto->nombre);
     free(contacto->email);
@@ -36,7 +36,7 @@ void eliminar_Datos(contacto *contacto)
 }
 
 // eliminar estructura
-void eliminar_contacto(contacto *contacto)
+void eliminar_Contacto(Contacto *contacto)
 {
     eliminar_Datos(contacto);
     free(contacto);
@@ -156,7 +156,7 @@ char *crearEmail()
     return email;
 }
 
-contacto *crearContacto()
+Contacto *crearContacto()
 {
     // se crea el nombre
     printf("Ingrese el nombre");
@@ -168,24 +168,25 @@ contacto *crearContacto()
     // se crea el telefono
     char *telefono = crearTelefono();
 
-    contacto *nuevo_contacto = malloc(sizeof(contacto));
-    if (nuevo_contacto == NULL)
+    Contacto *nuevo_Contacto = malloc(sizeof(Contacto));
+    if (nuevo_Contacto == NULL)
     {
-        fprintf(stderr, "Error: no se pudo asignar memoria para el contacto\n");
+        fprintf(stderr, "Error: no se pudo asignar memoria para el Contacto\n");
         exit(EXIT_FAILURE);
     }
-    nuevo_contacto->nombre = nombre;
-    nuevo_contacto->email = email;
-    nuevo_contacto->telefono = telefono;
-    return nuevo_contacto;
+    nuevo_Contacto->nombre = nombre;
+    nuevo_Contacto->email = email;
+    nuevo_Contacto->telefono = telefono;
+    return nuevo_Contacto;
 }
-
+/*
 int main()
 {
-    contacto *mi_contacto = crearContacto();
-    printf("\nNombre: %s\n", mi_contacto->nombre);
-    printf("Email: %s\n", mi_contacto->email);
-    printf("Telefono: %s\n", mi_contacto->telefono);
-    eliminar_contacto(mi_contacto); // Asegura la liberación correcta de memoria
+    Contacto *mi_Contacto = crearContacto();
+    printf("\nNombre: %s\n", mi_Contacto->nombre);
+    printf("Email: %s\n", mi_Contacto->email);
+    printf("Telefono: %s\n", mi_Contacto->telefono);
+    eliminar_Contacto(mi_Contacto); // Asegura la liberación correcta de memoria
     return 0;
 }
+*/
