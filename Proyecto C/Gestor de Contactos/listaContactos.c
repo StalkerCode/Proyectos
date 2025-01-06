@@ -102,37 +102,55 @@ void eliminarContactoPorNombre(Nodo **cabeza, char *nombre)
     free(actual);
 }
 
-int guardarContactosEnArchivo(Nodo *cabeza, const char *nombreArchivo) {
-    FILE *archivo = fopen(nombreArchivo, "ab");  // Abrir archivo en modo append binario
-    
-    if (archivo == NULL) {
-        printf("Error al abrir el archivo para escritura\n");
+int guardarContactosEnArchivo(Nodo *cabeza, const char *nombreArchivo)
+{
+    if (cabeza == NULL || nombreArchivo == NULL)
+    {
+        fprintf(stderr, "Parámetros inválidos: cabeza o nombreArchivo es NULL\n");
+        return 0;
+    }
+
+    FILE *archivo = fopen(nombreArchivo, "ab");
+    if (archivo == NULL)
+    {
+        perror("Error al abrir el archivo para escritura");
         return 0;
     }
 
     int contactosGuardados = 0;
     Nodo *actual = cabeza;
-    
-    while (actual != NULL) {
-        // Solo guardamos si el contacto no ha sido guardado previamente
-        if (actual->guardado == 0) {
-            // Guardamos las longitudes de las cadenas
+
+    while (actual != NULL)
+    {
+        if (actual->guardado == 0)
+        { // Solo guardar contactos no guardados
             size_t longNombre = strlen(actual->contacto->nombre) + 1;
             size_t longEmail = strlen(actual->contacto->email) + 1;
             size_t longTelefono = strlen(actual->contacto->telefono) + 1;
 
-            // Escribimos las longitudes
-            fwrite(&longNombre, sizeof(size_t), 1, archivo);
-            fwrite(&longEmail, sizeof(size_t), 1, archivo);
-            fwrite(&longTelefono, sizeof(size_t), 1, archivo);
+            // Escribir las longitudes
+            if (
+                fwrite(&longNombre, sizeof(size_t), 1, archivo) != 1 ||
+                fwrite(&longEmail, sizeof(size_t), 1, archivo) != 1 ||
+                fwrite(&longTelefono, sizeof(size_t), 1, archivo) != 1)
+            {
+                perror("Error al escribir las longitudes en el archivo");
+                fclose(archivo);
+                return contactosGuardados;
+            }
 
-            // Escribimos los datos del contacto
-            fwrite(actual->contacto->nombre, sizeof(char), longNombre, archivo);
-            fwrite(actual->contacto->email, sizeof(char), longEmail, archivo);
-            fwrite(actual->contacto->telefono, sizeof(char), longTelefono, archivo);
+            // Escribir los datos del contacto
+            if (
+                fwrite(actual->contacto->nombre, sizeof(char), longNombre, archivo) != longNombre ||
+                fwrite(actual->contacto->email, sizeof(char), longEmail, archivo) != longEmail ||
+                fwrite(actual->contacto->telefono, sizeof(char), longTelefono, archivo) != longTelefono)
+            {
+                perror("Error al escribir los datos del contacto en el archivo");
+                fclose(archivo);
+                return contactosGuardados;
+            }
 
-            // Marcamos el contacto como guardado
-            actual->guardado = 1;
+            actual->guardado = 1; // Marcar contacto como guardado
             contactosGuardados++;
         }
         actual = actual->siguiente;
@@ -143,49 +161,77 @@ int guardarContactosEnArchivo(Nodo *cabeza, const char *nombreArchivo) {
     return contactosGuardados;
 }
 
-Nodo* cargarContactosDeArchivo(const char *nombreArchivo) {
+Nodo *cargarContactosDeArchivo(const char *nombreArchivo)
+{
     FILE *archivo = fopen(nombreArchivo, "rb");
-    
-    if (archivo == NULL) {
-        printf("Error al abrir el archivo para lectura\n");
+    if (archivo == NULL)
+    {
+        fprintf(stderr, "Error al abrir el archivo para lectura\n");
         return NULL;
     }
 
     Nodo *cabeza = NULL;
     Nodo *ultimo = NULL;
 
-    while (!feof(archivo)) {
-        size_t longNombre, longEmail, longTelefono;
+    size_t longNombre, longEmail, longTelefono;
+    while (fread(&longNombre, sizeof(size_t), 1, archivo) == 1 &&
+           fread(&longEmail, sizeof(size_t), 1, archivo) == 1 &&
+           fread(&longTelefono, sizeof(size_t), 1, archivo) == 1)
+    {
 
-        // Leemos las longitudes
-        if (fread(&longNombre, sizeof(size_t), 1, archivo) != 1) break;
-        if (fread(&longEmail, sizeof(size_t), 1, archivo) != 1) break;
-        if (fread(&longTelefono, sizeof(size_t), 1, archivo) != 1) break;
+        // Crear y validar el nuevo contacto
+        Contacto *nuevoContacto = (Contacto *)malloc(sizeof(Contacto));
+        if (nuevoContacto == NULL)
+        {
+            fprintf(stderr, "Error al asignar memoria para el contacto\n");
+            fclose(archivo);
+            return NULL;
+        }
 
-        // Creamos un nuevo contacto
-        Contacto *nuevoContacto = (Contacto*)malloc(sizeof(Contacto));
-        
-        // Asignamos memoria para las cadenas
-        nuevoContacto->nombre = (char*)malloc(longNombre);
-        nuevoContacto->email = (char*)malloc(longEmail);
-        nuevoContacto->telefono = (char*)malloc(longTelefono);
+        nuevoContacto->nombre = (char *)malloc(longNombre);
+        nuevoContacto->email = (char *)malloc(longEmail);
+        nuevoContacto->telefono = (char *)malloc(longTelefono);
 
-        // Leemos los datos del contacto
-        fread(nuevoContacto->nombre, sizeof(char), longNombre, archivo);
-        fread(nuevoContacto->email, sizeof(char), longEmail, archivo);
-        fread(nuevoContacto->telefono, sizeof(char), longTelefono, archivo);
+        if (nuevoContacto->nombre == NULL || nuevoContacto->email == NULL || nuevoContacto->telefono == NULL)
+        {
+            fprintf(stderr, "Error al asignar memoria para las cadenas del contacto\n");
+            eliminar_Contacto(nuevoContacto);
+            fclose(archivo);
+            return NULL;
+        }
 
-        // Creamos un nuevo nodo
-        Nodo *nuevoNodo = (Nodo*)malloc(sizeof(Nodo));
+        // Leer los datos del contacto
+        if (fread(nuevoContacto->nombre, sizeof(char), longNombre, archivo) != longNombre ||
+            fread(nuevoContacto->email, sizeof(char), longEmail, archivo) != longEmail ||
+            fread(nuevoContacto->telefono, sizeof(char), longTelefono, archivo) != longTelefono)
+        {
+            fprintf(stderr, "Error al leer los datos del contacto\n");
+            eliminar_Contacto(nuevoContacto);
+            break;
+        }
+
+        // Crear el nodo y agregarlo a la lista
+        Nodo *nuevoNodo = (Nodo *)malloc(sizeof(Nodo));
+        if (nuevoNodo == NULL)
+        {
+            fprintf(stderr, "Error al asignar memoria para el nodo\n");
+            eliminar_Contacto(nuevoContacto);
+
+            fclose(archivo);
+            return NULL;
+        }
+
         nuevoNodo->contacto = nuevoContacto;
         nuevoNodo->siguiente = NULL;
-        nuevoNodo->guardado = 1;  // Lo marcamos como guardado
+        nuevoNodo->guardado = 1;
 
-        // Agregamos el nodo a la lista
-        if (cabeza == NULL) {
+        if (cabeza == NULL)
+        {
             cabeza = nuevoNodo;
             ultimo = nuevoNodo;
-        } else {
+        }
+        else
+        {
             ultimo->siguiente = nuevoNodo;
             ultimo = nuevoNodo;
         }
@@ -195,8 +241,9 @@ Nodo* cargarContactosDeArchivo(const char *nombreArchivo) {
     return cabeza;
 }
 
-//prueba
-int main() {
+// prueba
+int main()
+{
     Nodo *cabeza = NULL;
     /*insertarAlFinal(&cabeza);
     insertarAlFinal(&cabeza);
