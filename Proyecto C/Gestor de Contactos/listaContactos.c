@@ -73,7 +73,7 @@ void imprimirContactos(Nodo *cabeza)
         actual = actual->siguiente;
     }
 }
-//eliminar nodo por nombre
+// eliminar nodo por nombre
 
 void eliminarContactoPorNombre(Nodo **cabeza, char *nombre)
 {
@@ -88,7 +88,7 @@ void eliminarContactoPorNombre(Nodo **cabeza, char *nombre)
         return;
     }
 
-    while (actual!= NULL && strcmp(actual->contacto->nombre, nombre)!= 0)
+    while (actual != NULL && strcmp(actual->contacto->nombre, nombre) != 0)
     {
         anterior = actual;
         actual = actual->siguiente;
@@ -102,15 +102,108 @@ void eliminarContactoPorNombre(Nodo **cabeza, char *nombre)
     free(actual);
 }
 
+int guardarContactosEnArchivo(Nodo *cabeza, const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "ab");  // Abrir archivo en modo append binario
+    
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo para escritura\n");
+        return 0;
+    }
 
+    int contactosGuardados = 0;
+    Nodo *actual = cabeza;
+    
+    while (actual != NULL) {
+        // Solo guardamos si el contacto no ha sido guardado previamente
+        if (actual->guardado == 0) {
+            // Guardamos las longitudes de las cadenas
+            size_t longNombre = strlen(actual->contacto->nombre) + 1;
+            size_t longEmail = strlen(actual->contacto->email) + 1;
+            size_t longTelefono = strlen(actual->contacto->telefono) + 1;
 
-int main()
-{
+            // Escribimos las longitudes
+            fwrite(&longNombre, sizeof(size_t), 1, archivo);
+            fwrite(&longEmail, sizeof(size_t), 1, archivo);
+            fwrite(&longTelefono, sizeof(size_t), 1, archivo);
+
+            // Escribimos los datos del contacto
+            fwrite(actual->contacto->nombre, sizeof(char), longNombre, archivo);
+            fwrite(actual->contacto->email, sizeof(char), longEmail, archivo);
+            fwrite(actual->contacto->telefono, sizeof(char), longTelefono, archivo);
+
+            // Marcamos el contacto como guardado
+            actual->guardado = 1;
+            contactosGuardados++;
+        }
+        actual = actual->siguiente;
+    }
+
+    fclose(archivo);
+    printf("Se guardaron %d nuevos contactos en el archivo\n", contactosGuardados);
+    return contactosGuardados;
+}
+
+Nodo* cargarContactosDeArchivo(const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "rb");
+    
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo para lectura\n");
+        return NULL;
+    }
+
     Nodo *cabeza = NULL;
-    insertarAlPrincipio(&cabeza);  // Agregamos & para pasar la dirección
-    insertarAlPrincipio(&cabeza);
+    Nodo *ultimo = NULL;
+
+    while (!feof(archivo)) {
+        size_t longNombre, longEmail, longTelefono;
+
+        // Leemos las longitudes
+        if (fread(&longNombre, sizeof(size_t), 1, archivo) != 1) break;
+        if (fread(&longEmail, sizeof(size_t), 1, archivo) != 1) break;
+        if (fread(&longTelefono, sizeof(size_t), 1, archivo) != 1) break;
+
+        // Creamos un nuevo contacto
+        Contacto *nuevoContacto = (Contacto*)malloc(sizeof(Contacto));
+        
+        // Asignamos memoria para las cadenas
+        nuevoContacto->nombre = (char*)malloc(longNombre);
+        nuevoContacto->email = (char*)malloc(longEmail);
+        nuevoContacto->telefono = (char*)malloc(longTelefono);
+
+        // Leemos los datos del contacto
+        fread(nuevoContacto->nombre, sizeof(char), longNombre, archivo);
+        fread(nuevoContacto->email, sizeof(char), longEmail, archivo);
+        fread(nuevoContacto->telefono, sizeof(char), longTelefono, archivo);
+
+        // Creamos un nuevo nodo
+        Nodo *nuevoNodo = (Nodo*)malloc(sizeof(Nodo));
+        nuevoNodo->contacto = nuevoContacto;
+        nuevoNodo->siguiente = NULL;
+        nuevoNodo->guardado = 1;  // Lo marcamos como guardado
+
+        // Agregamos el nodo a la lista
+        if (cabeza == NULL) {
+            cabeza = nuevoNodo;
+            ultimo = nuevoNodo;
+        } else {
+            ultimo->siguiente = nuevoNodo;
+            ultimo = nuevoNodo;
+        }
+    }
+
+    fclose(archivo);
+    return cabeza;
+}
+
+//prueba
+int main() {
+    Nodo *cabeza = NULL;
+    /*insertarAlFinal(&cabeza);
     insertarAlFinal(&cabeza);
-    eliminarContactoPorNombre(&cabeza,"1");
-    imprimirContactos(cabeza);     // Esto está bien así
+    insertarAlFinal(&cabeza);
+    imprimirContactos(cabeza);
+    guardarContactosEnArchivo(cabeza, "contactos.dat");*/
+    cabeza = cargarContactosDeArchivo("contactos.dat");
+    imprimirContactos(cabeza);
     return 0;
 }
