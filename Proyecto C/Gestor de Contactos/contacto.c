@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-const int MAX_palabraS = 50;
+const short MAX_Caracteres = 50;
 
 typedef struct
 {
@@ -50,7 +50,7 @@ char *crearCadena()
 
     while (1)
     {
-        Cadena = (char *)malloc(MAX_palabraS * sizeof(char));
+        Cadena = (char *)malloc(MAX_Caracteres * sizeof(char));
         if (Cadena == NULL)
         {
             perror("Error al asignar memoria");
@@ -58,7 +58,7 @@ char *crearCadena()
         }
 
         printf(":");
-        if (fgets(Cadena, MAX_palabraS, stdin) == NULL)
+        if (fgets(Cadena, MAX_Caracteres, stdin) == NULL)
         {
             fprintf(stderr, "Error al ingresar caracteres\n");
             free(Cadena); // Liberar la memoria original antes de continuar
@@ -94,7 +94,7 @@ char *crearCadena()
             free(Cadena); // Liberar la memoria original si `realloc` falla
             continue;
         }
-
+        temp[len] = '\0';
         Cadena = temp;
         break;
     }
