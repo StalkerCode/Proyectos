@@ -22,80 +22,65 @@ void limpiar_pantalla()
 // libera el buffer
 void limpiarBuffer()
 {
-    char c;
+    int c;
     while ((c = getchar()) != '\n' && c != EOF)
         ;
 }
 
 // eliminar datos de estructura
-void eliminar_Datos(Contacto *contacto)
+void liberarContacto(Contacto **c)
 {
-    free(contacto->nombre);
-    free(contacto->email);
-    free(contacto->telefono);
-}
-
-// eliminar estructura
-void eliminar_Contacto(Contacto *contacto)
-{
-    eliminar_Datos(contacto);
-    free(contacto);
+    if (c != NULL && *c != NULL)
+    {
+        free((*c)->nombre);
+        free((*c)->email);
+        free((*c)->telefono);
+        free(*c);
+        *c = NULL; // Evita uso después de liberar
+    }
 }
 
 // crea una cadena de texto
 char *crearCadena()
 {
-    char *Cadena;
-    int len;
+    char *Cadena = NULL;
+    char buffer[MAX_Caracteres];
 
     while (1)
     {
-        Cadena = (char *)malloc(MAX_Caracteres * sizeof(char));
-        if (Cadena == NULL)
-        {
-            perror("Error al asignar memoria");
-            exit(EXIT_FAILURE); // Terminar el programa si no hay memoria
-        }
-
         printf(":");
-        if (fgets(Cadena, MAX_Caracteres, stdin) == NULL)
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
         {
             fprintf(stderr, "Error al ingresar caracteres\n");
-            free(Cadena); // Liberar la memoria original antes de continuar
             continue;
         }
-
-        len = strlen(Cadena);
+        int len;
+        len = strlen(buffer);
 
         // Eliminar salto de línea si existe
-        if (len > 0 && Cadena[len - 1] == '\n')
-            Cadena[--len] = '\0';
+        if (len > 0 && buffer[len - 1] == '\n')
+            buffer[--len] = '\0';
 
         // Verificar condiciones de validez
         if (len == 0)
         {
             fprintf(stderr, "No se ingresaron caracteres\n");
-            free(Cadena); // Liberar la memoria original antes de continuar
             continue;
         }
 
-        if (Cadena[0] == ' ')
+        if (buffer[0] == ' ')
         {
             fprintf(stderr, "La cadena no debe comenzar con un espacio\n");
-            free(Cadena); // Liberar la memoria original antes de continuar
             continue;
         }
 
-        // Redimensionar la cadena al tamaño exacto
-        char *temp = realloc(Cadena, (len + 1) * sizeof(char));
-        if (temp == NULL)
+        Cadena = (char *)malloc(len * sizeof(char) + 1);
+        if (Cadena == NULL)
         {
-            perror("Error al redimensionar la memoria");
-            free(Cadena); // Liberar la memoria original si `realloc` falla
-            continue;
+            perror("Error al asignar memoria");
+            exit(EXIT_FAILURE); // Terminar el programa si no hay memoria
         }
-        temp[len] = '\0';
-        Cadena = temp;
+        strcpy(Cadena, buffer);
         break;
     }
 
@@ -105,14 +90,15 @@ char *crearCadena()
 char *crearTelefono()
 {
 
-    char *telefono;
-    int i = 0, isValido = 0;
-    int len;
+    char *telefono = NULL;
+    int isValido = 0;
+
     while (!isValido)
     {
         isValido = 1;
         printf("Ingrese un telefono(10 digitos)");
         telefono = crearCadena();
+        int len;
         len = strlen(telefono);
 
         if (len != 10)
@@ -123,7 +109,7 @@ char *crearTelefono()
             continue;
         }
 
-        for (i = 0; i < len; i++)
+        for (int i = 0; i < len; i++)
         {
             if (!isdigit(telefono[i]))
             {
@@ -140,7 +126,7 @@ char *crearTelefono()
 
 char *crearEmail()
 {
-    char *email;
+    char *email = NULL;
     while (1)
     {
         printf("Ingrese el email");
@@ -160,20 +146,28 @@ Contacto *crearContacto()
 {
     // se crea el nombre
     printf("Ingrese el nombre");
-    char *nombre = crearCadena();
+    char *nombre = NULL;
+    nombre = crearCadena();
 
     // se crea el email
-    char *email = crearEmail();
+    char *email = NULL;
+    email = crearEmail();
 
     // se crea el telefono
-    char *telefono = crearTelefono();
+    char *telefono = NULL;
+    telefono = crearTelefono();
 
-    Contacto *nuevo_Contacto = malloc(sizeof(Contacto));
+    Contacto *nuevo_Contacto = NULL;
+    nuevo_Contacto = malloc(sizeof(Contacto));
     if (nuevo_Contacto == NULL)
     {
         fprintf(stderr, "Error: no se pudo asignar memoria para el Contacto\n");
         exit(EXIT_FAILURE);
     }
+    nuevo_Contacto->nombre = NULL;
+    nuevo_Contacto->email = NULL;
+    nuevo_Contacto->telefono = NULL;
+    // se inicializan los datos del contacto
     nuevo_Contacto->nombre = nombre;
     nuevo_Contacto->email = email;
     nuevo_Contacto->telefono = telefono;
@@ -182,11 +176,13 @@ Contacto *crearContacto()
 /*
 int main()
 {
-    Contacto *mi_Contacto = crearContacto();
+    Contacto *mi_Contacto = NULL;
+    mi_Contacto = crearContacto();
     printf("\nNombre: %s\n", mi_Contacto->nombre);
     printf("Email: %s\n", mi_Contacto->email);
     printf("Telefono: %s\n", mi_Contacto->telefono);
-    eliminar_Contacto(mi_Contacto); // Asegura la liberación correcta de memoria
+    liberarContacto(&mi_Contacto);
+
     return 0;
 }
 */
