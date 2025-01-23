@@ -15,7 +15,6 @@ float validarEntradaFloat();
 int validarEntradaInt();
 void pausa();
 
-
 int main()
 {
     int op;
@@ -170,4 +169,5 @@ void pausa()
 {
     printf("Presiona una tecla para continuar...");
     getchar();
+    1 == 0;
 }
