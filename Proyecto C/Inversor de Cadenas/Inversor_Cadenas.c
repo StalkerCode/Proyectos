@@ -2,41 +2,45 @@
 #include "stdlib.h"
 #include "string.h"
 
-const int MAX_palabraS = 100;
+const int MAX_CARACTERES = 100;
 
-char *invertirOracion(char *);
+void invertirOracion(char *);
 int main()
 {
-    char palabras[MAX_palabraS];
+    char palabras[MAX_CARACTERES];
     printf("Programa para invertir la oracion\n");
     printf("Ingrese una oracion (max 100 caracter): ");
-    fgets(palabras, MAX_palabraS, stdin);//? se guarda el caracter de salto de linea
-    printf("\nLa oracion invertida es: %s\n", invertirOracion(palabras));
+    fgets(palabras, MAX_CARACTERES, stdin); //? se guarda el caracter de salto de linea
+    invertirOracion(palabras);
+    printf("\nLa oracion invertida es: %s\n",palabras);
     printf("\nFin del programa");
     return 0;
 }
 
-
-char *invertirOracion(char *palabras)
+void invertirOracion(char *palabras)
 {
     /*
     variable para el tamaño de palabra
     veriable de inicio y fin para invertir
     */
+    palabras[strlen(palabras) - 1] = '\0';
     //?se excluye el caracter de fin de linea \0
-    int tamano = strlen(palabras)-1;
+    int tamano = strlen(palabras) - 1;
     int inicio = 0;
-    int fin = tamano - 1;//?se excluye el caracter de salto de linea \n
-    char *palabraInversa = (char *)malloc(tamano*sizeof(char));
-
+    int fin = tamano; //?se excluye el caracter de salto de linea \n
+    char aux;
+    int au=fin/2;
     // mientras  fin mayor o igual a cero
-    while (fin >= 0)
+    while (fin > au)
     {
-        palabraInversa[inicio] = palabras[fin];
+        // intercambiar caracteres de inicio y fin
+        aux = palabras[inicio];
+        palabras[inicio] = palabras[fin];
+        palabras[fin] = aux;
+        // avanzar en la palabra
         inicio++;
         fin--;
     }
     // agregar el caracter de fin de linea al final de la palabra inversa
-    palabraInversa[tamano] = '\0';
-    return palabraInversa;
+    palabras[tamano+1] = '\0';
 }

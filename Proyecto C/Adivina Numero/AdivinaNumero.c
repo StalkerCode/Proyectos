@@ -63,7 +63,7 @@ int esNumeroValido(const char *cadena)
     // Verificar que la cadena contenga solo números
     if (!esNumero(cadena))
     {
-        printf("Error: La cadena debe contener solo numeros enteros.\n");
+        printf("Error: La cadena debe contener un numeros enteros(1-100).\n");
         return 0;
     }
     return 1;
@@ -72,12 +72,12 @@ int esNumeroValido(const char *cadena)
 int validarEntradaInt(char *cadena)
 {
     // Solicitar al usuario ingresar una cadena
-    printf("Ingrese un numero (1 a 3 digitos): ");
+    printf("Ingrese un numero (1 al 100): ");
     scanf("%3s", cadena); // Limitar la entrada a 3 caracteres
     while (!esNumeroValido(cadena))
     {
         limpiarBuffer();
-        printf("\nIngrese un numero (1 a 3 digitos): ");
+        printf("\nIngrese un numero (1 al 100): ");
         scanf("%3s", cadena);
     }
     // Convertir la cadena a un número entero
@@ -104,7 +104,7 @@ int esValido(char *cadena)
 void cercania(int diferencia)
 {
     // int diferencia = abs(numero - 100);
-    if (diferencia <= 4)
+    if (diferencia <= 5)
         printf("Muy Muy Caliente.\n");
     else if (diferencia <= 8)
         printf("Caliente\n");
