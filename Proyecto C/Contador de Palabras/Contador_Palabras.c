@@ -12,7 +12,8 @@ int contadorPalabra(char *);
 
 int main()
 {
-    char *palabras = (char *)malloc(MAX_palabraS * sizeof(char));
+    char *palabras = NULL;
+    palabras = (char *)malloc(MAX_palabraS * sizeof(char));
     if (palabras == NULL)
     {
         printf("Error en la asignación de memoria\n");
@@ -22,18 +23,19 @@ int main()
     fgets(palabras, MAX_palabraS, stdin);
     printf("La oracion es: %s", palabras);
     eliminarEspacion(palabras);
-    printf("El texto  es: %s\n",palabras);
+    printf("El texto  es: %s\n", palabras);
     printf("La cantidad de palabra es: %i\n", contadorPalabra(palabras));
     free(palabras);
+    palabras = NULL;
 
     return 0;
 }
 // función para eliminar los espacios en blanco al principio de la cadena de texto
 void espaciosIzquierdo(char *palabras)
 {
-    int i, j = 0;
+    int i, j;
 
-    for (j; palabras[j] == ' '; j++)
+    for (j=0; palabras[j] == ' '; j++)
         ;
 
     if (j > 0)
@@ -50,17 +52,17 @@ void espaciosIzquierdo(char *palabras)
 // función para eliminar los espacios en blanco  al final de la cadena de texto
 void espaciosDerecho(char *palabras)
 {
-    int i = strlen(palabras);
-
-    for (i; palabras[i] == ' '; i--)
+    int i;
+    for (i = strlen(palabras); palabras[i - 1] == ' '; i--)
         ;
 
-    palabras[i + 1] = '\0';
+    palabras[i] = '\0';
 }
 
 // función para eliminar los espacios en blanco al principio y al final de la cadena de texto
 void eliminarEspacion(char *palabras)
 {
+    palabras[strlen(palabras) - 1] = '\0';
     espaciosIzquierdo(palabras);
     espaciosDerecho(palabras);
 }
@@ -78,12 +80,12 @@ int contadorPalabra(char *palabras)
 
     while (palabras[i] != '\0')
     {
-        if (palabras[i + 1] != '\0' && palabras[i] != ' ' &&  palabras[i + 1] == ' ')
+        if (palabras[i + 1] != '\0' && palabras[i] != ' ' && palabras[i + 1] == ' ')
         {
             contador++;
         }
         i++;
     }
-
-    return contador;
+  
+    return ++contador;
 }
