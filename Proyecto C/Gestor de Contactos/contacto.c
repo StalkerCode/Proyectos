@@ -1,11 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 
-const short MAX_Caracteres = 50;
 
-typedef struct
+const int MAX_Caracteres = 50;
+
+typedef struct Contacto
 {
     char *nombre;
     char *email;
@@ -158,7 +155,7 @@ Contacto *crearContacto()
     telefono = crearTelefono();
 
     Contacto *nuevo_Contacto = NULL;
-    nuevo_Contacto = malloc(sizeof(Contacto));
+    nuevo_Contacto = (Contacto *)malloc(sizeof(Contacto));
     if (nuevo_Contacto == NULL)
     {
         fprintf(stderr, "Error: no se pudo asignar memoria para el Contacto\n");
@@ -173,6 +170,7 @@ Contacto *crearContacto()
     nuevo_Contacto->telefono = telefono;
     return nuevo_Contacto;
 }
+
 /*
 int main()
 {
