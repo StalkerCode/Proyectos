@@ -6,7 +6,7 @@ import java.util.Scanner;
 import calculadora.Calculadora;
 
 public class CalculadoraMain {
-	static Scanner Entrada = new Scanner(System.in);
+	/*static Scanner Entrada = new Scanner(System.in);
 	static PrintStream Salida = new PrintStream(System.out);
 
 	public static void main(String[] args) {
@@ -48,6 +48,6 @@ public class CalculadoraMain {
 		
 		Salida.println("\n**** Fin del Programa ****");
 
-	}
+	}*/
 
 }
