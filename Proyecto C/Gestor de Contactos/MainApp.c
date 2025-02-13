@@ -6,7 +6,8 @@ int ingresarEntero();
 
 int main()
 {
-    MenuOpciones();
+    
+    ingresarEntero();
 
     return 0;
 }

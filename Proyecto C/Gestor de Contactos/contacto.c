@@ -51,10 +51,11 @@ char *crearCadena()
             fprintf(stderr, "Error al ingresar caracteres\n");
             continue;
         }
-        int len;
+        int len = 0;
         len = strlen(buffer);
-        //limpia el buffer si hay mas de 49 caarcteres
-        limpiarBuffer();
+        // limpia el buffer si hay mas de 49 caarcteres
+        if (len >= MAX_Caracteres - 1 && buffer[len - 1] != '\n')
+            limpiarBuffer();
 
         // Eliminar salto de línea si existe
         if (len > 0 && buffer[len - 1] == '\n')
@@ -73,7 +74,7 @@ char *crearCadena()
             continue;
         }
 
-        Cadena = (char *)malloc(len * sizeof(char) + 1);
+        Cadena = (char *)malloc((len + 1) * sizeof(char));
         if (Cadena == NULL)
         {
             perror("Error al asignar memoria");
