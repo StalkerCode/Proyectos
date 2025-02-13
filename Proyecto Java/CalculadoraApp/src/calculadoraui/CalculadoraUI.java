@@ -1,11 +1,16 @@
 package calculadoraui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import calculadora.*;
 
@@ -48,6 +53,23 @@ public class CalculadoraUI extends JFrame {
 
 
 		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+
+		JPanel panelPantalla = new JPanel();
+		panelPantalla.setPreferredSize(new Dimension(0, 60));
+		panelPantalla.setBackground(new Color(0, 255, 64));
+		contentPane.add(panelPantalla, BorderLayout.NORTH);
+		panelPantalla.setLayout(new BorderLayout(0, 0));
+
+		JLabel LabelPantalla = new JLabel("");
+		LabelPantalla.setFont(new Font("Arial", Font.PLAIN, 20));
+		LabelPantalla.setHorizontalAlignment(SwingConstants.RIGHT);
+		panelPantalla.add(LabelPantalla, BorderLayout.CENTER);
+
+		JPanel panelTaclado = new JPanel();
+		panelTaclado.setBackground(new Color(128, 0, 255));
+		contentPane.add(panelTaclado, BorderLayout.CENTER);
+		panelTaclado.setLayout(new GridLayout(5, 4, 5, 5));
 		
 	}
 	
