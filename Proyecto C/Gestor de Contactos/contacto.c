@@ -1,11 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 
-const short MAX_Caracteres = 50;
 
-typedef struct
+const int MAX_Caracteres = 50;
+
+typedef struct Contacto
 {
     char *nombre;
     char *email;
@@ -54,8 +51,11 @@ char *crearCadena()
             fprintf(stderr, "Error al ingresar caracteres\n");
             continue;
         }
-        int len;
+        int len = 0;
         len = strlen(buffer);
+        // limpia el buffer si hay mas de 49 caarcteres
+        if (len >= MAX_Caracteres - 1 && buffer[len - 1] != '\n')
+            limpiarBuffer();
 
         // Eliminar salto de línea si existe
         if (len > 0 && buffer[len - 1] == '\n')
@@ -74,7 +74,7 @@ char *crearCadena()
             continue;
         }
 
-        Cadena = (char *)malloc(len * sizeof(char) + 1);
+        Cadena = (char *)malloc((len + 1) * sizeof(char));
         if (Cadena == NULL)
         {
             perror("Error al asignar memoria");
@@ -158,7 +158,7 @@ Contacto *crearContacto()
     telefono = crearTelefono();
 
     Contacto *nuevo_Contacto = NULL;
-    nuevo_Contacto = malloc(sizeof(Contacto));
+    nuevo_Contacto = (Contacto *)malloc(sizeof(Contacto));
     if (nuevo_Contacto == NULL)
     {
         fprintf(stderr, "Error: no se pudo asignar memoria para el Contacto\n");
@@ -173,6 +173,7 @@ Contacto *crearContacto()
     nuevo_Contacto->telefono = telefono;
     return nuevo_Contacto;
 }
+
 /*
 int main()
 {
