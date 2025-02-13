@@ -72,7 +72,7 @@ public class ServiciosPeliculaArchivo implements IServiciosPeliculas {
 
 			while (line != null) {
 				if (line.equalsIgnoreCase(pelicula.getNombre())) {
-					System.out.println("\'"+pelicula + "\' esta en el archivo en la linea " + indice);
+					System.out.println("\'" + pelicula + "\' esta en el archivo en la linea " + indice);
 					entrada.close();
 					return;
 				}
@@ -102,5 +102,27 @@ public class ServiciosPeliculaArchivo implements IServiciosPeliculas {
 			System.err.println("Error al escribir en el archivo: " + archivo.getAbsolutePath());
 		}
 	}
+
+	// metodo para evitar peliculas repetidaas
+	public boolean existePelicula(String nombre) {
+		File archivo = new File(NOMBRE_AR);
+		try {
+			BufferedReader entrada = new BufferedReader(new FileReader(archivo));
+			String line;
+			line = entrada.readLine();
+			while (line != null) {
+				if (line.equalsIgnoreCase(nombre)) {
+					entrada.close();
+					return true;
+				}
+				line = entrada.readLine();
+
+			}
+		} catch (IOException e) {
+			System.err.println("Error al leer el archivo: " + archivo.getAbsolutePath());
+		}
+		return false;
+	}
+	//falta implementar el metodo en ingragar archivo
 
 }
