@@ -53,6 +53,8 @@ char *crearCadena()
         }
         int len;
         len = strlen(buffer);
+        //limpia el buffer si hay mas de 49 caarcteres
+        limpiarBuffer();
 
         // Eliminar salto de línea si existe
         if (len > 0 && buffer[len - 1] == '\n')
