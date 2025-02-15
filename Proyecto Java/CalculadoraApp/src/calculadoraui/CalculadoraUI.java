@@ -44,6 +44,13 @@ public class CalculadoraUI extends JFrame {
 		});
 	}
 
+	private void limpiar(JLabel pantalla) {
+		if (hayIgual) {
+			pantalla.setText("");
+			hayIgual = false;
+		}
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -74,6 +81,17 @@ public class CalculadoraUI extends JFrame {
 		panelTaclado.setLayout(new GridLayout(5, 4, 5, 5));
 
 		JButton btnNewButton = new JButton("%");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!hayOperacion) {
+					num1 = LabelPantalla.getText();
+					hayOperacion = true;
+					tipo = '5';
+					hayPunto = false;
+					LabelPantalla.setText("");
+				}
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panelTaclado.add(btnNewButton);
 
@@ -108,6 +126,17 @@ public class CalculadoraUI extends JFrame {
 		panelTaclado.add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("÷");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!hayOperacion) {
+					num1 = LabelPantalla.getText();
+					hayOperacion = true;
+					tipo = '4';
+					hayPunto = false;
+					LabelPantalla.setText("");
+				}
+			}
+		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panelTaclado.add(btnNewButton_3);
 
@@ -116,7 +145,7 @@ public class CalculadoraUI extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
-					// limpiar(LabelPantalla);
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "1");
 				}
 			}
@@ -128,7 +157,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
-					// limpiar(LabelPantalla);
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "2");
 				}
 			}
@@ -140,6 +169,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "3");
 				}
 			}
@@ -148,6 +178,17 @@ public class CalculadoraUI extends JFrame {
 		panelTaclado.add(btnNewButton_6);
 
 		JButton btnNewButton_7 = new JButton("*");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!hayOperacion) {
+					num1 = LabelPantalla.getText();
+					hayOperacion = true;
+					tipo = '3';
+					hayPunto = false;
+					LabelPantalla.setText("");
+				}
+			}
+		});
 		btnNewButton_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panelTaclado.add(btnNewButton_7);
 
@@ -155,6 +196,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "4");
 				}
 			}
@@ -166,6 +208,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "5");
 				}
 			}
@@ -177,6 +220,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "6");
 				}
 			}
@@ -185,6 +229,17 @@ public class CalculadoraUI extends JFrame {
 		panelTaclado.add(btnNewButton_10);
 
 		JButton btnNewButton_11 = new JButton("-");
+		btnNewButton_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!hayOperacion) {
+					num1 = LabelPantalla.getText();
+					hayOperacion = true;
+					tipo = '2';
+					hayPunto = false;
+					LabelPantalla.setText("");
+				}
+			}
+		});
 		btnNewButton_11.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panelTaclado.add(btnNewButton_11);
 
@@ -192,6 +247,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "7");
 				}
 			}
@@ -203,6 +259,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_13.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "8");
 				}
 			}
@@ -214,6 +271,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_14.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "9");
 				}
 			}
@@ -244,6 +302,7 @@ public class CalculadoraUI extends JFrame {
 		btnNewButton_17.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (LabelPantalla.getText().length() <= maxLen) {
+					limpiar(LabelPantalla);
 					LabelPantalla.setText(LabelPantalla.getText() + "0");
 				}
 			}
@@ -272,6 +331,14 @@ public class CalculadoraUI extends JFrame {
 					hayIgual = true;
 					if (tipo == '1') {
 						LabelPantalla.setText(Calculadora.suma(num1, num2));
+					} else if (tipo == '2') {
+						LabelPantalla.setText(Calculadora.resta(num1, num2));
+					} else if (tipo == '3') {
+						LabelPantalla.setText(Calculadora.multiplicacion(num1, num2));
+					} else if (tipo == '4') {
+						LabelPantalla.setText(Calculadora.divicion(num1, num2));
+					} else if (tipo == '5') {
+						LabelPantalla.setText(Calculadora.porsentaje(num1, num2));
 					}
 				}
 			}
