@@ -174,6 +174,13 @@ Contacto *crearContacto()
     return nuevo_Contacto;
 }
 
+void mostrarContacto(Contacto *c)
+{
+    printf("Nombre: %s\n", c->nombre);
+    printf("Email: %s\n", c->email);
+    printf("Telefono: %s\n", c->telefono);
+}
+
 /*
 int main()
 {
