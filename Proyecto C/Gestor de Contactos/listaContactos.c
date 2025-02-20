@@ -83,8 +83,10 @@ void eliminarContactoPorNombre(ListaContactos **cabeza, char *nombre)
 
     if (actual == NULL)
         return;
-
-    anterior->siguiente = actual->siguiente;
+    if (anterior!=NULL)
+    {
+        anterior->siguiente = actual->siguiente;
+    }
     liberarContacto(&actual->contacto);
     free(actual);
 }

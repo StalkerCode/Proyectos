@@ -4,26 +4,11 @@
 void menu();
 int ingresarEntero();
 void opciones(int op, ListaContactos **cabeza);
+void app();
 
 int main()
 {
-    ListaContactos *cabeza = NULL;
-    opciones(1, &cabeza);
-    opciones(2, &cabeza);
-    opciones(2, &cabeza);
-    printf("\nse imrpime la lista de contactos\n");
-    opciones(6, &cabeza);
-    printf("\nse elimina el contacto sapo\n");
-    opciones(5, &cabeza);
-    printf("\nse imrpime la lista de contactos\n");
-    opciones(6, &cabeza);
-    printf("\nse modifica el contacto\n");
-    opciones(4, &cabeza);
-    printf("\nse imrpime la lista de contactos\n");
-    opciones(6, &cabeza);
-    printf("\nse busca en la lista de contactos\n");
-    opciones(3, &cabeza);
-    eliminarLista(&cabeza);
+    app();
     return 0;
 }
 void menu()
@@ -36,7 +21,7 @@ void menu()
     printf("\n6. Imprimir lista de contactos");    //?
     printf("\n7. eliminar lista de contactos");
     printf("\n8. Guardar lista de contactos");
-    printf("\n9. Cargar lista de contactos");
+    printf("\n9. Cargar lista de contactos (esta acion reemplaza la lista actual)");
     printf("\n0. Salir");
     printf("\n\nSeleccione una opción ");
 }
@@ -84,7 +69,7 @@ void opciones(int op, ListaContactos **cabeza)
     case 3:
         printf("\ningrese el nombre del contacto");
         nombre = crearCadena();
-        BuscarContactoPorNombre(*cabeza, nombre); 
+        BuscarContactoPorNombre(*cabeza, nombre);
         break;
     case 4:
         printf("\ningrese el nombre del contacto");
@@ -111,9 +96,30 @@ void opciones(int op, ListaContactos **cabeza)
     case 9:
         printf("\ningrese el nombre del archivo a cargar",
                "\ndebe tener maximo 50 caracteres y terminar con .txt o .dat");
+        nombre = crearCadena();
         *cabeza = cargarContactosDeArchivo(nombre);
         break;
     case 0:
+        printf("\nHasta luego");
+        break;
+    default:
+        printf("\nOpcion invalida");
+        break;
     }
-    free(nombre);
+    if (nombre != NULL)
+    {
+        free(nombre);
+    }
+}
+void app()
+{
+    ListaContactos *cabeza = NULL;
+    int op = -1;
+    while (op != 0)
+    {
+        menu();
+        op = ingresarEntero();
+        opciones(op, &cabeza);
+        limpiar_pantalla();
+    }
 }
