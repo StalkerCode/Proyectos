@@ -22,7 +22,6 @@ public class CalculadoraUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static String num1 = "", num2 = "";
-	private static Boolean hayPunto = false;
 	private static Boolean hayOperacion = false;
 	private static Boolean hayIgual = false;
 	private static final int maxLen = 16;
@@ -48,6 +47,24 @@ public class CalculadoraUI extends JFrame {
 		if (hayIgual) {
 			pantalla.setText("");
 			hayIgual = false;
+		}
+	}
+
+	private boolean hayPunto(String str) {
+		if (str == null) {
+			return false;
+		}
+		return str.contains(".");
+	}
+
+	private String toggleGuionInicial(String str) {
+		if (str == null) {
+			return null;
+		}
+		if (str.startsWith("-")) {
+			return str.substring(1); // Quita el guion inicial
+		} else {
+			return "-" + str; // Agrega el guion inicial
 		}
 	}
 
@@ -83,11 +100,10 @@ public class CalculadoraUI extends JFrame {
 		JButton btnNewButton = new JButton("%");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!hayOperacion) {
+				if (!hayOperacion && (LabelPantalla.getText().length() > 0)) {
 					num1 = LabelPantalla.getText();
 					hayOperacion = true;
 					tipo = '5';
-					hayPunto = false;
 					LabelPantalla.setText("");
 				}
 			}
@@ -100,7 +116,6 @@ public class CalculadoraUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				num1 = null;
 				num2 = null;
-				hayPunto = false;
 				hayOperacion = false;
 				LabelPantalla.setText("");
 			}
@@ -113,11 +128,9 @@ public class CalculadoraUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (!hayOperacion) {
 					num1 = null;
-					hayPunto = false;
 					LabelPantalla.setText("");
 				} else {
 					num2 = null;
-					hayPunto = false;
 					LabelPantalla.setText("");
 				}
 			}
@@ -128,11 +141,10 @@ public class CalculadoraUI extends JFrame {
 		JButton btnNewButton_3 = new JButton("÷");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!hayOperacion) {
+				if (!hayOperacion && (LabelPantalla.getText().length() > 0)) {
 					num1 = LabelPantalla.getText();
 					hayOperacion = true;
 					tipo = '4';
-					hayPunto = false;
 					LabelPantalla.setText("");
 				}
 			}
@@ -180,11 +192,10 @@ public class CalculadoraUI extends JFrame {
 		JButton btnNewButton_7 = new JButton("*");
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!hayOperacion) {
+				if (!hayOperacion && (LabelPantalla.getText().length() > 0)) {
 					num1 = LabelPantalla.getText();
 					hayOperacion = true;
 					tipo = '3';
-					hayPunto = false;
 					LabelPantalla.setText("");
 				}
 			}
@@ -231,11 +242,10 @@ public class CalculadoraUI extends JFrame {
 		JButton btnNewButton_11 = new JButton("-");
 		btnNewButton_11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!hayOperacion) {
+				if (!hayOperacion && (LabelPantalla.getText().length() > 0)) {
 					num1 = LabelPantalla.getText();
 					hayOperacion = true;
 					tipo = '2';
-					hayPunto = false;
 					LabelPantalla.setText("");
 				}
 			}
@@ -282,11 +292,10 @@ public class CalculadoraUI extends JFrame {
 		JButton btnNewButton_15 = new JButton("+");
 		btnNewButton_15.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!hayOperacion) {
+				if (!hayOperacion && (LabelPantalla.getText().length() > 0)) {
 					num1 = LabelPantalla.getText();
 					hayOperacion = true;
 					tipo = '1';
-					hayPunto = false;
 					LabelPantalla.setText("");
 				}
 			}
@@ -295,15 +304,26 @@ public class CalculadoraUI extends JFrame {
 		panelTaclado.add(btnNewButton_15);
 
 		JButton btnNewButton_16 = new JButton("+/-");
+		btnNewButton_16.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiar(LabelPantalla);
+				if (LabelPantalla.getText().length() > 0) {
+					String str = toggleGuionInicial(LabelPantalla.getText());
+					LabelPantalla.setText(str);
+				}
+			}
+		});
 		btnNewButton_16.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panelTaclado.add(btnNewButton_16);
 
 		JButton btnNewButton_17 = new JButton("0");
 		btnNewButton_17.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
+				String str = LabelPantalla.getText();
+				if(str.length()>0&&str.charAt(0) == '0'&&str.length()<=1) {return;}
+				if (str.length() <= maxLen ) {
 					limpiar(LabelPantalla);
-					LabelPantalla.setText(LabelPantalla.getText() + "0");
+					LabelPantalla.setText(str + "0");
 				}
 			}
 		});
@@ -313,9 +333,8 @@ public class CalculadoraUI extends JFrame {
 		JButton btnNewButton_18 = new JButton(".");
 		btnNewButton_18.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!hayPunto && LabelPantalla.getText().length() >= 1) {
+				if (!hayPunto(LabelPantalla.getText()) && LabelPantalla.getText().length() >= 1) {
 					LabelPantalla.setText(LabelPantalla.getText() + ".");
-					hayPunto = true;
 				}
 			}
 		});
@@ -325,7 +344,7 @@ public class CalculadoraUI extends JFrame {
 		JButton btnNewButton_19 = new JButton("=");
 		btnNewButton_19.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (hayOperacion) {
+				if (hayOperacion && (LabelPantalla.getText().length() > 0)) {
 					num2 = LabelPantalla.getText();
 					hayOperacion = false;
 					hayIgual = true;
