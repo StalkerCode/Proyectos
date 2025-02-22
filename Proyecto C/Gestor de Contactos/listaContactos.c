@@ -70,23 +70,31 @@ void imprimirContactos(ListaContactos *cabeza)
 }
 
 // eliminar ListaContactos por nombre
-void eliminarContactoPorNombre(ListaContactos **cabeza, char *nombre)
-{
+// Función para eliminar un contacto por nombre
+void eliminarContactoPorNombre(ListaContactos **cabeza, char *nombre) {
     ListaContactos *actual = *cabeza;
     ListaContactos *anterior = NULL;
 
-    while (actual != NULL && strcmp(actual->contacto->nombre, nombre) != 0)
-    {
+    // Buscar el nodo a eliminar
+    while (actual != NULL && strcmp(actual->contacto->nombre, nombre) != 0) {
         anterior = actual;
         actual = actual->siguiente;
     }
 
-    if (actual == NULL)
+    // Si el nodo no se encontró en la lista
+    if (actual == NULL) {
+        printf("Contacoto no encontrado");
         return;
-    if (anterior!=NULL)
-    {
+    }
+
+    // Si el nodo a eliminar es el primero
+    if (anterior == NULL) {
+        *cabeza = actual->siguiente;
+    } else {
         anterior->siguiente = actual->siguiente;
     }
+
+    // Liberar la memoria del contacto y del nodo
     liberarContacto(&actual->contacto);
     free(actual);
 }
