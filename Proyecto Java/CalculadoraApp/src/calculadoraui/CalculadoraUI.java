@@ -21,32 +21,41 @@ public class CalculadoraUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static String num1 = "", num2 = "";
-	private static Boolean hayPunto = false;
-	private static Boolean hayOperacion = false;
-	private static Boolean hayIgual = false;
-	private static final int maxLen = 16;
-	private static Character tipo;
+	private String num1 = "";
+	private String num2 = "";
+	private Boolean hayOperacion = false;
+	private Boolean hayIgual = false;
+	private static final int MAXLEN = 16;
+	private Operacion tipo;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CalculadoraUI frame = new CalculadoraUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private void limpiar(JLabel pantalla) {
+		if (hayIgual) {
+			pantalla.setText("");
+			hayIgual = false;
+		}
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	private boolean hayPunto(String str) {
+		return str.contains(".");
+	}
+
+	private String guionInicial(String str) {
+		return str.startsWith("-") ? str.substring(1) : "-" + str;
+	}
+
+	private enum Operacion {
+		SUMA, RESTA, MULTIPLICACION, DIVISION, PORCENTAJE
+	}
+
+	private void operacionSeleccionada(JLabel labelPantalla, Operacion operacion) {
+		if (!hayOperacion && (labelPantalla.getText().length() > 0)) {
+			num1 = labelPantalla.getText();
+			hayOperacion = true;
+			tipo = operacion;
+			labelPantalla.setText("");
+		}
+	}
+
 	public CalculadoraUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 500);
@@ -73,211 +82,149 @@ public class CalculadoraUI extends JFrame {
 		contentPane.add(panelTaclado, BorderLayout.CENTER);
 		panelTaclado.setLayout(new GridLayout(5, 4, 5, 5));
 
-		JButton btnNewButton = new JButton("%");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton);
+		String[] tipoStrings = { "%", "CE", "C", "÷", "1", "2", "3", "*", "4", "5", "6", "-", "7", "8", "9", "+", "+/-",
+				"0", ".", "=" };
+		Font tipFont = new Font("Tahoma", Font.PLAIN, 18);
+		JButton[] botoneTecladoButton = new JButton[20];
+		for (int i = 0; i < 20; i++) {
+			botoneTecladoButton[i] = new JButton(tipoStrings[i]);
+			botoneTecladoButton[i].setFont(tipFont);
+			panelTaclado.add(botoneTecladoButton[i]);
+		}
 
-		JButton btnNewButton_1 = new JButton("CE");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		ActionListener botonesNumeroEvento = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JButton boton = (JButton) e.getSource();
+				if (LabelPantalla.getText().length() <= MAXLEN) {
+					limpiar(LabelPantalla);
+					LabelPantalla.setText(LabelPantalla.getText() + boton.getText());
+				}
+			}
+		};
+
+		for (int i = 4; i <= 14; i++) {
+			if (i != 7 && i != 11 && i != 15) {
+				botoneTecladoButton[i].addActionListener(botonesNumeroEvento);
+			}
+		}
+		ActionListener operacion = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				operacionSeleccionada(LabelPantalla, Operacion.PORCENTAJE);
+			}
+		};
+		botoneTecladoButton[0].addActionListener(operacion);
+
+		operacion = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				operacionSeleccionada(LabelPantalla, Operacion.DIVISION);
+			}
+		};
+		botoneTecladoButton[3].addActionListener(operacion);
+		operacion = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				operacionSeleccionada(LabelPantalla, Operacion.MULTIPLICACION);
+			}
+		};
+		botoneTecladoButton[7].addActionListener(operacion);
+		operacion = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				operacionSeleccionada(LabelPantalla, Operacion.RESTA);
+			}
+		};
+		botoneTecladoButton[11].addActionListener(operacion);
+		operacion = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				operacionSeleccionada(LabelPantalla, Operacion.SUMA);
+			}
+		};
+		botoneTecladoButton[15].addActionListener(operacion);
+
+		botoneTecladoButton[1].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				num1 = null;
 				num2 = null;
-				hayPunto = false;
 				hayOperacion = false;
 				LabelPantalla.setText("");
 			}
 		});
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("C");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		botoneTecladoButton[2].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!hayOperacion) {
 					num1 = null;
-					hayPunto = false;
 					LabelPantalla.setText("");
 				} else {
 					num2 = null;
-					hayPunto = false;
 					LabelPantalla.setText("");
 				}
 			}
 		});
-		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_2);
 
-		JButton btnNewButton_3 = new JButton("÷");
-		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_3);
-
-		JButton btnNewButton_4 = new JButton("1");
-		btnNewButton_4.addActionListener(new ActionListener() {
-
+		botoneTecladoButton[16].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					// limpiar(LabelPantalla);
-					LabelPantalla.setText(LabelPantalla.getText() + "1");
+				limpiar(LabelPantalla);
+				if (LabelPantalla.getText().length() > 0) {
+					String str = guionInicial(LabelPantalla.getText());
+					LabelPantalla.setText(str);
 				}
 			}
 		});
-		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_4);
 
-		JButton btnNewButton_5 = new JButton("2");
-		btnNewButton_5.addActionListener(new ActionListener() {
+		botoneTecladoButton[17].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					// limpiar(LabelPantalla);
-					LabelPantalla.setText(LabelPantalla.getText() + "2");
+				String str = LabelPantalla.getText();
+				if (str.length() > 0 && str.charAt(0) == '0' && str.length() <= 1) {
+					return;
+				}
+				if (str.length() <= MAXLEN) {
+					limpiar(LabelPantalla);
+					LabelPantalla.setText(str + "0");
 				}
 			}
 		});
-		btnNewButton_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_5);
 
-		JButton btnNewButton_6 = new JButton("3");
-		btnNewButton_6.addActionListener(new ActionListener() {
+		botoneTecladoButton[18].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					LabelPantalla.setText(LabelPantalla.getText() + "3");
-				}
-			}
-		});
-		btnNewButton_6.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_6);
-
-		JButton btnNewButton_7 = new JButton("*");
-		btnNewButton_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_7);
-
-		JButton btnNewButton_8 = new JButton("4");
-		btnNewButton_8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					LabelPantalla.setText(LabelPantalla.getText() + "4");
-				}
-			}
-		});
-		btnNewButton_8.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_8);
-
-		JButton btnNewButton_9 = new JButton("5");
-		btnNewButton_9.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					LabelPantalla.setText(LabelPantalla.getText() + "5");
-				}
-			}
-		});
-		btnNewButton_9.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_9);
-
-		JButton btnNewButton_10 = new JButton("6");
-		btnNewButton_10.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					LabelPantalla.setText(LabelPantalla.getText() + "6");
-				}
-			}
-		});
-		btnNewButton_10.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_10);
-
-		JButton btnNewButton_11 = new JButton("-");
-		btnNewButton_11.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_11);
-
-		JButton btnNewButton_12 = new JButton("7");
-		btnNewButton_12.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					LabelPantalla.setText(LabelPantalla.getText() + "7");
-				}
-			}
-		});
-		btnNewButton_12.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_12);
-
-		JButton btnNewButton_13 = new JButton("8");
-		btnNewButton_13.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					LabelPantalla.setText(LabelPantalla.getText() + "8");
-				}
-			}
-		});
-		btnNewButton_13.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_13);
-
-		JButton btnNewButton_14 = new JButton("9");
-		btnNewButton_14.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					LabelPantalla.setText(LabelPantalla.getText() + "9");
-				}
-			}
-		});
-		btnNewButton_14.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_14);
-
-		JButton btnNewButton_15 = new JButton("+");
-		btnNewButton_15.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!hayOperacion) {
-					num1 = LabelPantalla.getText();
-					hayOperacion = true;
-					tipo = '1';
-					hayPunto = false;
-					LabelPantalla.setText("");
-				}
-			}
-		});
-		btnNewButton_15.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_15);
-
-		JButton btnNewButton_16 = new JButton("+/-");
-		btnNewButton_16.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_16);
-
-		JButton btnNewButton_17 = new JButton("0");
-		btnNewButton_17.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (LabelPantalla.getText().length() <= maxLen) {
-					LabelPantalla.setText(LabelPantalla.getText() + "0");
-				}
-			}
-		});
-		btnNewButton_17.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_17);
-
-		JButton btnNewButton_18 = new JButton(".");
-		btnNewButton_18.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!hayPunto && LabelPantalla.getText().length() >= 1) {
+				if (!hayPunto(LabelPantalla.getText()) && LabelPantalla.getText().length() >= 1) {
 					LabelPantalla.setText(LabelPantalla.getText() + ".");
-					hayPunto = true;
 				}
 			}
 		});
-		btnNewButton_18.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panelTaclado.add(btnNewButton_18);
 
-		JButton btnNewButton_19 = new JButton("=");
-		btnNewButton_19.addActionListener(new ActionListener() {
+		botoneTecladoButton[19].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (hayOperacion) {
+				if (hayOperacion && (LabelPantalla.getText().length() > 0)) {
 					num2 = LabelPantalla.getText();
 					hayOperacion = false;
 					hayIgual = true;
-					if (tipo == '1') {
+					switch (tipo) {
+					case SUMA:
 						LabelPantalla.setText(Calculadora.suma(num1, num2));
+						break;
+					case RESTA:
+						LabelPantalla.setText(Calculadora.resta(num1, num2));
+						break;
+					case MULTIPLICACION:
+						LabelPantalla.setText(Calculadora.multiplicacion(num1, num2));
+						break;
+					case DIVISION:
+						LabelPantalla.setText(Calculadora.divicion(num1, num2));
+						break;
+					case PORCENTAJE:
+						LabelPantalla.setText(Calculadora.porsentaje(num1, num2));
+						break;
+
 					}
+
 				}
 			}
 		});
-		btnNewButton_19.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelTaclado.add(btnNewButton_19);
 
 	}
 
