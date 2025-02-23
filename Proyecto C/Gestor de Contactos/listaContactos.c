@@ -70,21 +70,31 @@ void imprimirContactos(ListaContactos *cabeza)
 }
 
 // eliminar ListaContactos por nombre
-void eliminarContactoPorNombre(ListaContactos **cabeza, char *nombre)
-{
+// Función para eliminar un contacto por nombre
+void eliminarContactoPorNombre(ListaContactos **cabeza, char *nombre) {
     ListaContactos *actual = *cabeza;
     ListaContactos *anterior = NULL;
 
-    while (actual != NULL && strcmp(actual->contacto->nombre, nombre) != 0)
-    {
+    // Buscar el nodo a eliminar
+    while (actual != NULL && strcmp(actual->contacto->nombre, nombre) != 0) {
         anterior = actual;
         actual = actual->siguiente;
     }
 
-    if (actual == NULL)
+    // Si el nodo no se encontró en la lista
+    if (actual == NULL) {
+        printf("Contacoto no encontrado");
         return;
+    }
 
-    anterior->siguiente = actual->siguiente;
+    // Si el nodo a eliminar es el primero
+    if (anterior == NULL) {
+        *cabeza = actual->siguiente;
+    } else {
+        anterior->siguiente = actual->siguiente;
+    }
+
+    // Liberar la memoria del contacto y del nodo
     liberarContacto(&actual->contacto);
     free(actual);
 }
@@ -105,7 +115,7 @@ void eliminarLista(ListaContactos **cabeza)
 }
 
 // buscar ListaContactos por nombre
-ListaContactos *buscarContactoPorNombre(ListaContactos *cabeza, const char *nombre)
+ListaContactos *buscarContactoPorNombreenLista(ListaContactos *cabeza, const char *nombre)
 {
     ListaContactos *actual = cabeza;
 
@@ -120,7 +130,7 @@ ListaContactos *buscarContactoPorNombre(ListaContactos *cabeza, const char *nomb
 // modificar contacto de la lista
 void modificarContacto(ListaContactos *cabeza, const char *nombre)
 {
-    ListaContactos *ListaContactosBuscado = buscarContactoPorNombre(cabeza, nombre);
+    ListaContactos *ListaContactosBuscado = buscarContactoPorNombreenLista(cabeza, nombre);
     if (ListaContactosBuscado == NULL)
     {
         printf("Contacto no existe.\n");
@@ -131,6 +141,17 @@ void modificarContacto(ListaContactos *cabeza, const char *nombre)
     ListaContactosBuscado->contacto->telefono = crearTelefono();
     free(ListaContactosBuscado->contacto->email);
     ListaContactosBuscado->contacto->email = crearEmail();
+}
+
+void BuscarContactoPorNombre(ListaContactos *cabeza, const char *nombre)
+{
+    ListaContactos *ListaContactosBuscado = buscarContactoPorNombreenLista(cabeza, nombre);
+    if (ListaContactosBuscado == NULL)
+    {
+        printf("Contacto no existe.\n");
+        return;
+    }
+    mostrarContacto(ListaContactosBuscado->contacto);
 }
 
 int guardarContactosEnArchivo(ListaContactos *cabeza, const char *nombreArchivo)
@@ -294,29 +315,29 @@ ListaContactos *cargarContactosDeArchivo(const char *nombreArchivo)
 /*
 int main()
 {
-	ListaContactos *cabeza = NULL;
-	insertarAlFinal(&cabeza);
-	insertarAlFinal(&cabeza);
-	insertarAlPrincipio(&cabeza);
-	printf("\nse imrpime la lista de contactos\n");
-	imprimirContactos(cabeza);
-	printf("\nse elimina el contacto sapo\n");
-	eliminarContactoPorNombre(&cabeza, "sapo");
-	printf("\nse imrpime la lista de contactos\n");
-	imprimirContactos(cabeza);
-	printf("\nse modifica el contacto marlon\n");
-	modificarContacto(cabeza, "marlon");
-	printf("\nse imrpime la lista de contactos\n");
-	imprimirContactos(cabeza);
-	printf("\nse guardan los contactos en el archivo contactos.txt\n");
-	guardarContactosEnArchivo(cabeza, "contactos.txt");
-	printf("\nse cargan los contactos del archivo contactos.txt\n");
-	ListaContactos *cabezaCargada = cargarContactosDeArchivo("contactos.txt");
-	printf("\nse imrpime la lista de contactos cargados\n");
-	imprimirContactos(cabezaCargada);
-	eliminarLista(&cabeza);
+    ListaContactos *cabeza = NULL;
+    insertarAlFinal(&cabeza);
+    insertarAlFinal(&cabeza);
+    insertarAlPrincipio(&cabeza);
+    printf("\nse imrpime la lista de contactos\n");
+    imprimirContactos(cabeza);
+    printf("\nse elimina el contacto sapo\n");
+    eliminarContactoPorNombre(&cabeza, "sapo");
+    printf("\nse imrpime la lista de contactos\n");
+    imprimirContactos(cabeza);
+    printf("\nse modifica el contacto marlon\n");
+    modificarContacto(cabeza, "marlon");
+    printf("\nse imrpime la lista de contactos\n");
+    imprimirContactos(cabeza);
+    printf("\nse guardan los contactos en el archivo contactos.txt\n");
+    guardarContactosEnArchivo(cabeza, "contactos.txt");
+    printf("\nse cargan los contactos del archivo contactos.txt\n");
+    ListaContactos *cabezaCargada = cargarContactosDeArchivo("contactos.txt");
+    printf("\nse imrpime la lista de contactos cargados\n");
+    imprimirContactos(cabezaCargada);
+    eliminarLista(&cabeza);
 
-	return 0;
+    return 0;
 }
 
 */

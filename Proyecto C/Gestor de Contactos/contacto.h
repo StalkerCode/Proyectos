@@ -10,3 +10,4 @@ char *crearCadena();
 char *crearTelefono();
 char *crearEmail();
 Contacto *crearContacto();
+void mostrarContacto(Contacto *c);
