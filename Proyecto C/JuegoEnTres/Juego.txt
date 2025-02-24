@@ -1,0 +1,8 @@
+Enunciado: Implementa el juego de "Tres en Raya" 
+para que dos jugadores jueguen en el mismo ordenador.
+
+Descripción:
+El juego debe mostrar un tablero de 3x3 y permitir que los jugadores alternen turnos.
+Verifica automáticamente si uno de los jugadores gana o si el juego termina en empate.
+Usa arrays multidimensionales para representar el tablero.
+Implementa un sistema de reinicio del juego al final de cada partida.
