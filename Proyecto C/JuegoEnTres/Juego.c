@@ -1,6 +1,75 @@
 #include <stdio.h>
 #include <ctype.h>
 
+void limpiarBuffer();
+char crearCaracter();
+int crearDigito();
+void rellenarTablero(char tablero[3][3]);
+void imprimirTablero(char tablero[3][3]);
+void marcarCasilla(char tablero[3][3], char jugador, int fila, int columna);
+int verificarTablero(char tablero[3][3], char jugador);
+int tableroLleno(char tablero[3][3]);
+int cacillaOcupada(char tablero[3][3], int fila, int columna);
+
+int main()
+{
+    char tablero[3][3];
+    char Juagor1 = 'X';
+    char Juagor2 = 'O';
+    char jugadorActual = Juagor1;
+
+    rellenarTablero(tablero);
+    imprimirTablero(tablero);
+
+    while (1)
+    {
+        printf("Jugador %c\n", jugadorActual);
+        printf("Ingrese la fila (1-3):");
+        int fila = crearDigito();
+        printf("Ingrese la columna (1-3):");
+        int columna = crearDigito();
+        if (cacillaOcupada(tablero, fila, columna))
+        {
+            printf("Casilla ocupada\n");
+            continue;
+        }
+        marcarCasilla(tablero, jugadorActual, fila, columna);
+        imprimirTablero(tablero);
+        if (verificarTablero(tablero, jugadorActual))
+        {
+            printf("El ganador es: %c", jugadorActual);
+            break;
+        }
+        if (tableroLleno(tablero))
+        {
+            printf("Es un Empate");
+            break;
+        }
+
+        if (jugadorActual == Juagor1)
+        {
+            jugadorActual = Juagor2;
+        }
+        else
+        {
+            jugadorActual = Juagor1;
+        }
+    }
+
+    return 0;
+}
+
+void rellenarTablero(char tablero[3][3])
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            tablero[i][j] = ' ';
+        }
+    }
+}
+
 void imprimirTablero(char tablero[3][3])
 {
     printf("\n");
@@ -14,34 +83,49 @@ void imprimirTablero(char tablero[3][3])
     }
     printf("\n");
 }
-void verificarTablero(char tablero[3][3])
+
+int verificarTablero(char tablero[3][3], char jugador)
 {
     char ganador;
-    // verifica filas
+    // verifica filas y columnas
     for (int i = 0; i < 3; i++)
     {
-        if (tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2])
+        if (tablero[i][0] == jugador && tablero[i][1] == jugador && tablero[i][2] == jugador)
         {
-            ganador = tablero[i][0];
-            break;
+            return 1;
         }
-        if (tablero[0][i] == tablero[1][i] && tablero[1][i] == tablero[2][i])
+        if (tablero[0][i] == jugador && tablero[1][i] == jugador && tablero[2][i] == jugador)
         {
-            ganador = tablero[0][i];
-            break;
+            return 1;
         }
     }
     // verifica diagonal
-    if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2])
+    if (tablero[0][0] == jugador && tablero[1][1] == jugador && tablero[2][2] == jugador)
     {
-        ganador = tablero[0][0];
+        return 1;
     }
-    if (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0])
+    if (tablero[0][2] == jugador && tablero[1][1] == jugador && tablero[2][0] == jugador)
     {
-        ganador = tablero[0][0];
+        return 1;
     }
-    printf("el ganador es: %c", ganador);
+    return 0;
 }
+
+int tableroLleno(char tablero[3][3])
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (tablero[i][j] == ' ')
+            {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
 void limpiarBuffer()
 {
     int c;
@@ -78,7 +162,7 @@ int crearDigito()
             continue;
         }
 
-        if (c > '3')
+        if (c == '0' || c > '3')
         {
             printf("ingrese un numero entre 1 y 3\n");
             continue;
@@ -89,8 +173,16 @@ int crearDigito()
     return numero;
 }
 
-int main()
+void marcarCasilla(char tablero[3][3], char jugador, int fila, int columna)
 {
-    printf("%d", crearDigito());
+    tablero[fila - 1][columna - 1] = jugador;
+}
+
+int cacillaOcupada(char tablero[3][3], int fila, int columna)
+{
+    if (tablero[fila - 1][columna - 1] != ' ')
+    {
+        return 1;
+    }
     return 0;
 }
