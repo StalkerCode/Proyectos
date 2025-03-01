@@ -11,8 +11,6 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.Dimension;
-
 import javax.swing.border.BevelBorder;
 import java.awt.FlowLayout;
 
@@ -101,10 +99,6 @@ public class numerosui extends JFrame {
 		
 		JButton reinicioBoton = new JButton("Reiniciar");
 		reinicio.add(reinicioBoton);
-		
-		JPanel mensajes = new JPanel();
-		mensajeFinal.add(mensajes, BorderLayout.CENTER);
-		mensajes.setLayout(new BorderLayout(0, 0));
 	}
 
 }
