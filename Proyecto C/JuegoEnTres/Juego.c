@@ -23,39 +23,51 @@ int main()
 
     while (1)
     {
-        printf("Jugador %c\n", jugadorActual);
-        printf("Ingrese la fila (1-3):");
-        int fila = crearDigito();
-        printf("Ingrese la columna (1-3):");
-        int columna = crearDigito();
-        if (cacillaOcupada(tablero, fila, columna))
+        while (1)
         {
-            printf("Casilla ocupada\n");
+            printf("Jugador %c\n", jugadorActual);
+            printf("Ingrese la fila (1-3):");
+            int fila = crearDigito();
+            printf("Ingrese la columna (1-3):");
+            int columna = crearDigito();
+            if (cacillaOcupada(tablero, fila, columna))
+            {
+                printf("Casilla ocupada\n");
+                continue;
+            }
+            marcarCasilla(tablero, jugadorActual, fila, columna);
+            imprimirTablero(tablero);
+            if (verificarTablero(tablero, jugadorActual))
+            {
+                printf("El ganador es: %c\n", jugadorActual);
+                break;
+            }
+            if (tableroLleno(tablero))
+            {
+                printf("Es un Empate\n");
+                break;
+            }
+
+            if (jugadorActual == Juagor1)
+            {
+                jugadorActual = Juagor2;
+            }
+            else
+            {
+                jugadorActual = Juagor1;
+            }
+        }
+        printf("\nQuieres jugar de nuevo? (s/n):");
+        char respuesta = crearCaracter();
+        if (respuesta == 's' || respuesta == 'S')
+        {
+            rellenarTablero(tablero);
+            imprimirTablero(tablero);
             continue;
         }
-        marcarCasilla(tablero, jugadorActual, fila, columna);
-        imprimirTablero(tablero);
-        if (verificarTablero(tablero, jugadorActual))
-        {
-            printf("El ganador es: %c", jugadorActual);
-            break;
-        }
-        if (tableroLleno(tablero))
-        {
-            printf("Es un Empate");
-            break;
-        }
-
-        if (jugadorActual == Juagor1)
-        {
-            jugadorActual = Juagor2;
-        }
-        else
-        {
-            jugadorActual = Juagor1;
-        }
+        break;
     }
-
+    printf("\nGracias por jugar\n");
     return 0;
 }
 
