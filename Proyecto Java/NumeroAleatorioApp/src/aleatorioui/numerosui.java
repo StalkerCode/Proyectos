@@ -8,7 +8,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.GridBagLayout;
+
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
@@ -99,6 +102,14 @@ public class numerosui extends JFrame {
 		
 		JButton reinicioBoton = new JButton("Reiniciar");
 		reinicio.add(reinicioBoton);
+		
+		JPanel panelDentro = new JPanel();
+        panelDentro.setLayout(new GridBagLayout()); // Usamos GridBagLayout para centrar
+        mensajeFinal.add(panelDentro, BorderLayout.CENTER);
+        
+        JLabel mensageDentro = new JLabel("Mensage");
+        mensageDentro.setHorizontalAlignment(SwingConstants.CENTER); // Centra el texto dentro del JLabel
+        panelDentro.add(mensageDentro); // Se añade al centro gracias a GridBagLayout
 	}
 
 }
