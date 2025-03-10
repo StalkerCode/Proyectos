@@ -1,0 +1,10 @@
+Enunciado: Diseña un programa que lea un archivo de texto y comprima 
+su contenido usando un método simple como la codificación RLE (Run-Length Encoding).
+
+Descripción:
+El programa debe leer un archivo de texto proporcionado por el usuario y 
+comprimirlo mediante RLE (por ejemplo, "AAAABBBCC" → "4A3B2C").
+
+Guarda el resultado comprimido en un nuevo archivo.
+
+También incluye una función para descomprimir el archivo comprimido y restaurar el texto original.
