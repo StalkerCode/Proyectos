@@ -1,0 +1,95 @@
+#calculadora {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+    margin: auto;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+#pantalla {
+    width: 100%;
+    height: 50px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 2px;
+   
+}
+
+#pantallaVitas {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+#tecldo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid #000;
+    margin: 0px;
+    padding: 0%;
+}
+
+#tecladoNumerico {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#tecladoNumerico button {
+    width: 24%;
+    height: 50px;
+    border: 1px solid #000;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    padding: 0%;
+    margin: 1px;
+}
+
+#igual {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    padding: 0%;
+    border: 1px solid #000;
+    height: 50px;
+}
+
+#igual button {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #000;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    padding: 0%;
+    margin: 2px 6px;
+}
