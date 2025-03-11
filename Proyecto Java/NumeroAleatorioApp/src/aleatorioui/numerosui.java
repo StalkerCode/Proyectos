@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -115,6 +117,15 @@ public class numerosui extends JFrame {
 		texto.setLayout(new BorderLayout(0, 0));
 
 		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) || textField.getText().length() >= 3) {
+                    e.consume(); // Ignora el evento si no es un dígito o si ya hay 3 caracteres
+                }
+            }
+        });
 		texto.add(textField, BorderLayout.CENTER);
 		textField.setColumns(10);
 
