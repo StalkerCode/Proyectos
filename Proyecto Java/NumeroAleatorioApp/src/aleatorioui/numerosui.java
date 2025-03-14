@@ -24,6 +24,9 @@ public class numerosui extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
+	private JLabel mensageDentro;
+	private JPanel panelDentro;
+	private Color color;
 	private static final Random random = new Random();
 	private static int num;
 
@@ -48,33 +51,41 @@ public class numerosui extends JFrame {
 		return random.nextInt(100 - 1 + 1) + 1;
 	}
 
-	private void cercania(int numero, JLabel texto, JPanel panel) {
+	private void mensage(Color color, String mgs,Color cl) {
+		mensageDentro.setText(mgs);
+		mensageDentro.setForeground(cl);
+		panelDentro.setBackground(color);
+	}
+
+	private void cercania(int numero) {
 		int distancia = Math.abs(numero - num);
 		if (distancia == 0) {
-			texto.setText("ganaste");
-			panel.setBackground(new Color(30, 249, 22));
+			
+			mensage(new Color(30, 249, 22), "ganaste",Color.BLACK);
+			
 		} else if (distancia < 3) {
-			texto.setText("muy caliente");
-			panel.setBackground(new Color(245, 19, 19));
+			
+			mensage(new Color(245, 19, 19), "muy caliente",Color.WHITE);
+			
 		} else if (distancia < 5) {
-			texto.setText("caliente");
-			panel.setBackground(new Color(238, 80, 80));
-
+			
+			mensage(new Color(238, 80, 80), "caliente",Color.BLACK);
+			
 		} else if (distancia < 10) {
-			texto.setText("tibio");
-			panel.setBackground(new Color(211, 118, 240));
-
+			
+			mensage(new Color(211, 118, 240), "tibio",Color.BLACK);
+			
 		} else if (distancia < 15) {
-			texto.setText("frio");
-			panel.setBackground(new Color(156, 143, 239));
-
+			
+			mensage(new Color(156, 143, 239), "frio",Color.BLACK);
+			
 		} else if (distancia < 20) {
-			texto.setText("muy frio");
-			panel.setBackground(new Color(89, 65, 243));
+			
+			mensage(new Color(89, 65, 243), "muy frio",Color.WHITE);
 
 		} else {
-			texto.setText("muy muy frio");
-			panel.setBackground(new Color(28, 0, 208));
+
+			mensage(new Color(28, 0, 208), "muy muy frio",Color.WHITE);
 		}
 
 	}
@@ -151,11 +162,11 @@ public class numerosui extends JFrame {
 		JButton reinicioBoton = new JButton("Reiniciar");
 		reinicio.add(reinicioBoton);
 
-		JPanel panelDentro = new JPanel();
+		panelDentro = new JPanel();
 		panelDentro.setLayout(new GridBagLayout()); // Usamos GridBagLayout para centrar
 		mensajeFinal.add(panelDentro, BorderLayout.CENTER);
 
-		JLabel mensageDentro = new JLabel("Inicia");
+		mensageDentro = new JLabel("Inicia");
 		mensageDentro.setHorizontalAlignment(SwingConstants.CENTER); // Centra el texto dentro del JLabel
 		panelDentro.add(mensageDentro); // Se añade al centro gracias a GridBagLayout
 
@@ -163,7 +174,7 @@ public class numerosui extends JFrame {
 		verifica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int numero = Integer.parseInt(textField.getText());
-				cercania(numero, mensageDentro, panelDentro);
+				cercania(numero);
 			}
 		});
 		boton.add(verifica, BorderLayout.CENTER);
