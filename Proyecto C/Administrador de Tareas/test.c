@@ -136,12 +136,66 @@ void listarTareas(ListaTareas *cabeza)
     }
 }
 
+void completarTarea(ListaTareas *cabeza, int id)
+{
+    ListaTareas *actual = cabeza;
+    while (actual != NULL)
+    {
+        if (actual->tarea.id == id)
+        {
+            actual->tarea.completada = 1;
+            return;
+        }
+        actual = actual->siguiente;
+    }
+    printf("No se encontro la tarea con id %d\n", id);
+}
+
+void eliminarTarea(ListaTareas **cabeza, int id)
+{
+    if (*cabeza == NULL)
+    {
+        printf("No hay tareas en la lista.\n");
+        return;
+    }
+    ListaTareas *actual = *cabeza;
+    ListaTareas *anterior = NULL;
+    while (actual != NULL)
+    {
+        if (actual->tarea.id == id)
+        {
+            if (anterior == NULL)
+            {
+                *cabeza = actual->siguiente;
+            }
+            else
+            {
+                anterior->siguiente = actual->siguiente;
+            }
+            free(actual);
+            return;
+        }
+        anterior = actual;
+        actual = actual->siguiente;
+    }
+    printf("No se encontro la tarea con id %d\n", id);
+}
+
 int main()
 {
     ListaTareas *listaCabeza = NULL;
     agregarTarea(&listaCabeza);
     agregarTarea(&listaCabeza);
     agregarTarea(&listaCabeza);
+    listarTareas(listaCabeza);
+    printf("\n");
+    completarTarea(listaCabeza, 1);
+    listarTareas(listaCabeza);
+    printf("\n");
+    eliminarTarea(&listaCabeza, 1);
+    listarTareas(listaCabeza);
+    printf("\n");
+    eliminarTarea(&listaCabeza, 3);
     listarTareas(listaCabeza);
 
     return 0;
