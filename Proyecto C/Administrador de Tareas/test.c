@@ -12,7 +12,7 @@ typedef struct Tarea
 typedef struct ListaTareas
 {
     Tarea tarea;
-    struct listaTareas *siguiente;
+    struct ListaTareas *siguiente;
 } ListaTareas;
 
 void limpiarBuffer()
@@ -67,8 +67,10 @@ int crearEntero()
 
     int entero;
     // Verifica si la entrada es un número entero válido
-    while (1) {
-        if (scanf("%d", &entero) != 1) {
+    while (1)
+    {
+        if (scanf("%d", &entero) != 1)
+        {
             fprintf(stderr, "Error: Ingrese un número entero válido\n");
             limpiarBuffer();
             printf(":");
@@ -78,7 +80,6 @@ int crearEntero()
     }
     return entero;
 }
- 
 
 Tarea creraTarea()
 {
@@ -92,14 +93,56 @@ Tarea creraTarea()
     return t1;
 }
 
+ListaTareas *crearNodo()
+{
+    ListaTareas *nuevaTarea = NULL;
+    nuevaTarea = malloc(sizeof(ListaTareas));
+    nuevaTarea->tarea = creraTarea();
+    nuevaTarea->siguiente = NULL;
+    return nuevaTarea;
+}
 
+void agregarTarea(ListaTareas **cabeza)
+{
+    ListaTareas *nodo = NULL;
+    nodo = crearNodo();
+    if (*cabeza == NULL)
+    {
+        *cabeza = nodo;
+        return;
+    }
+    ListaTareas *actual = *cabeza;
+    while (actual->siguiente != NULL)
+    {
+        actual = actual->siguiente;
+    }
+    actual->siguiente = nodo;
+}
+
+void listarTareas(ListaTareas *cabeza)
+{
+    if (cabeza == NULL)
+    {
+        printf("No hay tareas en la lista.\n");
+        return;
+    }
+    ListaTareas *actual = cabeza;
+    while (actual != NULL)
+    {
+        printf("Id: %d\n", actual->tarea.id);
+        printf("Descripcion: %s\n", actual->tarea.descripcion);
+        printf("Completada: %d\n", actual->tarea.completada);
+        actual = actual->siguiente;
+    }
+}
 
 int main()
 {
-    Tarea t1;
-    t1 = creraTarea();
-    printf("Id: %d\n", t1.id);
-    printf("Descripcion: %s\n", t1.descripcion);
-    printf("Completada: %d\n", t1.completada);
+    ListaTareas *listaCabeza = NULL;
+    agregarTarea(&listaCabeza);
+    agregarTarea(&listaCabeza);
+    agregarTarea(&listaCabeza);
+    listarTareas(listaCabeza);
+
     return 0;
 }
