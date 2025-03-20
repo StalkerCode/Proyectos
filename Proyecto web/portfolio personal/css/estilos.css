@@ -1,34 +1,39 @@
-html{
+html {
     width: 100%;
     height: 100%;
     padding: 0%;
     margin: 0%;
 }
-body{
+
+body {
     padding: 0%;
     margin: 0%;
     width: 100%;
     height: 100%;
 }
 
-#cabesero{
-    height: 35%;
-    padding: 0%;
-    margin: 0%;
+#cabesero {
+    height: 33%;
+    padding: 0;
+    margin: 0;
     background: url(../assets/img/fondo.jpg);
+    background-size: cover;/* Asegura que la imagen cubra todo el contenedor */
+    background-position: center;/* Centra la imagen de fondo */
+    display: flex;
+    justify-content: center;/* Centra horizontalmente */
+    align-items: center;/* Centra verticalmente */
 }
 
-#cabesero h1{
-    padding-top: 8%;
-    margin: auto;
-    text-align: center;
+#cabesero h1 {
+    margin: 0;
     font-size: xx-large;
     color: white;
 }
+
 #menu {
     padding: 0%;
     margin: 0%;
-    height: 60px;
+    height: 10%;
     background-color: rgb(47, 50, 51);
     display: flex;
     justify-content: center;
@@ -54,4 +59,40 @@ body{
     background-color: #000000;
     color: white;
     border: 1px solid #aaa;
+}
+
+
+#cuerpo {
+    height: 53%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    justify-content: center;/* Centra horizontalmente */
+    align-items: center;/* Centra verticalmente */
+}
+
+.cuadro {
+    width: 27%;
+    height: 80%;
+    background-color: white;
+    border-radius: 20px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#foto {
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/img/fondo.jpg);
+    background-size: cover;/* Asegura que la imagen cubra todo el contenedor */
+    background-position: center;/* Centra la imagen de fondo */
+    border-radius: 20px;
+}
+
+footer{
+    height: 4%;
 }
