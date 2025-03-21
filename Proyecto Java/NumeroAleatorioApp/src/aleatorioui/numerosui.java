@@ -8,8 +8,6 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Random;
@@ -26,15 +24,22 @@ public class numerosui extends JFrame {
 	private JTextField textField;
 	private JLabel mensageDentro;
 	private JPanel panelDentro;
-	private Color color;
+	private Boolean ganaste = false;
 	private static final Random random = new Random();
 	private static int num;
+
+	private static final Color[] COLORS = { Color.GREEN, Color.RED, Color.PINK, Color.CYAN, Color.GRAY, Color.BLUE,
+			Color.BLACK };
+	private static final String[] MESSAGES = { "ganaste", "muy caliente", "caliente", "tibio", "frio", "muy frio",
+			"muy muy frio" };
+	private static final Color[] TEXT_COLORS = { Color.BLACK, Color.WHITE, Color.BLACK, Color.BLACK, Color.BLACK,
+			Color.WHITE, Color.WHITE };
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		num = obteenrNumero();
+		num = obtenerNumero();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -47,48 +52,64 @@ public class numerosui extends JFrame {
 		});
 	}
 
-	private static int obteenrNumero() {
-		return random.nextInt(100 - 1 + 1) + 1;
+	private static int obtenerNumero() {
+		return random.nextInt(100) + 1;
 	}
 
-	private void mensage(Color color, String mgs,Color cl) {
-		mensageDentro.setText(mgs);
-		mensageDentro.setForeground(cl);
-		panelDentro.setBackground(color);
+	private void mostrarMensaje(int indice) {
+		mensageDentro.setText(MESSAGES[indice]);
+		mensageDentro.setForeground(TEXT_COLORS[indice]);
+		panelDentro.setBackground(COLORS[indice]);
 	}
 
-	private void cercania(int numero) {
+
+	private void verificarCercania(int numero) {
 		int distancia = Math.abs(numero - num);
+		// hace lo mismo que un if-else if -else
+		// o un switch
+		int indiceMensaje = (distancia == 0) ? 0
+							: (distancia < 3) ? 1
+							: (distancia < 5) ? 2 
+							: (distancia < 10) ? 3
+							: (distancia < 15) ? 4 
+							: (distancia < 20) ? 5 : 6;
+
+		mostrarMensaje(indiceMensaje);
+
 		if (distancia == 0) {
-			
-			mensage(new Color(30, 249, 22), "ganaste",Color.BLACK);
-			
-		} else if (distancia < 3) {
-			
-			mensage(new Color(245, 19, 19), "muy caliente",Color.WHITE);
-			
-		} else if (distancia < 5) {
-			
-			mensage(new Color(238, 80, 80), "caliente",Color.BLACK);
-			
-		} else if (distancia < 10) {
-			
-			mensage(new Color(211, 118, 240), "tibio",Color.BLACK);
-			
-		} else if (distancia < 15) {
-			
-			mensage(new Color(156, 143, 239), "frio",Color.BLACK);
-			
-		} else if (distancia < 20) {
-			
-			mensage(new Color(89, 65, 243), "muy frio",Color.WHITE);
-
-		} else {
-
-			mensage(new Color(28, 0, 208), "muy muy frio",Color.WHITE);
+			ganaste = true;
 		}
-
 	}
+	
+	// Función para validar la entrada
+    private void validarEntrada(KeyEvent e) {
+        char c = e.getKeyChar();
+        String textoActual = textField.getText();
+
+        // 1. Solo permitir dígitos
+        if (!Character.isDigit(c)) {
+            e.consume();
+            return;
+        }
+
+        // 2. Limitar a 3 dígitos
+        if (textoActual.length() >= 3) {
+            e.consume();
+            return;
+        }
+
+        // 3. Validar que no supere 100
+        String nuevoTexto = textoActual + c; // Simulamos el texto resultante
+        try {
+            int valor = Integer.parseInt(nuevoTexto);
+            if (valor > 100) {
+                e.consume();
+            }
+        } catch (NumberFormatException ex) {
+            // Esto no debería ocurrir porque ya validamos que son dígitos
+            e.consume();
+        }
+    }
 
 	/**
 	 * Create the frame.
@@ -103,8 +124,7 @@ public class numerosui extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		JPanel tituloPanel = new JPanel();
-		tituloPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 0, 0), new Color(0, 0, 0),
-				new Color(0, 0, 0), new Color(0, 0, 0)));
+		tituloPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK));
 		tituloPanel.setBackground(new Color(86, 252, 82));
 		contentPane.add(tituloPanel, BorderLayout.NORTH);
 		tituloPanel.setLayout(new BorderLayout(0, 0));
@@ -122,21 +142,18 @@ public class numerosui extends JFrame {
 		datos.setLayout(new BorderLayout(0, 0));
 
 		JPanel texto = new JPanel();
-		texto.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0),
-				new Color(0, 0, 0)));
+		texto.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK));
 		datos.add(texto, BorderLayout.CENTER);
 		texto.setLayout(new BorderLayout(0, 0));
 
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
-            @Override
+			@Override
             public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c) || textField.getText().length() >= 3) {
-                    e.consume(); // Ignora el evento si no es un dígito o si ya hay 3 caracteres
-                }
+                validarEntrada(e);
             }
-        });
+		});
+		
 		texto.add(textField, BorderLayout.CENTER);
 		textField.setColumns(10);
 
@@ -148,7 +165,7 @@ public class numerosui extends JFrame {
 		datos.add(mensaje, BorderLayout.NORTH);
 		mensaje.setLayout(new BorderLayout(0, 0));
 
-		JLabel informacion = new JLabel("Seleciona un numero de 1 a 100");
+		JLabel informacion = new JLabel("Selecciona un numero de 1 a 100");
 		informacion.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		mensaje.add(informacion, BorderLayout.CENTER);
 
@@ -160,25 +177,42 @@ public class numerosui extends JFrame {
 		mensajeFinal.add(reinicio, BorderLayout.SOUTH);
 
 		JButton reinicioBoton = new JButton("Reiniciar");
+		/*
+		 * es un lambda que significa
+		 * 
+		 * verifica.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { cuepor de la funcion } });
+		 * 
+		 */
+		reinicioBoton.addActionListener(e -> {
+			num = obtenerNumero();
+			mensageDentro.setText("Inicia");
+			panelDentro.setBackground(Color.WHITE);
+			mensageDentro.setForeground(Color.BLACK);
+			ganaste = false;
+			textField.setText("");
+		});
 		reinicio.add(reinicioBoton);
 
 		panelDentro = new JPanel();
-		panelDentro.setLayout(new GridBagLayout()); // Usamos GridBagLayout para centrar
+		panelDentro.setLayout(new GridBagLayout());
 		mensajeFinal.add(panelDentro, BorderLayout.CENTER);
 
 		mensageDentro = new JLabel("Inicia");
-		mensageDentro.setHorizontalAlignment(SwingConstants.CENTER); // Centra el texto dentro del JLabel
-		panelDentro.add(mensageDentro); // Se añade al centro gracias a GridBagLayout
+		mensageDentro.setHorizontalAlignment(SwingConstants.CENTER);
+		panelDentro.add(mensageDentro);
 
 		JButton verifica = new JButton("Verifica el numero");
-		verifica.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int numero = Integer.parseInt(textField.getText());
-				cercania(numero);
+		verifica.addActionListener(e -> {
+			String textString=textField.getText();
+			if (!ganaste && textString.length()>0) {
+				int numero = Integer.parseInt(textString);
+				verificarCercania(numero);
 			}
 		});
 		boton.add(verifica, BorderLayout.CENTER);
-
 	}
+	
+	
 
 }
