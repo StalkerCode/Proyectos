@@ -50,6 +50,9 @@ let operaciones = () => {
             break;
         }
         case '/': {
+            if (num2 == '0') {
+                return 'Error';
+            }
             resultado = parseInt(num1) / parseInt(num2);
             break;
         }
@@ -70,5 +73,14 @@ let limpiar = () => {
     }
 };
 
-let calcular= () => {
+let calcular = () => {
+    num2 = document.getElementById('pantalla').textContent;
+    if (num2 == "Error") {
+        document.getElementById('pantalla').textContent = "0";
+        reinicio();
+        return;
+    }
+    document.getElementById('pantalla').textContent = operaciones();
+    hayOperacion = false;
 }
+
