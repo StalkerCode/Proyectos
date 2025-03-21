@@ -1,0 +1,10 @@
+Enunciado: Crea un programa para administrar una lista de tareas pendientes.
+
+Descripción:
+    Cada tarea debe tener un ID, una descripción y un estado (pendiente o completada).
+    
+    El programa debe permitir al usuario agregar tareas, marcar tareas como completadas, editar la descripción y eliminar tareas.
+    
+    Implementa un menú para navegar entre las opciones.
+
+    Almacena las tareas en un archivo para persistencia entre sesiones.
