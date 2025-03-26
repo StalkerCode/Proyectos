@@ -4,6 +4,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+int idGlobal=0;
+
+int crearId(){
+    return ++idGlobal;
+}
+
+int idMayor(Nodo *cabeza)
+{
+    Nodo *actual = cabeza;
+    int mayor = 0;
+    while (actual != NULL)
+    {
+        if (actual->tarea.id > mayor)
+        {
+            mayor = actual->tarea.id;
+        }
+        actual = actual->siguiente;
+    }
+    return mayor;
+}
+
 void limpiarBuffer()
 {
     int c;
@@ -51,34 +72,19 @@ void crearDescripcion(char *descripcion)
     }
 }
 
-int crearEntero()
+Tarea crearTarea()
 {
-
-    int entero;
-    // Verifica si la entrada es un número entero válido
-    while (1)
-    {
-        if (scanf("%d", &entero) != 1)
-        {
-            fprintf(stderr, "Error: Ingrese un numero entero valido\n");
-            limpiarBuffer();
-            printf(":");
-            continue;
-        }
-        if (entero <= 0)
-        {
-            fprintf(stderr, "Error: El ID debe ser un número positivo\n");
-            continue;
-        }
-        break;
-    }
-    return entero;
+    Tarea t1;
+    t1.id = crearId();
+    printf("Ingrese la descripcion de la tarea");
+    crearDescripcion(t1.descripcion);
+    t1.completada = 0;
+    return t1;
 }
 
-
-
-Nodo *crearNodo(Tarea *tarea)
+Nodo *crearNodo()
 {
+    Tarea t1 = crearTarea();
     Nodo *nuevaTarea = NULL;
     nuevaTarea = malloc(sizeof(Nodo));
     if (nuevaTarea == NULL)
@@ -86,15 +92,15 @@ Nodo *crearNodo(Tarea *tarea)
         fprintf(stderr, "Error: No se pudo asignar memoria\n");
         exit(1);
     }
-    nuevaTarea->tarea = *tarea;
+    nuevaTarea->tarea = t1;
     nuevaTarea->siguiente = NULL;
     return nuevaTarea;
 }
 
-void agregarTarea(Nodo **cabeza, Tarea *tarea)
+void agregarTarea(Nodo **cabeza)
 {
     Nodo *nodo = NULL;
-    nodo = crearNodo(tarea);
+    nodo = crearNodo();
     if (*cabeza == NULL)
     {
         *cabeza = nodo;
@@ -168,4 +174,17 @@ void eliminarTarea(Nodo **cabeza, int id)
         actual = actual->siguiente;
     }
     printf("No se encontro la tarea con id %d\n", id);
+}
+
+void vaciarLista(Nodo **cabeza)
+{
+    Nodo *actual = *cabeza;
+    Nodo *siguiente;
+    while (actual != NULL)
+    {
+        siguiente = actual->siguiente;
+        free(actual);
+        actual = siguiente;
+    }
+    *cabeza = NULL;
 }

@@ -2,28 +2,29 @@
 #ifndef TAREAS_H
 #define TAREAS_H
 
-// Definición completa de las estructuras
-typedef struct Tarea
-{
+// Definición de las estructuras
+typedef struct Tarea {
     int id;
     char descripcion[100];
     int completada; // 0 = No, 1 = Sí
 } Tarea;
 
-typedef struct Nodo
-{
+typedef struct Nodo {
     Tarea tarea;
     struct Nodo *siguiente;
 } Nodo;
 
-// Declaraciones de funciones
+// Declaración de funciones
+int crearId();
+int idMayor(Nodo *cabeza);
 void limpiarBuffer();
-void crearDescripcion(char *);
-int crearEntero();
-Nodo *crearNodo(Tarea *);
-void agregarTarea(Nodo **, Tarea *);
-void listarTareas(Nodo *);
-void completarTarea(Nodo *, int);
-void eliminarTarea(Nodo **, int);
+void crearDescripcion(char *descripcion);
+Tarea crearTarea();
+Nodo *crearNodo();
+void agregarTarea(Nodo **cabeza);
+void listarTareas(Nodo *cabeza);
+void completarTarea(Nodo *cabeza, int id);
+void eliminarTarea(Nodo **cabeza, int id);
+void vaciarLista(Nodo **cabeza);
 
 #endif
