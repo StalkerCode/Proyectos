@@ -8,27 +8,34 @@ import model.Nota;
 
 public class GestorNotas {
 	private List<Nota> notas = new ArrayList<Nota>();
-	private int id=0;
-	
-	
+	private int id = 0;
+
 	public void agregarNota(String titulo, String contenido) {
-		Nota n= new Nota(++id, titulo, contenido) ;
+		Nota n = new Nota(++id, titulo, contenido);
 		notas.add(n);
 	}
 
-	public void eliminarNota(int id){
+	public void eliminarNota(int id) {
 		Iterator<Nota> iterator = notas.iterator();
-        while (iterator.hasNext()) {
-        	Nota nota = iterator.next();
-            if (nota.getId() == id) {
-                iterator.remove();
-                break;
-            }
-        }
+		while (iterator.hasNext()) {
+			Nota nota = iterator.next();
+			if (nota.getId() == id) {
+				iterator.remove();
+				break;
+			}
+		}
 	}
 
 	public void editarNota(int id, String nuevoContenido) {
-		
+		for (Nota nota : notas) {
+			if (nota.getId() == id) {
+				nota.setContenido(nuevoContenido);
+				System.out.println("se edito perfectamente");
+				return;
+			}
+		}
+		System.out.println("no se encontro el id=" + id);
+
 	}
 
 	public void listarNotas() {
@@ -36,17 +43,13 @@ public class GestorNotas {
 
 	}
 
-	public void buscarNota(String titulo){
-		
+	public Nota buscarNota(String titulo) {
+		for (Nota nota : notas) {
+			if (nota.getTitulo().equalsIgnoreCase(titulo)) {
+				return nota;
+			}
+		}
+		return null;
 	}
-	public static void main(String[] args) {
-		GestorNotas notas = new GestorNotas();
-		notas.agregarNota("sapo", "leer el sapo");
-		notas.agregarNota("leo", "leer el leon");
-		notas.agregarNota("tuyo", "leer la rata");
-		notas.listarNotas();
-		System.out.println();
-		notas.eliminarNota(2);
-		notas.listarNotas();
-	}
+
 }
