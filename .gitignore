@@ -26,3 +26,7 @@ target/
 # archivos .vscode
 .vscode/
 
+# archivos julia
+Manifest.toml
+Project.toml
+
