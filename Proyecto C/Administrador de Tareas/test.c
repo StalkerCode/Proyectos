@@ -16,51 +16,69 @@ void guardarTareas(Nodo *cabeza)
     FILE *archivo = fopen("tareas.txt", "w");
     if (archivo == NULL)
     {
-        fprintf(stderr, "Error al abrir el archivo %s\n", archivo);
+        fprintf(stderr, "Error al abrir el archivo para escribir\n");
         return;
     }
 
     Nodo *actual = cabeza;
     while (actual != NULL)
     {
-        fprintf(archivo, "%s %d\n", actual->tarea.descripcion, actual->tarea.completada);
+        fprintf(archivo, "%s\n%d\n", actual->tarea.descripcion, actual->tarea.completada);
         actual = actual->siguiente;
     }
     fclose(archivo);
 }
 
 // funcion para cargar las tares
-//! arreglar las lista la esta regresando al reves las tareas
 Nodo *cargarTareas()
 {
     Nodo *cabeza = NULL;
+    Nodo *actual = NULL;
     FILE *archivo = fopen("tareas.txt", "r");
     if (archivo == NULL)
     {
         fprintf(stderr, "Error al abrir el archivo para leer\n");
         return NULL;
     }
-
+    reiniciarId();
     char descripcion[100];
     int completada;
-    while (fscanf(archivo, "%s %d", descripcion, &completada) != EOF)
+    while (fgets(descripcion, sizeof(descripcion), archivo))
     {
-        Nodo *nuevoNodo = malloc(sizeof(Nodo));
-        if (nuevoNodo == NULL)
+        // Eliminar el salto de línea al final de la descripción
+        descripcion[strcspn(descripcion, "\n")] = 0;
+
+        if (fscanf(archivo, "%d", &completada) == 1)
         {
-            fprintf(stderr, "Error: No se pudo asignar memoria\n");
-            fclose(archivo);
-            exit(1);
+            Nodo *nuevoNodo = malloc(sizeof(Nodo));
+            if (nuevoNodo == NULL)
+            {
+                fprintf(stderr, "Error: No se pudo asignar memoria\n");
+                fclose(archivo);
+                exit(1);
+            }
+            Tarea nuevaTarea;
+            nuevaTarea.id = crearId();
+            strcpy(nuevaTarea.descripcion, descripcion);
+            nuevaTarea.completada = completada;
+
+            nuevoNodo->tarea = nuevaTarea;
+            nuevoNodo->siguiente = NULL;
+
+            if (cabeza == NULL)
+            {
+                cabeza = nuevoNodo;
+                actual = nuevoNodo;
+            }
+            else
+            {
+                actual->siguiente = nuevoNodo;
+                actual = nuevoNodo;
+            }
+
+            // Leer el salto de línea restante después del estado
+            fgetc(archivo);
         }
-
-        Tarea nuevaTarea;
-        nuevaTarea.id = crearId();
-        strcpy(nuevaTarea.descripcion, descripcion);
-        nuevaTarea.completada = completada;
-
-        nuevoNodo->tarea = nuevaTarea;
-        nuevoNodo->siguiente = cabeza;
-        cabeza = nuevoNodo;
     }
     fclose(archivo);
     return cabeza;
@@ -69,14 +87,18 @@ Nodo *cargarTareas()
 int main()
 {
     Nodo *listaCabeza = NULL;
-    /*
+    Nodo *listaCabeza2 = NULL;
+
     agregarTarea(&listaCabeza);
     agregarTarea(&listaCabeza);
     agregarTarea(&listaCabeza);
+
+    printf("\nLista a guardar\n");
     listarTareas(listaCabeza);
     guardarTareas(listaCabeza);
-    */
-    listaCabeza = cargarTareas();
-    listarTareas(listaCabeza);
+
+    printf("\nLista cargada\n");
+    listaCabeza2 = cargarTareas();
+    listarTareas(listaCabeza2);
     return 0;
 }
