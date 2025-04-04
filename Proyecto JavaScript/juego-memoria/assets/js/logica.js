@@ -20,11 +20,24 @@ function generarArrayAleatorio() {
 }
 const arrayAleatorio = generarArrayAleatorio();
 
-function cartas() {
 
+
+let primeraCarta = null;
+let segundaCarta = null;
+let bloqueoTablero = false;
+
+function cartas() {
+    // Generar el HTML para las tarjetas
     let tarjetas = "";
     for (const numero of arrayAleatorio) {
-        tarjetas += `<div class="carta" data-id="${numero}"></div>`;
+        tarjetas += `<div class="carta" data-id="${numero}" onclick="voltear(this)"></div>`;
     }
     document.getElementById("tablero").innerHTML = tarjetas;
+
+}
+// carta.classList.add('flipped'); agrega clase CSS
+//carta.classList.remove('flipped'); elimina clase CSS
+
+function voltear(carta) {
+    carta.classList.add('mostar');
 }
