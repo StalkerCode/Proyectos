@@ -18,13 +18,12 @@ function generarArrayAleatorio() {
 
     return numeros;
 }
-const arrayAleatorio = generarArrayAleatorio();
-
-
+let arrayAleatorio = generarArrayAleatorio();
 
 let primeraCarta = null;
 let segundaCarta = null;
-let bloqueoTablero = false;
+let paresDescubiertas = 0;
+let parejasDescubiertas = [];
 
 function cartas() {
     // Generar el HTML para las tarjetas
@@ -35,9 +34,64 @@ function cartas() {
     document.getElementById("tablero").innerHTML = tarjetas;
 
 }
-// carta.classList.add('flipped'); agrega clase CSS
-//carta.classList.remove('flipped'); elimina clase CSS
+
 
 function voltear(carta) {
-    carta.classList.add('mostar');
+    // Verificar si la carta ya ha sido descubierta
+    if (parejasDescubiertas.includes(carta.dataset.id)) {
+        return;
+    }
+
+    // Verificar si la carta es la misma que la primera carta seleccionada
+    if (primeraCarta != null && primeraCarta === carta) {
+        return;
+    }
+
+    if (primeraCarta == null) {
+        primeraCarta = carta;
+        primeraCarta.classList.add('mostar');
+    } else if (segundaCarta == null) {
+        segundaCarta = carta;
+        segundaCarta.classList.add('mostar');
+        verificarCartas();
+    }
+}
+
+function verificarCartas() {
+    if (primeraCarta.dataset.id === segundaCarta.dataset.id) {
+        // Agregar el ID a la lista de parejas descubiertas
+        parejasDescubiertas.push(primeraCarta.dataset.id);
+        paresDescubiertas += 1;
+        primeraCarta = null;
+        segundaCarta = null;
+        reinicioJuego();
+    } else {
+        setTimeout(() => {
+            primeraCarta.classList.remove('mostar');
+            segundaCarta.classList.remove('mostar');
+            primeraCarta = null;
+            segundaCarta = null;
+        }, 500);
+
+
+    }
+}
+
+function reinicioJuego() {
+    if (paresDescubiertas === 8) {
+        // Mostrar un mensaje de reinicio (opcional)
+        alert("¡Felicidades! Has completado el juego. Reiniciando...");
+
+        // Reiniciar variables
+        primeraCarta = null;
+        segundaCarta = null;
+        paresDescubiertas = 0;
+        parejasDescubiertas = []; // Reiniciar la lista de parejas descubiertas
+
+        // Volver a generar el array aleatorio
+        arrayAleatorio = generarArrayAleatorio();
+
+        // Actualizar el HTML del tablero
+        cartas();
+    }
 }
