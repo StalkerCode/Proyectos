@@ -11,6 +11,14 @@ public class GestorNotas {
 	private int id = 0;
 
 	public void agregarNota(String titulo, String contenido) {
+
+		// Verificar si ya existe una nota con el mismo título
+		for (Nota nota : notas) {
+			if (nota.getTitulo().equalsIgnoreCase(titulo)) {
+				System.out.println("Ya existe una nota con el título: " + titulo);
+				return; // Salir del método sin agregar la nota
+			}
+		}
 		Nota n = new Nota(++id, titulo, contenido);
 		notas.add(n);
 	}

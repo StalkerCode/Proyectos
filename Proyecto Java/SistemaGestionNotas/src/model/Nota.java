@@ -46,7 +46,7 @@ public class Nota {
 	public LocalDateTime getFechaCreacion() {
 		return fechaCreacion;
 	}
-	private String formatoFecha() {
+	public String formatoFecha() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return fechaCreacion.format(formatter);
     }

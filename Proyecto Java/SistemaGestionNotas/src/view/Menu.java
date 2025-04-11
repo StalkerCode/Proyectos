@@ -20,6 +20,7 @@ public class Menu extends JFrame {
     private JPanel contentPane;
     private GestorNotas gestorNotas = new GestorNotas();
     private AddNote addNoteFrame; // Referencia a la ventana AddNote
+    private BuscarNota buscarNota;
 
     public Menu() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,6 +48,11 @@ public class Menu extends JFrame {
         contentPane.add(btnAgregarNota);
 
         JButton btnBuscarNota = new JButton("Buscar Nota");
+        btnBuscarNota.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mostraBuscarNota();
+            }
+        });
         contentPane.add(btnBuscarNota);
 
         JButton btnEditarNota = new JButton("Editar Nota");
@@ -65,6 +71,14 @@ public class Menu extends JFrame {
             addNoteFrame = new AddNote(this, gestorNotas);
         }
         addNoteFrame.setVisible(true);
+        setVisible(false);
+    }
+    
+    private void mostraBuscarNota() {
+        if (buscarNota == null) {
+        	buscarNota = new BuscarNota(this, gestorNotas);
+        }
+        buscarNota.setVisible(true);
         setVisible(false);
     }
 

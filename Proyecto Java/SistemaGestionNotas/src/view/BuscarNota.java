@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.GestorNotas;
+import model.Nota;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JTextField;
@@ -15,6 +19,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BuscarNota extends JFrame {
 
@@ -23,27 +29,15 @@ public class BuscarNota extends JFrame {
 	private JTextField textTirulo;
 	private JPanel panelCuerpo;
 	private JLabel id, titulo, contenido, fecha;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BuscarNota frame = new BuscarNota();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Menu menuFrame;
+	private GestorNotas gestorNotas;
 
 	/**
 	 * Create the frame.
 	 */
-	public BuscarNota() {
+	public BuscarNota(Menu menuFrame, GestorNotas gestorNotas) {
+		this.menuFrame = menuFrame;
+		this.gestorNotas = gestorNotas;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 350, 450);
 		contentPane = new JPanel();
@@ -71,11 +65,48 @@ public class BuscarNota extends JFrame {
 		textTirulo.setColumns(10);
 
 		JButton botonBuscar = new JButton("Buscar");
+		botonBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Nota n1 = gestorNotas.buscarNota(textTirulo.getText());
+				if (n1 != null) {
+					id.setText(String.valueOf(n1.getId()));
+					titulo.setText(n1.getTitulo());
+					contenido.setText(n1.getContenido());
+					fecha.setText(n1.formatoFecha());
+				} else {
+					id.setText("");
+					titulo.setText("");
+					contenido.setText("Titulo no Encontrado");
+					fecha.setText("");
+				}
+			}
+		});
 		botonBuscar.setPreferredSize(new Dimension(0, 40));
 		panelCabecera.add(botonBuscar, BorderLayout.SOUTH);
 
 		panelCuerpo = new JPanel();
+		crearpanel();
 		contentPane.add(panelCuerpo, BorderLayout.CENTER);
+
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.SOUTH);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		JButton buttonRegresar = new JButton("Regresar");
+		buttonRegresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textTirulo.setText("");
+				id.setText("");
+				titulo.setText("");
+				contenido.setText("");
+				fecha.setText("");
+				menuFrame.setVisible(true);
+				dispose();
+			}
+		});
+		buttonRegresar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel.add(buttonRegresar);
 
 	}
 
@@ -136,9 +167,8 @@ public class BuscarNota extends JFrame {
 		panelFecha.add(fecha, BorderLayout.CENTER);
 	}
 	/*
-	 * falta agregar la funcion agregar datos para toma los datos e inprimirlo
-	 * falta el metodo no encontrado
-	 * falta funcionalidades
+	 * falta agregar la funcion agregar datos para toma los datos e inprimirlo falta
+	 * el metodo no encontrado falta funcionalidades
 	 */
 
 }
