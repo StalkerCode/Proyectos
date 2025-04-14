@@ -1,87 +1,40 @@
 // lista.c
 #include "tareas.h"
+#include "archivos.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// funcion para guardar el archivo en texto
-void guardarTareas(Nodo *cabeza)
+void menu()
 {
-    if (cabeza == NULL)
-    {
-        fprintf(stderr, "Error: No hay tareas para guardar\n");
-        return;
-    }
-
-    FILE *archivo = fopen("tareas.txt", "w");
-    if (archivo == NULL)
-    {
-        fprintf(stderr, "Error al abrir el archivo para escribir\n");
-        return;
-    }
-
-    Nodo *actual = cabeza;
-    while (actual != NULL)
-    {
-        fprintf(archivo, "%s\n%d\n", actual->tarea.descripcion, actual->tarea.completada);
-        actual = actual->siguiente;
-    }
-    fclose(archivo);
+    printf("1. Agregar tarea\n");
+    printf("2. Listar tareas\n");
+    printf("3. Completar tarea\n");
+    printf("4. Eliminar tarea\n");
+    printf("5. Vaciar lista\n");
+    printf("6. Guardar tareas\n");
+    printf("7. Cargar tareas\n");
 }
 
-// funcion para cargar las tares
-Nodo *cargarTareas()
+int leerEntero()
 {
-    Nodo *cabeza = NULL;
-    Nodo *actual = NULL;
-    FILE *archivo = fopen("tareas.txt", "r");
-    if (archivo == NULL)
+    int numero;
+    while (1)
     {
-        fprintf(stderr, "Error al abrir el archivo para leer\n");
-        return NULL;
-    }
-    reiniciarId();
-    char descripcion[100];
-    int completada;
-    while (fgets(descripcion, sizeof(descripcion), archivo))
-    {
-        // Eliminar el salto de línea al final de la descripción
-        descripcion[strcspn(descripcion, "\n")] = 0;
+        printf("Ingrese un numero entero: ");
 
-        if (fscanf(archivo, "%d", &completada) == 1)
+        // Intentar leer un número entero
+        if (scanf("%d", &numero) != 1)
         {
-            Nodo *nuevoNodo = malloc(sizeof(Nodo));
-            if (nuevoNodo == NULL)
-            {
-                fprintf(stderr, "Error: No se pudo asignar memoria\n");
-                fclose(archivo);
-                exit(1);
-            }
-            Tarea nuevaTarea;
-            nuevaTarea.id = crearId();
-            strcpy(nuevaTarea.descripcion, descripcion);
-            nuevaTarea.completada = completada;
-
-            nuevoNodo->tarea = nuevaTarea;
-            nuevoNodo->siguiente = NULL;
-
-            if (cabeza == NULL)
-            {
-                cabeza = nuevoNodo;
-                actual = nuevoNodo;
-            }
-            else
-            {
-                actual->siguiente = nuevoNodo;
-                actual = nuevoNodo;
-            }
-
-            // Leer el salto de línea restante después del estado
-            fgetc(archivo);
+            // Si scanf falla, imprimir un mensaje de error
+            fprintf(stderr, "Error: La entrada no es un numero entero valido\n");
+            // Limpiar el búfer de entrada
+            while (getchar() != '\n');
+            continue;
         }
+        break;
     }
-    fclose(archivo);
-    return cabeza;
+    return numero;
 }
 
 int main()
@@ -89,16 +42,12 @@ int main()
     Nodo *listaCabeza = NULL;
     Nodo *listaCabeza2 = NULL;
 
-    agregarTarea(&listaCabeza);
-    agregarTarea(&listaCabeza);
-    agregarTarea(&listaCabeza);
+    for (int i = 0; i < 10; i++)
+    {
+        int a = leerEntero();
+        printf("el numero es %d\n", a);
+    }
+    
 
-    printf("\nLista a guardar\n");
-    listarTareas(listaCabeza);
-    guardarTareas(listaCabeza);
-
-    printf("\nLista cargada\n");
-    listaCabeza2 = cargarTareas();
-    listarTareas(listaCabeza2);
     return 0;
 }
