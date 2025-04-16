@@ -23,15 +23,16 @@ public class GestorNotas {
 		notas.add(n);
 	}
 
-	public void eliminarNota(int id) {
+	public String eliminarNota(int id) {
 		Iterator<Nota> iterator = notas.iterator();
 		while (iterator.hasNext()) {
 			Nota nota = iterator.next();
 			if (nota.getId() == id) {
 				iterator.remove();
-				break;
+				return "se elimino la nota id="+id;
 			}
 		}
+		return "no se pudo elimino la nota id="+id;
 	}
 
 	public String editarNota(int id, String nuevoContenido) {

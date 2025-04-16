@@ -23,6 +23,7 @@ public class Menu extends JFrame {
     private BuscarNota buscarNota;
     private ListarNota listarNota;
     private EditarNota editarNota;
+    private EliminarNota eliminarNota;
 
     public Menu() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,6 +67,11 @@ public class Menu extends JFrame {
         contentPane.add(btnEditarNota);
 
         JButton btnEliminarNota = new JButton("Eliminar Nota");
+        btnEliminarNota.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mostraEliminarNota();
+            }
+        });
         contentPane.add(btnEliminarNota);
 
         JButton btnListarNotas = new JButton("Listar Notas");
@@ -108,6 +114,13 @@ public class Menu extends JFrame {
     	editarNota.setVisible(true);
         setVisible(false);
 	}
+    private void mostraEliminarNota() {
+    	if (eliminarNota == null) {
+    		eliminarNota = new EliminarNota(this, gestorNotas);
+        }
+    	eliminarNota.setVisible(true);
+        setVisible(false);
+    }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

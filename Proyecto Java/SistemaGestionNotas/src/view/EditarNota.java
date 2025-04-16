@@ -1,13 +1,9 @@
 package view;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import controller.GestorNotas;
-
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
