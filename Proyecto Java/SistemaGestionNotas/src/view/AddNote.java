@@ -5,14 +5,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import controller.GestorNotas;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.SwingConstants;
 import javax.swing.JEditorPane;
 
@@ -46,12 +47,12 @@ public class AddNote extends JFrame {
 		JLabel labeltitulo = new JLabel("Titulo:");
 		labeltitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		labeltitulo.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		labeltitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+		labeltitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		panelTitulo.add(labeltitulo);
 
 		textTitulo = new JTextField();
 		textTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		textTitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+		textTitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		panelTitulo.add(textTitulo);
 		textTitulo.setColumns(10);
 
@@ -63,11 +64,11 @@ public class AddNote extends JFrame {
 		JLabel labelContenido = new JLabel("Contenido:");
 		labelContenido.setHorizontalAlignment(SwingConstants.CENTER);
 		labelContenido.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		labelContenido.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+		labelContenido.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		panelContenido.add(labelContenido);
 
 		textContenido = new JEditorPane();
-		textContenido.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+		textContenido.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		panelContenido.add(textContenido);
 
 		JPanel panelBotones = new JPanel();
@@ -76,33 +77,35 @@ public class AddNote extends JFrame {
 
 		JButton regresar = new JButton("Regresar");
 		regresar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		regresar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textTitulo.setText("");
-				textContenido.setText("");
-				// Regresar al menú principal
-				menuFrame.setVisible(true);
-				dispose();
-			}
+		regresar.addActionListener(e -> {
+			textTitulo.setText("");
+			textContenido.setText("");
+			// Regresar al menú principal
+			menuFrame.setVisible(true);
+			dispose();
+
 		});
 		panelBotones.add(regresar);
 
 		JButton guardar = new JButton("Guardar");
 		guardar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		guardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Guardar la nota y regresar al menú principal
-				String titulo = textTitulo.getText();
-				String contenido = textContenido.getText();
-				if (titulo.length() > 1 && contenido.length() > 1) {
-					gestorNotas.agregarNota(titulo, contenido);
-				}
-				textTitulo.setText("");
-				textContenido.setText("");
-				menuFrame.setVisible(true);
-				dispose();
-			}
+		guardar.addActionListener(e -> {
+		    // Guardar la nota y regresar al menú principal
+		    String titulo = textTitulo.getText();
+		    String contenido = textContenido.getText();
+		    if (titulo.length() > 1 && contenido.length() > 1) {
+		        gestorNotas.agregarNota(titulo, contenido);
+		        textTitulo.setText("");
+		        textContenido.setText("");
+		        menuFrame.setVisible(true);
+		        dispose();
+		    } else {
+		        // Mostrar un mensaje de error si la validación falla
+		        JOptionPane.showMessageDialog(this, "El título y el contenido deben tener más de un carácter.", "Error", JOptionPane.ERROR_MESSAGE);
+		    }
 		});
 		panelBotones.add(guardar);
+		setMinimumSize(new Dimension(450, 430));
 	}
 }
+

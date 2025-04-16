@@ -16,8 +16,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class BuscarNota extends JFrame {
 
@@ -29,94 +27,12 @@ public class BuscarNota extends JFrame {
 	private Menu menuFrame;
 	private GestorNotas gestorNotas;
 
-	/**
-	 * Create the frame.
-	 */
-	public BuscarNota(Menu menuFrame, GestorNotas gestorNotas) {
-		this.menuFrame = menuFrame;
-		this.gestorNotas = gestorNotas;
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 350, 450);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-
-		JPanel panelCabecera = new JPanel();
-		panelCabecera.setBackground(new Color(128, 255, 255));
-		contentPane.add(panelCabecera, BorderLayout.NORTH);
-		panelCabecera.setLayout(new BorderLayout(0, 0));
-
-		JPanel titulos = new JPanel();
-		panelCabecera.add(titulos, BorderLayout.NORTH);
-		titulos.setLayout(new BorderLayout(0, 0));
-
-		JLabel labelTitulo = new JLabel("Titulo:");
-		labelTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		labelTitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		labelTitulo.setBackground(new Color(167, 245, 227));
-		labelTitulo.setOpaque(true);
-		titulos.add(labelTitulo, BorderLayout.WEST);
-
-		textTirulo = new JTextField();
-		textTirulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		textTirulo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		titulos.add(textTirulo, BorderLayout.CENTER);
-		textTirulo.setColumns(10);
-
-		JButton botonBuscar = new JButton("Buscar");
-		botonBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Nota n1 = gestorNotas.buscarNota(textTirulo.getText());
-				if (n1 != null) {
-					id.setText(String.valueOf(n1.getId()));
-					titulo.setText(n1.getTitulo());
-					contenido.setText(n1.getContenido());
-					fecha.setText(n1.formatoFecha());
-				} else {
-					id.setText("");
-					titulo.setText("");
-					contenido.setText("Titulo no Encontrado");
-					fecha.setText("");
-				}
-			}
-		});
-		botonBuscar.setPreferredSize(new Dimension(0, 40));
-		panelCabecera.add(botonBuscar, BorderLayout.SOUTH);
-
-		panelCuerpo = new JPanel();
-		crearpanel();
-		contentPane.add(panelCuerpo, BorderLayout.CENTER);
-
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new BorderLayout(0, 0));
-
-		JButton buttonRegresar = new JButton("Regresar");
-		buttonRegresar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textTirulo.setText("");
-				id.setText("");
-				titulo.setText("");
-				contenido.setText("");
-				fecha.setText("");
-				menuFrame.setVisible(true);
-				dispose();
-			}
-		});
-		buttonRegresar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panel.add(buttonRegresar);
-
-	}
-
 	private void crearpanel() {
 		panelCuerpo.setBackground(new Color(128, 255, 128));
 		GridBagLayout gbl_panelCuerpo = new GridBagLayout();
 		gbl_panelCuerpo.columnWidths = new int[] { 326, 0 };
 		gbl_panelCuerpo.rowHeights = new int[] { 50, 50, 182, 50 };
-		gbl_panelCuerpo.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+		gbl_panelCuerpo.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gbl_panelCuerpo.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
 		panelCuerpo.setLayout(gbl_panelCuerpo);
 
@@ -170,5 +86,85 @@ public class BuscarNota extends JFrame {
 		fecha = new JLabel("");
 		fecha.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		panelFecha.add(fecha, BorderLayout.CENTER);
+	}
+
+	public BuscarNota(Menu menuFrame, GestorNotas gestorNotas) {
+		this.menuFrame = menuFrame;
+		this.gestorNotas = gestorNotas;
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 350, 450);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+
+		JPanel panelCabecera = new JPanel();
+		panelCabecera.setBackground(new Color(128, 255, 255));
+		contentPane.add(panelCabecera, BorderLayout.NORTH);
+		panelCabecera.setLayout(new BorderLayout(0, 0));
+
+		JPanel titulos = new JPanel();
+		panelCabecera.add(titulos, BorderLayout.NORTH);
+		titulos.setLayout(new BorderLayout(0, 0));
+
+		JLabel labelTitulo = new JLabel("Titulo:");
+		labelTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		labelTitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		labelTitulo.setBackground(new Color(167, 245, 227));
+		labelTitulo.setOpaque(true);
+		titulos.add(labelTitulo, BorderLayout.WEST);
+
+		textTirulo = new JTextField();
+		textTirulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textTirulo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		titulos.add(textTirulo, BorderLayout.CENTER);
+		textTirulo.setColumns(10);
+
+		JButton botonBuscar = new JButton("Buscar");
+		botonBuscar.addActionListener(e -> {
+		    String tituloBuscado = textTirulo.getText();
+		    if (!tituloBuscado.isEmpty()) {
+		        Nota n1 = gestorNotas.buscarNota(tituloBuscado);
+		        if (n1 != null) {
+		            id.setText(String.valueOf(n1.getId()));
+		            titulo.setText(n1.getTitulo());
+		            contenido.setText(n1.getContenido());
+		            fecha.setText(n1.formatoFecha());
+		        } else {
+		            id.setText("");
+		            titulo.setText("");
+		            contenido.setText("Título no encontrado");
+		            fecha.setText("");
+		        }
+		    } else {
+		        contenido.setText("Ingrese un título para buscar");
+		    }
+		});
+		botonBuscar.setPreferredSize(new Dimension(0, 40));
+		panelCabecera.add(botonBuscar, BorderLayout.SOUTH);
+
+		panelCuerpo = new JPanel();
+		crearpanel();
+		contentPane.add(panelCuerpo, BorderLayout.CENTER);
+
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.SOUTH);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		JButton buttonRegresar = new JButton("Regresar");
+		buttonRegresar.addActionListener(e -> {
+			textTirulo.setText("");
+			id.setText("");
+			titulo.setText("");
+			contenido.setText("");
+			fecha.setText("");
+			menuFrame.setVisible(true);
+			dispose();
+
+		});
+		buttonRegresar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel.add(buttonRegresar);
+		setMinimumSize(new Dimension(450, 550));
 	}
 }

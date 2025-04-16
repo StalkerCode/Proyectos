@@ -15,8 +15,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.SwingConstants;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class EliminarNota extends JFrame {
 
@@ -26,7 +24,16 @@ public class EliminarNota extends JFrame {
 	private Menu menuFrame;
 	private GestorNotas gestorNotas;
 
-	public EliminarNota(Menu menuFrame,GestorNotas gestorNotas) {
+	// Función para validar la entrada
+	private void validarEntrada(KeyEvent e) {
+		char c = e.getKeyChar();
+		// 1. Solo permitir dígitos
+		if (!Character.isDigit(c)) {
+			e.consume();
+		}
+	}
+
+	public EliminarNota(Menu menuFrame, GestorNotas gestorNotas) {
 		this.menuFrame = menuFrame;
 		this.gestorNotas = gestorNotas;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,6 +81,7 @@ public class EliminarNota extends JFrame {
 				validarEntrada(e);
 			}
 		});
+
 		panelCaveza.add(textId, BorderLayout.CENTER);
 		textId.setColumns(10);
 
@@ -89,40 +97,27 @@ public class EliminarNota extends JFrame {
 		panelMensage.add(labelCenter, BorderLayout.CENTER);
 
 		JButton ButtonBuscar = new JButton("Eliminar");
-		ButtonBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!textId.getText().isEmpty()) {
-					int num = Integer.parseInt(textId.getText());
-					labelCenter.setText(gestorNotas.eliminarNota(num));
-				} else {
-					labelCenter.setText("esta vacio");
-				}
-
+		ButtonBuscar.addActionListener(e -> {
+			if (!textId.getText().isEmpty()) {
+				int num = Integer.parseInt(textId.getText());
+				labelCenter.setText(gestorNotas.eliminarNota(num));
+			} else {
+				labelCenter.setText("esta vacio");
 			}
 		});
+
 		ButtonBuscar.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panelCaveza.add(ButtonBuscar, BorderLayout.SOUTH);
 
 		JButton ButtonRegresar = new JButton("Regresar");
-		ButtonRegresar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textId.setText("");
-				menuFrame.setVisible(true);
-				dispose();
-			}
+		ButtonRegresar.addActionListener(e -> {
+			textId.setText("");
+			menuFrame.setVisible(true);
+			dispose();
 		});
 		ButtonRegresar.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panelCuerpo.add(ButtonRegresar, BorderLayout.SOUTH);
-	}
-
-	// Función para validar la entrada
-	private void validarEntrada(KeyEvent e) {
-		char c = e.getKeyChar();
-		// 1. Solo permitir dígitos
-		if (!Character.isDigit(c)) {
-			e.consume();
-			return;
-		}
+		setMinimumSize(new Dimension(400, 400));
 	}
 
 }

@@ -17,10 +17,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
 
 public class EditarNota extends JFrame {
 
@@ -29,6 +27,15 @@ public class EditarNota extends JFrame {
 	private JTextField textID;
 	private Menu menuFrame;
 	private GestorNotas gestorNotas;
+
+	// Función para validar la entrada
+	private void validarEntrada(KeyEvent e) {
+		char c = e.getKeyChar();
+		// 1. Solo permitir dígitos
+		if (!Character.isDigit(c)) {
+			e.consume();
+		}
+	}
 
 	public EditarNota(Menu menuFrame, GestorNotas gestorNotas) {
 		this.menuFrame = menuFrame;
@@ -138,17 +145,15 @@ public class EditarNota extends JFrame {
 		panelMensage.add(labelMensaje, BorderLayout.CENTER);
 
 		JButton buttonGuardar = new JButton("Guardar");
-		buttonGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String id = textID.getText();
-				String contenido = textContenido.getText();
-				if (!id.isEmpty() && !contenido.isEmpty()) {
-					String mensage = gestorNotas.editarNota(Integer.parseInt(id), contenido);
-					labelMensaje.setText(mensage);
-					return;
-				}
-				labelMensaje.setText("esta vasio");
+		buttonGuardar.addActionListener(e -> {
+			String id = textID.getText();
+			String contenido = textContenido.getText();
+			if (!id.isEmpty() && !contenido.isEmpty()) {
+				String mensage = gestorNotas.editarNota(Integer.parseInt(id), contenido);
+				labelMensaje.setText(mensage);
+				return;
 			}
+			labelMensaje.setText("esta vasio");
 		});
 		panelGuaradr.add(buttonGuardar, BorderLayout.CENTER);
 
@@ -161,27 +166,15 @@ public class EditarNota extends JFrame {
 		panelRegresar.setLayout(new BorderLayout(0, 0));
 
 		JButton buttonRegresar = new JButton("Regresar");
-		buttonRegresar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				labelMensaje.setText("");
-				textID.setText("");
-				textContenido.setText("");
-				// Regresar al menú principal
-				menuFrame.setVisible(true);
-				dispose();
-			}
+		buttonRegresar.addActionListener(e -> {
+			labelMensaje.setText("");
+			textID.setText("");
+			textContenido.setText("");
+			// Regresar al menú principal
+			menuFrame.setVisible(true);
+			dispose();
 		});
 		panelRegresar.add(buttonRegresar, BorderLayout.CENTER);
+		setMinimumSize(new Dimension(400, 500));
 	}
-
-	// Función para validar la entrada
-	private void validarEntrada(KeyEvent e) {
-		char c = e.getKeyChar();
-		// 1. Solo permitir dígitos
-		if (!Character.isDigit(c)) {
-			e.consume();
-			return;
-		}
-	}
-
 }
