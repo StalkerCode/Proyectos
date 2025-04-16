@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
@@ -49,10 +50,12 @@ public class AddNote extends JFrame {
 		JLabel labeltitulo = new JLabel("Titulo:");
 		labeltitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		labeltitulo.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		labeltitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
 		panelTitulo.add(labeltitulo);
 
 		textTitulo = new JTextField();
 		textTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textTitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
 		panelTitulo.add(textTitulo);
 		textTitulo.setColumns(10);
 
@@ -64,9 +67,11 @@ public class AddNote extends JFrame {
 		JLabel labelContenido = new JLabel("Contenido:");
 		labelContenido.setHorizontalAlignment(SwingConstants.CENTER);
 		labelContenido.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		labelContenido.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
 		panelContenido.add(labelContenido);
 
 		textContenido = new JEditorPane();
+		textContenido.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
 		panelContenido.add(textContenido);
 
 		JPanel panelBotones = new JPanel();

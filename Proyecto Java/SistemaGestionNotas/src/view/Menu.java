@@ -21,6 +21,8 @@ public class Menu extends JFrame {
     private GestorNotas gestorNotas = new GestorNotas();
     private AddNote addNoteFrame; // Referencia a la ventana AddNote
     private BuscarNota buscarNota;
+    private ListarNota listarNota;
+    private EditarNota editarNota;
 
     public Menu() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,12 +58,22 @@ public class Menu extends JFrame {
         contentPane.add(btnBuscarNota);
 
         JButton btnEditarNota = new JButton("Editar Nota");
+        btnEditarNota.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarEditar();
+            }
+        });
         contentPane.add(btnEditarNota);
 
         JButton btnEliminarNota = new JButton("Eliminar Nota");
         contentPane.add(btnEliminarNota);
 
         JButton btnListarNotas = new JButton("Listar Notas");
+        btnListarNotas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mostraListarNota();
+            }
+        });
         contentPane.add(btnListarNotas);
     }
 
@@ -81,6 +93,21 @@ public class Menu extends JFrame {
         buscarNota.setVisible(true);
         setVisible(false);
     }
+    private void mostraListarNota() {
+        if (listarNota == null) {
+        	listarNota = new ListarNota(this, gestorNotas);
+        }
+        listarNota.setVisible(true);
+        setVisible(false);
+    }
+    
+    private void mostrarEditar() {
+    	if (editarNota == null) {
+    		editarNota = new EditarNota(this, gestorNotas);
+        }
+    	editarNota.setVisible(true);
+        setVisible(false);
+	}
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

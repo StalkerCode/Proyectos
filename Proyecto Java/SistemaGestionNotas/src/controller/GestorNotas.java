@@ -34,20 +34,20 @@ public class GestorNotas {
 		}
 	}
 
-	public void editarNota(int id, String nuevoContenido) {
+	public String editarNota(int id, String nuevoContenido) {
+		
 		for (Nota nota : notas) {
 			if (nota.getId() == id) {
 				nota.setContenido(nuevoContenido);
-				System.out.println("se edito perfectamente");
-				return;
+				return "se edito perfectamente la tarea: "+ id;
 			}
 		}
-		System.out.println("no se encontro el id=" + id);
+		return"no se encontro el id=" + id;
 
 	}
 
-	public void listarNotas() {
-		notas.forEach(System.out::println);
+	public List<Nota> listarNotas() {
+		return notas;
 
 	}
 

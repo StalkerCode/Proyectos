@@ -12,6 +12,7 @@ import model.Nota;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JTextField;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -57,10 +58,14 @@ public class BuscarNota extends JFrame {
 
 		JLabel labelTitulo = new JLabel("Titulo:");
 		labelTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		labelTitulo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		labelTitulo.setBackground(new Color(167, 245, 227));
+		labelTitulo.setOpaque(true);
 		titulos.add(labelTitulo, BorderLayout.WEST);
 
 		textTirulo = new JTextField();
 		textTirulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textTirulo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		titulos.add(textTirulo, BorderLayout.CENTER);
 		textTirulo.setColumns(10);
 
@@ -128,7 +133,8 @@ public class BuscarNota extends JFrame {
 		panelCuerpo.add(panelId, gbc_panelId);
 		panelId.setLayout(new BorderLayout(0, 0));
 
-		id = new JLabel("ID");
+		id = new JLabel("");
+		id.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		panelId.add(id, BorderLayout.CENTER);
 
 		JPanel panelTitulo = new JPanel();
@@ -140,7 +146,8 @@ public class BuscarNota extends JFrame {
 		panelCuerpo.add(panelTitulo, gbc_panelTitulo);
 		panelTitulo.setLayout(new BorderLayout(0, 0));
 
-		titulo = new JLabel("Titulo");
+		titulo = new JLabel("");
+		titulo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		panelTitulo.add(titulo, BorderLayout.CENTER);
 
 		JPanel panelContenido = new JPanel();
@@ -152,7 +159,8 @@ public class BuscarNota extends JFrame {
 		panelCuerpo.add(panelContenido, gbc_panelContenido);
 		panelContenido.setLayout(new BorderLayout(0, 0));
 
-		contenido = new JLabel("Contenido");
+		contenido = new JLabel("");
+		contenido.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		panelContenido.add(contenido, BorderLayout.CENTER);
 
 		JPanel panelFecha = new JPanel();
@@ -163,12 +171,8 @@ public class BuscarNota extends JFrame {
 		panelCuerpo.add(panelFecha, gbc_panelFecha);
 		panelFecha.setLayout(new BorderLayout(0, 0));
 
-		fecha = new JLabel("Fecha");
+		fecha = new JLabel("");
+		fecha.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		panelFecha.add(fecha, BorderLayout.CENTER);
 	}
-	/*
-	 * falta agregar la funcion agregar datos para toma los datos e inprimirlo falta
-	 * el metodo no encontrado falta funcionalidades
-	 */
-
 }
