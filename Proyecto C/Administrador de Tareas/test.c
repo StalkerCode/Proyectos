@@ -4,9 +4,93 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
+
+int leerID();
+char leerDigito();
+void menu();
+
+
+int main()
+{
+    printf("Bienvenido al Administrador de Tareas\n");
+
+    char op;
+    int isRunning = 1;
+    int ID;
+    Nodo *LISTA_DE_TAREAS = NULL;
+    while (isRunning)
+    {
+        menu();
+        op = leerDigito();
+        switch (op)
+        {
+        case '0':
+            printf("\nHasta luego\n");
+            isRunning = 0;
+            break;
+
+        case '1':
+            printf("\nAgregar tarea\n");
+            agregarTarea(&LISTA_DE_TAREAS);
+            printf("\n");
+            break;
+
+        case '2':
+            printf("\nListar tareas\n");
+            listarTareas(LISTA_DE_TAREAS);
+            printf("\n");
+            break;
+
+        case '3':
+            printf("\nCompletar tarea\n");
+            ID = leerID();
+            completarTarea(LISTA_DE_TAREAS, ID);
+            printf("\n");
+            break;
+
+        case '4':
+            printf("\nEliminar tarea\n");
+            ID = leerID();
+            eliminarTarea(&LISTA_DE_TAREAS, ID);
+            printf("\n");
+            break;
+
+        case '5':
+            printf("\nVaciar lista\n");
+            vaciarLista(&LISTA_DE_TAREAS);
+            printf("\n");
+            break;
+
+        case '6':
+            printf("\nGuardar tareas\n");
+            guardarTareas(LISTA_DE_TAREAS);
+            printf("\n");
+            break;
+
+        case '7':
+
+            printf("\nCargar tareas\n");
+            vaciarLista(&LISTA_DE_TAREAS);
+            LISTA_DE_TAREAS = cargarTareas();
+            printf("\n");
+            break;
+
+        default:
+            printf("\nElecion erronea\n");
+            printf("\n");
+        }
+    }
+    vaciarLista(&LISTA_DE_TAREAS);
+    LISTA_DE_TAREAS = NULL;
+    printf("\nFin del programa\n");
+    return 0;
+}
 
 void menu()
 {
+    printf("Menu\n");
     printf("1. Agregar tarea\n");
     printf("2. Listar tareas\n");
     printf("3. Completar tarea\n");
@@ -14,40 +98,57 @@ void menu()
     printf("5. Vaciar lista\n");
     printf("6. Guardar tareas\n");
     printf("7. Cargar tareas\n");
+    printf("0. salir\n");
 }
 
-int leerEntero()
+// Función para leer un dígito y descartar cualquier entrada adicional
+char leerDigito()
 {
-    int numero;
+    char c;
     while (1)
     {
-        printf("Ingrese un numero entero: ");
-
-        // Intentar leer un número entero
-        if (scanf("%d", &numero) != 1)
+        printf("Ingrese una opcion: ");
+        scanf(" %c", &c);
+        // Verificar si el carácter es un dígito
+        if (isdigit(c))
         {
-            // Si scanf falla, imprimir un mensaje de error
-            fprintf(stderr, "Error: La entrada no es un numero entero valido\n");
-            // Limpiar el búfer de entrada
-            while (getchar() != '\n');
-            continue;
+            limpiarBuffer();
+            return c; // Convertir el carácter a su valor entero correspondiente
         }
-        break;
+        else
+        {
+            limpiarBuffer();
+            continue; // Si no es un dígito, continuar leyendo
+        }
     }
-    return numero;
 }
 
-int main()
+int leerID()
 {
-    Nodo *listaCabeza = NULL;
-    Nodo *listaCabeza2 = NULL;
-
-    for (int i = 0; i < 10; i++)
+    char c[3]; // Arreglo para almacenar dos caracteres y el terminador nulo
+    while (1)
     {
-        int a = leerEntero();
-        printf("el numero es %d\n", a);
-    }
-    
+        printf("Ingrese un numero (1 a 99): ");
+        // Leer hasta dos caracteres
+        if (scanf("%2s", c) == 1)
+        {
+            // Verificar si todos los caracteres son dígitos
+            short int isDigi = 1;
+            for (size_t i = 0; c[i] != '\0'; i++)
+            {
+                if (!isdigit(c[i]))
+                {
+                    isDigi = 0;
+                    break;
+                }
+            }
 
-    return 0;
+            if (isDigi)
+            {
+                return atoi(c);
+            }
+        }
+        // Limpiar el buffer solo si la entrada no es válida
+        limpiarBuffer();
+    }
 }

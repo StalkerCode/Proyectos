@@ -133,6 +133,7 @@ void listarTareas(Nodo *cabeza)
         printf("Id: %d\n", actual->tarea.id);
         printf("Descripcion: %s\n", actual->tarea.descripcion);
         printf("Completada: %d\n", actual->tarea.completada);
+        printf("\n");
         actual = actual->siguiente;
     }
 }
