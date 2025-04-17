@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "listaContactos.c"
+#include "contacto.h"
+#include "lista_contactos.h"
 
 void menu();
 int ingresarEntero();

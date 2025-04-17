@@ -1,22 +1,11 @@
+#include "contacto.h"
 
-
-const int MAX_Caracteres = 50;
-
-typedef struct Contacto
-{
-    char *nombre;
-    char *email;
-    char *telefono;
-} Contacto;
-
-// limpia la pantalla
 void limpiar_pantalla()
 {
-    printf("\033[2J"); // Limpia la pantalla
-    printf("\033[H");  // Mueve el cursor al inicio
+    printf("\033[2J");
+    printf("\033[H");
 }
 
-// libera el buffer
 void limpiarBuffer()
 {
     int c;
@@ -24,7 +13,6 @@ void limpiarBuffer()
         ;
 }
 
-// eliminar datos de estructura
 void liberarContacto(Contacto **c)
 {
     if (c != NULL && *c != NULL)
@@ -33,15 +21,14 @@ void liberarContacto(Contacto **c)
         free((*c)->email);
         free((*c)->telefono);
         free(*c);
-        *c = NULL; // Evita uso después de liberar
+        *c = NULL;
     }
 }
 
-// crea una cadena de texto
 char *crearCadena()
 {
     char *Cadena = NULL;
-    char buffer[MAX_Caracteres];
+    char buffer[MAX_CARACTERES];
 
     while (1)
     {
@@ -51,17 +38,12 @@ char *crearCadena()
             fprintf(stderr, "Error al ingresar caracteres\n");
             continue;
         }
-        int len = 0;
-        len = strlen(buffer);
-        // limpia el buffer si hay mas de 49 caarcteres
-        if (len >= MAX_Caracteres - 1 && buffer[len - 1] != '\n')
+        int len = strlen(buffer);
+        if (len >= MAX_CARACTERES - 1 && buffer[len - 1] != '\n')
             limpiarBuffer();
-
-        // Eliminar salto de línea si existe
         if (len > 0 && buffer[len - 1] == '\n')
             buffer[--len] = '\0';
 
-        // Verificar condiciones de validez
         if (len == 0)
         {
             fprintf(stderr, "No se ingresaron caracteres\n");
@@ -78,7 +60,7 @@ char *crearCadena()
         if (Cadena == NULL)
         {
             perror("Error al asignar memoria");
-            exit(EXIT_FAILURE); // Terminar el programa si no hay memoria
+            exit(EXIT_FAILURE);
         }
         strcpy(Cadena, buffer);
         break;
@@ -89,7 +71,6 @@ char *crearCadena()
 
 char *crearTelefono()
 {
-
     char *telefono = NULL;
     int isValido = 0;
 
@@ -98,8 +79,7 @@ char *crearTelefono()
         isValido = 1;
         printf("Ingrese un telefono(10 digitos)");
         telefono = crearCadena();
-        int len;
-        len = strlen(telefono);
+        int len = strlen(telefono);
 
         if (len != 10)
         {
@@ -113,7 +93,7 @@ char *crearTelefono()
         {
             if (!isdigit(telefono[i]))
             {
-                printf("\ndebe ser un numero de telefono(10 digitos)\n");
+                printf("\nDebe ser un numero de telefono (10 digitos)\n");
                 free(telefono);
                 isValido = 0;
                 break;
@@ -133,7 +113,7 @@ char *crearEmail()
         email = crearCadena();
         if (strchr(email, '@') == NULL || strchr(email, '.') == NULL)
         {
-            fprintf(stderr, "Error: email inválido\n");
+            fprintf(stderr, "Error: email invalido\n");
             free(email);
             continue;
         }
@@ -144,33 +124,24 @@ char *crearEmail()
 
 Contacto *crearContacto()
 {
-    // se crea el nombre
     printf("Ingrese el nombre");
-    char *nombre = NULL;
-    nombre = crearCadena();
+    char *nombre = crearCadena();
 
-    // se crea el email
-    char *email = NULL;
-    email = crearEmail();
+    char *email = crearEmail();
 
-    // se crea el telefono
-    char *telefono = NULL;
-    telefono = crearTelefono();
+    char *telefono = crearTelefono();
 
-    Contacto *nuevo_Contacto = NULL;
-    nuevo_Contacto = (Contacto *)malloc(sizeof(Contacto));
+    Contacto *nuevo_Contacto = (Contacto *)malloc(sizeof(Contacto));
     if (nuevo_Contacto == NULL)
     {
         fprintf(stderr, "Error: no se pudo asignar memoria para el Contacto\n");
         exit(EXIT_FAILURE);
     }
-    nuevo_Contacto->nombre = NULL;
-    nuevo_Contacto->email = NULL;
-    nuevo_Contacto->telefono = NULL;
-    // se inicializan los datos del contacto
+
     nuevo_Contacto->nombre = nombre;
     nuevo_Contacto->email = email;
     nuevo_Contacto->telefono = telefono;
+
     return nuevo_Contacto;
 }
 
@@ -180,17 +151,3 @@ void mostrarContacto(Contacto *c)
     printf("Email: %s\n", c->email);
     printf("Telefono: %s\n", c->telefono);
 }
-
-/*
-int main()
-{
-    Contacto *mi_Contacto = NULL;
-    mi_Contacto = crearContacto();
-    printf("\nNombre: %s\n", mi_Contacto->nombre);
-    printf("Email: %s\n", mi_Contacto->email);
-    printf("Telefono: %s\n", mi_Contacto->telefono);
-    liberarContacto(&mi_Contacto);
-
-    return 0;
-}
-*/
