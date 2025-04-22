@@ -4,10 +4,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-int idGlobal=0;
+int idGlobal = 0;
 
-int crearId(){
+int crearId()
+{
     return ++idGlobal;
+}
+
+void reiniciarId()
+{
+    idGlobal = 0;
 }
 
 int idMayor(Nodo *cabeza)
@@ -127,6 +133,7 @@ void listarTareas(Nodo *cabeza)
         printf("Id: %d\n", actual->tarea.id);
         printf("Descripcion: %s\n", actual->tarea.descripcion);
         printf("Completada: %d\n", actual->tarea.completada);
+        printf("\n");
         actual = actual->siguiente;
     }
 }
