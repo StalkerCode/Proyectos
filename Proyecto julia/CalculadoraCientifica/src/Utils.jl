@@ -1,6 +1,6 @@
 module Utils
-export factorial, mcd, mcm
-function factorial(n)
+export factorial_n, mcd, mcm
+function factorial_n(n)
     if n < 0
         return "Error: Factorial of a negative number is undefined"
     end
