@@ -1,5 +1,6 @@
 /* Estilos generales */
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -43,42 +44,47 @@ main {
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-size: contain; /* Ajusta la imagen para que se contenga dentro del contenedor */
-    background-position: center; /* Centra la imagen dentro del contenedor */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: contain;
+    /* Ajusta la imagen para que se contenga dentro del contenedor */
+    background-position: center;
+    /* Centra la imagen dentro del contenedor */
+    background-repeat: no-repeat;
+    /* Evita que la imagen se repita */
     cursor: pointer;
 }
 
-.carta.flipped {
-    background-color: transparent;
-}
-
 /* Define las imágenes de fondo para cada carta */
-.carta[data-id="1"] {
+.carta[data-id="1"].mostar {
     background-image: url('/assets/img/arcoiris.jpg');
 }
-.carta[data-id="2"] {
+
+.carta[data-id="2"].mostar {
     background-image: url('/assets/img/Carita.jpg');
 }
-.carta[data-id="3"] {
+
+.carta[data-id="3"].mostar {
     background-image: url('/assets/img/Corazon.jpg');
 }
-.carta[data-id="4"] {
+
+.carta[data-id="4"].mostar {
     background-image: url('/assets/img/Flor.jpg');
 }
-.carta[data-id="5"] {
+
+.carta[data-id="5"].mostar {
     background-image: url('/assets/img/helado.jpg');
 }
-.carta[data-id="6"] {
+
+.carta[data-id="6"].mostar {
     background-image: url('/assets/img/hongos.jpg');
 }
-.carta[data-id="7"] {
+
+.carta[data-id="7"].mostar {
     background-image: url('/assets/img/Nube.jpg');
 }
-.carta[data-id="8"] {
+
+.carta[data-id="8"].mostar {
     background-image: url('/assets/img/Sol.jpg');
 }
-
 
 /* Estilos para el pie de página */
 footer {
@@ -88,4 +94,3 @@ footer {
     justify-content: center;
     align-items: center;
 }
-
