@@ -11,35 +11,44 @@ public class GestorNotas {
 	private int id = 0;
 
 	public void agregarNota(String titulo, String contenido) {
+
+		// Verificar si ya existe una nota con el mismo título
+		for (Nota nota : notas) {
+			if (nota.getTitulo().equalsIgnoreCase(titulo)) {
+				System.out.println("Ya existe una nota con el título: " + titulo);
+				return; // Salir del método sin agregar la nota
+			}
+		}
 		Nota n = new Nota(++id, titulo, contenido);
 		notas.add(n);
 	}
 
-	public void eliminarNota(int id) {
+	public String eliminarNota(int id) {
 		Iterator<Nota> iterator = notas.iterator();
 		while (iterator.hasNext()) {
 			Nota nota = iterator.next();
 			if (nota.getId() == id) {
 				iterator.remove();
-				break;
+				return "se elimino la nota id="+id;
 			}
 		}
+		return "no se pudo elimino la nota id="+id;
 	}
 
-	public void editarNota(int id, String nuevoContenido) {
+	public String editarNota(int id, String nuevoContenido) {
+		
 		for (Nota nota : notas) {
 			if (nota.getId() == id) {
 				nota.setContenido(nuevoContenido);
-				System.out.println("se edito perfectamente");
-				return;
+				return "se edito perfectamente la tarea: "+ id;
 			}
 		}
-		System.out.println("no se encontro el id=" + id);
+		return"no se encontro el id=" + id;
 
 	}
 
-	public void listarNotas() {
-		notas.forEach(System.out::println);
+	public List<Nota> listarNotas() {
+		return notas;
 
 	}
 
