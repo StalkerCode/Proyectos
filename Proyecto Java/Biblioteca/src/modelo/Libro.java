@@ -10,13 +10,13 @@ public class Libro {
 	private int totalEjemplares ;
 	private int ejemplaresRestantes;
 	
-	public Libro(int idLibro, String titulo, String autor, int anoPublicacion, int totalEjemplares, int ejemplaresRestantes) {
+	public Libro(int idLibro, String titulo, String autor, int anoPublicacion, int totalEjemplares) {
 		this.idLibro = idLibro;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.anoPublicacion = anoPublicacion;
 		this.totalEjemplares = totalEjemplares;
-		this.ejemplaresRestantes = ejemplaresRestantes;
+		this.ejemplaresRestantes = totalEjemplares;
 	}
 
 	public int getIdLibro() {
