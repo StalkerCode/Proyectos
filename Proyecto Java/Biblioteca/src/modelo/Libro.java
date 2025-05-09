@@ -6,12 +6,13 @@ public class Libro {
 	private int idLibro;
 	private String titulo;
 	private String autor;
-	private int anoPublicacion;
+	private String anoPublicacion;
 	private int totalEjemplares ;
 	private int ejemplaresRestantes;
+	private static int id=0;
 	
-	public Libro(int idLibro, String titulo, String autor, int anoPublicacion, int totalEjemplares) {
-		this.idLibro = idLibro;
+	public Libro(String titulo, String autor, String anoPublicacion, int totalEjemplares) {
+		this.idLibro = ++id;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.anoPublicacion = anoPublicacion;
@@ -21,10 +22,6 @@ public class Libro {
 
 	public int getIdLibro() {
 		return idLibro;
-	}
-
-	public void setIdLibro(int idLibro) {
-		this.idLibro = idLibro;
 	}
 
 	public String getTitulo() {
@@ -43,11 +40,11 @@ public class Libro {
 		this.autor = autor;
 	}
 
-	public int getAnoPublicacion() {
+	public String getAnoPublicacion() {
 		return anoPublicacion;
 	}
 
-	public void setAnoPublicacion(int anoPublicacion) {
+	public void setAnoPublicacion(String anoPublicacion) {
 		this.anoPublicacion = anoPublicacion;
 	}
 

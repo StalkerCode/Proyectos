@@ -4,22 +4,19 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Usuario {
-	private int idUsuario;
+	private int idUsuario = 0;
 	private String nombre;
 	private ArrayList<Integer> listaPrestamos;
+	private static int id = 0;
 
-	public Usuario(int idUsuario, String nombre) {
-		this.idUsuario = idUsuario;
+	public Usuario(String nombre) {
+		this.idUsuario = ++id;
 		this.nombre = nombre;
 		this.listaPrestamos = new ArrayList<>();
 	}
 
 	public int getIdUsuario() {
 		return idUsuario;
-	}
-
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
 	}
 
 	public String getNombre() {
@@ -67,7 +64,5 @@ public class Usuario {
 	public String toString() {
 		return "idUsuario: " + idUsuario + "\nnombre: " + nombre + "\nlistaPrestamos: " + listaPrestamos + "\n";
 	}
-	
-	
 
 }
