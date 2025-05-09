@@ -80,6 +80,7 @@ section.todo-container button {
     overflow-y: auto;
 }
 
+
 .todo-list {
     display: flex;
     justify-content: space-between;
@@ -96,79 +97,69 @@ section.todo-container button {
     margin-left: 1rem;
 }
 
-.todo-checkbox {
-    width: 1.2em;
-    height: 1.2em;
-    margin-right: 1rem;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* Estilo para el checkbox cuando está marcado */
-.todo-checkbox:checked {
-    opacity: 1;
-    background-color: #4caf50;
-    border-color: #4caf50;
-}
-
-/* Estilo para el checkbox cuando está deshabilitado */
-.todo-checkbox:disabled {
-    opacity: 1;
-    background-color: #e0e0e0;
-    border-color: #ccc;
-}
-
-/* Estilo para el checkbox cuando está deshabilitado y marcado */
-.todo-checkbox:disabled:checked {
-    opacity: 1;
-    background-color: #4caf50;
-    border-color: #4caf50;
-}
-
 
 .delete-btn,
-.done-btn {
+.done-btn,
+.todo-checkbox {
     background: none;
     border: none;
-    font-size: 1rem;
+    font-size: 1.3rem;
     cursor: pointer;
-    margin-left: 0.6rem;
-    margin-right: 0.6rem;
-    padding: 2px;
-
-
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 1px;
+    transition: transform 0.2s, color 0.2s;
+    /* Añade una transición suave */
 }
 
-.delete-btn {
-    color: red;
-    background-color: rgb(124, 159, 229);
+/* Estilo para el botón de eliminar */
+.delete-btn ion-icon {
+    color: #ff4444;
+    /* Rojo para indicar eliminación */
 }
 
-.delete-btn:hover {
-    color: rgb(255, 255, 255);
-    background-color: rgb(255, 0, 0);
+/* Efecto hover para el botón de eliminar */
+.delete-btn:hover ion-icon {
+    color: #ff0000;
+    /* Rojo más intenso al pasar el cursor */
+    transform: scale(1.2);
+    /* Aumenta ligeramente el tamaño */
 }
 
-.delete-btn:active {
-    color: rgb(255, 0, 0);
-    background-color: rgb(255, 255, 255);
+/* Estilo para el botón de completar */
+.done-btn ion-icon {
+    color: #4caf50;
+    /* Verde para indicar completado */
 }
 
-.done-btn {
-    color: green;
-    background-color: rgb(30, 137, 203);
+/* Efecto hover para el botón de completar */
+.done-btn:hover ion-icon {
+    color: #2e7d32;
+    /* Verde más intenso al pasar el cursor */
+    transform: scale(1.2);
+    /* Aumenta ligeramente el tamaño */
 }
 
-.done-btn:hover {
-    color: rgb(255, 255, 255);
-    background-color: rgb(0, 255, 0);
-    border-radius: 5px;
+/* Estilo para el checkbox */
+.todo-checkbox ion-icon {
+    color: #2196f3;
+    /* Azul para el checkbox */
 }
 
-.done-btn:active {
-    color: rgb(0, 255, 0);
-    background-color: rgb(255, 255, 255);
+/* Efecto hover para el checkbox */
+.todo-checkbox:hover ion-icon {
+    color: #0b7dda;
+    /* Azul más intenso al pasar el cursor */
+    transform: scale(1.2);
+    /* Aumenta ligeramente el tamaño */
 }
+
+/* Estilo para el checkbox cuando está completado */
+.todo-checkbox.completed ion-icon {
+    color: #4caf50;
+    /* Verde para indicar completado */
+}
+
 
 footer {
     height: 5%;

@@ -7,17 +7,18 @@ function agregarTarea() {
         tareas.push(nuevaTarea);
         document.getElementById("todo-list-container").innerHTML += crearTarea(nuevaTarea);
     }
-	document.getElementById("text").value = '';
+    document.getElementById("text").value = '';
 }
 
 function crearTarea(tareaObj) {
-    const checked = tareaObj.getEstado() ? 'checked' : '';
+    const checkboxId = `iconcheckbox-${tareaObj.getTarea().replace(/\s+/g, '-')}`;
+    const iconName = tareaObj.getEstado() ? 'checkbox-outline' : 'tablet-landscape-outline';
     return `
     <div class="todo-list">
-        <input type="checkbox" class="todo-checkbox" ${checked} disabled>
+        <div class="todo-checkbox" id="${checkboxId}"><ion-icon name="${iconName}"></ion-icon></div>
         <span>${tareaObj.getTarea()}</span>
-        <button class="delete-btn" onclick="eliminarTarea('${tareaObj.getTarea()}')">X</button>
-        <button class="done-btn" onclick="marcarTarea('${tareaObj.getTarea()}')">Done</button>
+        <button class="delete-btn" onclick="eliminarTarea('${tareaObj.getTarea()}')"><ion-icon name="trash-outline"></ion-icon></button>
+        <button class="done-btn" onclick="marcarTarea('${tareaObj.getTarea()}')"><ion-icon name="checkmark-done-circle-outline"></ion-icon></button>
     </div>
     `;
 }
