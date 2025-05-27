@@ -8,42 +8,25 @@
     <title>TO-DO-LIST-SIMPLE</title>
 </head>
 
-<body>
+<body onload="cargarPagina()">
 
     <header>
         <h1>TO-DO-LIST-SIMPLE</h1>
     </header>
     <section class="todo-container">
-        <input type="text" class="todo-input">
-        <button class="add-btn">Agregar</button>
+        <input type="text" class="todo-input" id="text" placeholder="Ingresa tu tarea">
+        <button class="add-btn" onclick="agregarTarea()">Agregar</button>
     </section>
 
     <section id="todo-list-container">
-        <div class="todo-list">
-            <input type="checkbox" class="todo-checkbox">
-            <span>Texto de la tarea</span>
-            <button class="delete-btn">X</button>
-        </div>
-        <div class="todo-list">
-            <input type="checkbox" class="todo-checkbox">
-            <span>Texto de la tarea</span>
-            <button class="delete-btn">X</button>
-        </div>
-        <div class="todo-list">
-            <input type="checkbox" class="todo-checkbox">
-            <span>Texto de la tarea</span>
-            <button class="delete-btn">X</button>
-        </div>
-        <div class="todo-list">
-            <input type="checkbox" class="todo-checkbox">
-            <span>Texto de la tarea</span>
-            <button class="delete-btn">X</button>
-        </div>
     </section>
     <footer>
         © 2025 TO-DO-LIST-SIMPLE. Todos los derechos reservados.
     </footer>
+    <script src="/assets/js/Tarea.js"></script>
     <script src="/assets/js/app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>
